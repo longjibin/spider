@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nmw.pss.module.login.dao.EmployeeDao">
+    
+	<insert id="insert">
+		INSERT INTO employee(id, create_time, update_time, create_user, update_user, remark, del_sign,
+			job_no, login_name, login_pass, nick_name, head_pic, email, phone, tel, status) 
+		VALUES (#{id}, #{createTime}, #{updateTime}, #{createUserId}, #{updateUserId}, #{remark}, #{delSign}, 
+		#{jobNo}, #{loginName}, #{loginPass}, #{nickName}, #{headPic}, #{email}, #{phone}, #{tel}, #{status})
+	</insert>
+	
+	<delete id="deleteById">
+		DELETE FROM employee WHERE id = #{id}
+	</delete>
+	
+	<select id="selectById" resultType="Employee">
+		SELECT 
+			*
+		FROM 
+			employee 
+		WHERE 
+			id = #{id}
+	</select>
+	
+	<update id="updateById">
+		UPDATE employee 
+		SET 
+			update_time = #{updateTime}, 
+			update_user = #{updateUserId}, 
+			remark = #{remark}, 
+			del_sign = #{delSign}, 
+			
+			login_pass = #{loginPass}, 
+			nick_name = #{nickName}, 
+			head_pic = #{headPic}, 
+			email = #{email}, 
+			phone = #{phone},
+			tel = #{tel},
+			status = #{status}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectByModel" resultType="Employee">
+		SELECT 
+			*
+		FROM 
+			employee 
+		<where>
+			del_sign=#{DEL_NORMAL}
+			<if test="jobNo != null and jobNo != ''">
+				AND job_no=#{jobNo}
+			</if>
+			<if test="loginName != null and loginName != ''">
+				AND login_name=#{loginName}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND phone=#{phone}
+			</if>
+			<if test="status != null and status != ''">
+				AND status=#{status}
+			</if>
+		</where>
+	</select>
+	
+</mapper>
