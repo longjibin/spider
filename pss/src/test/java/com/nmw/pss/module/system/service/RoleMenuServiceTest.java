@@ -6,31 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.nmw.pss.module.system.bean.Menu;
+import com.nmw.pss.module.system.bean.RoleMenu;
 
 @RunWith(SpringJUnit4ClassRunner.class)  //使用junit4进行测试  
 @ContextConfiguration("classpath:spring-context.xml") //加载配置文件  
-public class MenuServiceTest {
+public class RoleMenuServiceTest {
 
 	@Autowired
-	private MenuService menuService;
+	private RoleMenuService roleMenuService;
 	
 	@Test
 	public void testSave() {
-		Menu menu=new Menu();
-//		menu.setName("顶级菜单");
-//		menu.setSort(0);
-//		menu.setUrl("");
-//		menu.setIcon("");
-//		menu.setParentId("");
-		
-		menu.setName("资料管理");
-		menu.setSort(10);
-		menu.setUrl("");
-		menu.setIcon("");
-		menu.setParentId("0");
-		menu.setPermissions("");
-		menuService.save(menu);
+		RoleMenu roleMenu=new RoleMenu();
+		roleMenu.setRoleId("1");
+		roleMenu.setMenuId("d5713f5c064e4ac79a0387cfe5579e83");
+		roleMenuService.save(roleMenu);
 	}
 
 }

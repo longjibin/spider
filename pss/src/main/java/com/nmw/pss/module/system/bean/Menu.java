@@ -30,6 +30,9 @@ public class Menu extends BaseEntity {
 	// 父菜单id
 	private String parentId;
 
+	// 权限标志（多个权限用,隔开）
+	private String permissions;
+
 	public String getName() {
 		return name;
 	}
@@ -70,11 +73,20 @@ public class Menu extends BaseEntity {
 		this.parentId = parentId;
 	}
 
+	public String getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(String permissions) {
+		this.permissions = permissions;
+	}
+
 	@Override
 	public String toString() {
 		return "Menu [name=" + name + ", sort=" + sort + ", url=" + url + ", icon=" + icon + ", parentId=" + parentId
-				+ ", id=" + id + ", createTime=" + createTime + ", updateTime=" + updateTime + ", createUserId="
-				+ createUserId + ", updateUserId=" + updateUserId + ", remark=" + remark + ", delSign=" + delSign + "]";
+				+ ", permissions=" + permissions + ", id=" + id + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", createUserId=" + createUserId + ", updateUserId=" + updateUserId + ", remark="
+				+ remark + ", delSign=" + delSign + "]";
 	}
 
 }

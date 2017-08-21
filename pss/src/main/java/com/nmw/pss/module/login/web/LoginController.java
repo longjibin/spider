@@ -1,7 +1,10 @@
 package com.nmw.pss.module.login.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
@@ -20,11 +23,15 @@ import com.nmw.pss.common.constant.ShiroConstant;
 import com.nmw.pss.module.login.bean.Employee;
 import com.nmw.pss.module.login.exception.AccountDisableException;
 import com.nmw.pss.module.login.service.EmployeeService;
+import com.nmw.pss.module.system.bean.Menu;
+import com.nmw.pss.module.system.service.MenuService;
 
 @Controller
 public class LoginController {
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private MenuService menuService;
 	
 	@RequestMapping(value="tologin",method=RequestMethod.GET)
 	public String toLogin(){
@@ -64,10 +71,12 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value="admin",method=RequestMethod.GET)
-	public String admin(){
-		//查询用户菜单集合
-		
-		//
+	public String admin(HttpServletRequest request){
+		//查询当前用户的菜单集合
+		Subject subject = SecurityUtils.getSubject();
+		Employee employee=(Employee) subject.getSession().getAttribute(ShiroConstant.LOGIN_USER);
+		List<Menu> menus=menuService.findCurrentEmployeeMenus(employee);
+		request.setAttribute("menus", menus);
 		return "admin";
 	}
 }

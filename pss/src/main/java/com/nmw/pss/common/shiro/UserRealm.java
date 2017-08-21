@@ -1,6 +1,5 @@
 package com.nmw.pss.common.shiro;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,21 +15,14 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Component;
 
-import com.nmw.pss.common.config.Global;
 import com.nmw.pss.common.constant.ShiroConstant;
 import com.nmw.pss.module.login.bean.Employee;
-import com.nmw.pss.module.login.bean.EmployeeRole;
 import com.nmw.pss.module.login.exception.AccountDisableException;
-import com.nmw.pss.module.login.service.EmployeeRoleService;
 import com.nmw.pss.module.login.service.EmployeeService;
 import com.nmw.pss.module.system.bean.Menu;
-import com.nmw.pss.module.system.bean.RoleMenu;
 import com.nmw.pss.module.system.service.MenuService;
-import com.nmw.pss.module.system.service.RoleMenuService;
-import com.nmw.pss.module.system.service.RoleService;
 
 @Component
 public class UserRealm extends AuthorizingRealm {
@@ -38,13 +30,7 @@ public class UserRealm extends AuthorizingRealm {
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
-	private RoleService roleService;
-	@Autowired
 	private MenuService menuService;
-	@Autowired
-	private EmployeeRoleService employeeRoleService;
-	@Autowired
-	private RoleMenuService roleMenuService;
 	
 	
 	/**
@@ -73,47 +59,15 @@ public class UserRealm extends AuthorizingRealm {
 		Employee employee=(Employee) subject.getSession().getAttribute(ShiroConstant.LOGIN_USER);
 		if(employee!=null){
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-			//当前用户菜单集合
-			List<Menu> menus=new ArrayList<Menu>();
-			if(employee.getLoginName().equals(Global.getAdminAccount())){
-				/**
-				 * 当前用户是管理员
-				 */
-				
-				//查询所有菜单
-				menus=menuService.findAll();
-			}else{
-				/**
-				 * 当前用户不是管理员
-				 */
-				
-				Menu menu=null;
-				//查询当前用户的角色集合
-				List<EmployeeRole> employeeRoles=employeeRoleService.findByEmployeeId(employee.getId());
-				
-				for (EmployeeRole employeeRole : employeeRoles) {
-					Role role=roleService.findById(employeeRole.getRoleId());
-					info.addRole(role.getName());
-					
-					//查询角色关联的菜单集合
-					List<RoleMenu> roleMenus=roleMenuService.findByRoleId(employeeRole.getRoleId());
-					
-					for (RoleMenu roleMenu : roleMenus) {
-						menu=menuService.findById(roleMenu.getMenuId());
-						menus.add(menu);
-					}
-				}
-			}
-			
+			List<Menu> menus=menuService.findCurrentEmployeeMenus(employee);
 			//获取当前用户的权限集合
 			for (Menu menu : menus) {
-				if(StringUtils.isNotBlank(menu.getPermission())){
-					for (String permission : StringUtils.split(menu.getPermission(),",")) {
+				if(StringUtils.isNotBlank(menu.getPermissions())){
+					for (String permission : StringUtils.split(menu.getPermissions(),",")) {
 						info.addStringPermission(permission);
 					}
 				}
 			}
-			
 			return info;
 		}
 		return null;

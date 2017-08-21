@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nmw.pss.module.system.dao.MenuDao">
-    <resultMap type="Menu" id="entityResult">
+<mapper namespace="com.nmw.pss.module.system.dao.RoleMenuDao">
+    <resultMap type="RoleMenu" id="entityResult">
     	<id property="id" column="id"/>
     	<result property="createTime" column="create_time"/>
     	<result property="updateTime" column="update_time"/>
@@ -10,48 +10,40 @@
     	<result property="remark" column="remark"/>
     	<result property="delSign" column="del_sign"/>
     	
-    	<result property="name" column="name"/>
-    	<result property="sort" column="sort"/>
-    	<result property="url" column="url"/>
-    	<result property="icon" column="icon"/>
-    	<result property="parentId" column="parent_id"/>
-    	<result property="permissions" column="permissions"/>
+    	<result property="roleId" column="role_id"/>
+    	<result property="menuId" column="menu_id"/>
     </resultMap>
     
 	<insert id="insert">
-		INSERT INTO menu(id, create_time, update_time, create_user, update_user, remark, del_sign,
-			name, sort, url, icon, parent_id, permissions) 
+		INSERT INTO role_menu(id, create_time, update_time, create_user, update_user, remark, del_sign,
+			role_id, menu_id) 
 		VALUES (#{id}, #{createTime}, #{updateTime}, #{createUserId}, #{updateUserId}, #{remark}, #{delSign}, 
-		#{name} ,#{sort} ,#{url} ,#{icon} ,#{parentId}, #{permissions})
+		#{roleId}, #{menuId})
 	</insert>
 	
 	<delete id="deleteById">
-		DELETE FROM menu WHERE id = #{id}
+		DELETE FROM role_menu WHERE id = #{id}
 	</delete>
 	
 	<select id="selectById" resultMap="entityResult">
 		SELECT 
 			*
 		FROM 
-			menu 
+			role_menu 
 		WHERE 
 			id = #{id}
 	</select>
 	
 	<update id="updateById">
-		UPDATE menu 
+		UPDATE role_menu 
 		SET 
 			update_time = #{updateTime}, 
 			update_user = #{updateUserId}, 
 			remark = #{remark}, 
 			del_sign = #{delSign}, 
 			
-			name = #{name},
-			sort = #{sort},
-			url = #{url},
-			icon = #{icon},
-			parent_id = #{parentId},
-			permissions = #{permissions}
+			role_id = #{roleId},
+			menu_id = #{menuId}
 		WHERE id = #{id}
 	</update>
 	
@@ -59,23 +51,15 @@
 		SELECT 
 			*
 		FROM 
-			menu 
+			role_menu 
 		<where>
 			del_sign=#{DEL_NORMAL}
-			<if test="parentId != null and parentId != ''">
-				AND parent_id=#{parentId}
+			<if test="roleId != null and roleId != ''">
+				AND role_id=#{roleId}
 			</if>
-		</where>
-	</select>
-	
-	<select id="selectAll" resultMap="entityResult">
-		SELECT 
-			*
-		FROM 
-			menu 
-		<where>
-			del_sign='1'
-			AND id != '0'
+			<if test="menuId != null and menuId != ''">
+				AND menu_id=#{menuId}
+			</if>
 		</where>
 	</select>
 	

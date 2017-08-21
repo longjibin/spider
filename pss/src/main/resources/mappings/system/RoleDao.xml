@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nmw.pss.module.system.dao.RoleDao">
+    <resultMap type="Role" id="entityResult">
+    	<id property="id" column="id"/>
+    	<result property="createTime" column="create_time"/>
+    	<result property="updateTime" column="update_time"/>
+    	<result property="createUserId" column="create_user"/>
+    	<result property="updateUserId" column="update_user"/>
+    	<result property="remark" column="remark"/>
+    	<result property="delSign" column="del_sign"/>
+    	
+    	<result property="name" column="name"/>
+    </resultMap>
     
 	<insert id="insert">
 		INSERT INTO role(id, create_time, update_time, create_user, update_user, remark, del_sign,
@@ -13,7 +24,7 @@
 		DELETE FROM role WHERE id = #{id}
 	</delete>
 	
-	<select id="selectById" resultType="Role">
+	<select id="selectById" resultMap="entityResult">
 		SELECT 
 			*
 		FROM 
@@ -34,7 +45,7 @@
 		WHERE id = #{id}
 	</update>
 	
-	<select id="selectByModel" resultType="Role">
+	<select id="selectByModel" resultMap="entityResult">
 		SELECT 
 			*
 		FROM 
