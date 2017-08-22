@@ -1,9 +1,6 @@
 package com.nmw.pss.common.shiro;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,11 +10,9 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.nmw.pss.common.constant.ShiroConstant;
 import com.nmw.pss.module.login.bean.Employee;
 import com.nmw.pss.module.login.exception.AccountDisableException;
 import com.nmw.pss.module.login.service.EmployeeService;
@@ -55,22 +50,17 @@ public class UserRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		Subject subject = SecurityUtils.getSubject();
-		Employee employee=(Employee) subject.getSession().getAttribute(ShiroConstant.LOGIN_USER);
-		if(employee!=null){
-			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-			List<Menu> menus=menuService.findCurrentEmployeeMenus(employee);
-			//获取当前用户的权限集合
-			for (Menu menu : menus) {
-				if(StringUtils.isNotBlank(menu.getPermissions())){
-					for (String permission : StringUtils.split(menu.getPermissions(),",")) {
-						info.addStringPermission(permission);
-					}
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		Menu rootMenu=menuService.findMenuTreeByCurrentEmployee();
+		//获取当前用户的权限集合
+		for (Menu menu : rootMenu.getChildren()) {
+			if(StringUtils.isNotBlank(menu.getPermissions())){
+				for (String permission : StringUtils.split(menu.getPermissions(),",")) {
+					info.addStringPermission(permission);
 				}
 			}
-			return info;
 		}
-		return null;
+		return info;
 	}
 
 }

@@ -24,12 +24,14 @@ public class MenuServiceTest {
 //		menu.setIcon("");
 //		menu.setParentId("");
 		
-		menu.setName("资料管理");
+		menu.setName("权限管理");
 		menu.setSort(10);
 		menu.setUrl("");
 		menu.setIcon("");
-		menu.setParentId("0");
+		menu.setParentId("0caeae1b80c74879a94352e8842b8c21");
 		menu.setPermissions("");
+		menu.setType(Menu.TYPE_SYSTEM);
+		menu.setLevel(2);
 		menuService.save(menu);
 	}
 

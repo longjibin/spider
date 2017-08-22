@@ -72,10 +72,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value="admin",method=RequestMethod.GET)
 	public String admin(HttpServletRequest request){
-		//查询当前用户的菜单集合
-		Subject subject = SecurityUtils.getSubject();
-		Employee employee=(Employee) subject.getSession().getAttribute(ShiroConstant.LOGIN_USER);
-		List<Menu> menus=menuService.findCurrentEmployeeMenus(employee);
+		List<Menu> menus=menuService.findMenuTreeByCurrentEmployee().getChildren();
 		request.setAttribute("menus", menus);
 		return "admin";
 	}
