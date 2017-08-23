@@ -15,17 +15,21 @@
 <link rel="stylesheet" href="${ctx }/static/plugins/awesome/css/font-awesome.min.css">
 <!-- Ionicons -->
 <link rel="stylesheet" href="${ctx }/static/plugins/ionicons/css/ionicons.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="${ctx }/static/plugins/adminlte/css/AdminLTE.min.css">
 <!-- iCheck -->
 <link rel="stylesheet" href="${ctx }/static/plugins/iCheck/square/blue.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="${ctx }/static/plugins/adminlte/css/AdminLTE.min.css">
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+<!-- jQuery 2.2.3 -->
+<script src="${ctx }/static/plugins/jQuery/jquery-1.12.4.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="${ctx }/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="${ctx }/static/plugins/iCheck/icheck.min.js"></script>
+<!-- layer -->
+<script src="${ctx }/static/plugins/layer/layer.js"></script>
+<!-- jquery-validation -->
+<script src="${ctx }/static/plugins/jquery-validation/jquery.validate.min.js"></script>
 </head>
 <body class="hold-transition login-page">
 	<div class="login-box">
@@ -59,16 +63,6 @@
 	</div>
 	<!-- /.login-box -->
 
-	<!-- jQuery 2.2.3 -->
-	<script src="${ctx }/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
-	<!-- Bootstrap 3.3.6 -->
-	<script src="${ctx }/static/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<!-- iCheck -->
-	<script src="${ctx }/static/plugins/iCheck/icheck.min.js"></script>
-	<!-- jquery-validation -->
-	<script src="${ctx }/static/plugins/jquery-validation/jquery.validate.min.js"></script>
-	<!-- layer -->
-	<script src="${ctx }/static/plugins/layer/layer.js"></script>
 	<script>
 		$.validator.setDefaults({
 			submitHandler: function () {
@@ -111,7 +105,7 @@
 				increaseArea : '20%' // optional
 			});
 			
-			$( "#signupForm" ).validate( {
+			$('#signupForm').validate( {
 				rules: {
 					loginName: 'required',
 					loginPass: 'required'

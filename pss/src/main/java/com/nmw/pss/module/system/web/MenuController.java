@@ -12,4 +12,9 @@ public class MenuController {
 	public String menuList(){
 		return "system/menu/menulist";
 	}
+	
+	@RequestMapping(value="form",method=RequestMethod.GET)
+	public String menuForm(){
+		return "system/menu/menuform";
+	}
 }

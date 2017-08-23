@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2017-08-22 17:34:53
+Date: 2017-08-23 17:47:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -116,7 +116,7 @@ CREATE TABLE `menu` (
 INSERT INTO `menu` VALUES ('0caeae1b80c74879a94352e8842b8c21', '2017-08-22 09:59:10', '2017-08-22 09:59:10', '1', '1', null, '1', '系统设置', '20', '', '', '1', 'system:view', '2', '1');
 INSERT INTO `menu` VALUES ('1', '2017-08-21 17:36:10', '2017-08-21 17:36:10', '1', '1', null, '1', '顶级菜单', '0', '', '', '', '', '2', '0');
 INSERT INTO `menu` VALUES ('47efd6c234ac4fd4b16bab4a16d1a0e1', '2017-08-22 16:04:34', '2017-08-22 16:04:34', '1', '1', null, '1', '菜单管理', '10', 'admin/menu/list', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2');
-INSERT INTO `menu` VALUES ('c86f413d2017417b8a837e497d285628', '2017-08-22 16:05:32', '2017-08-22 16:05:32', '1', '1', null, '1', '权限管理', '10', '', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2');
+INSERT INTO `menu` VALUES ('c86f413d2017417b8a837e497d285628', '2017-08-22 16:05:32', '2017-08-22 16:05:32', '1', '1', null, '1', '权限管理', '10', 'admin/menu/form', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2');
 INSERT INTO `menu` VALUES ('d5713f5c064e4ac79a0387cfe5579e83', '2017-08-21 21:09:29', '2017-08-21 21:09:29', '1', '1', null, '1', '资料管理', '10', 'admin/data', '', '1', '', '1', '1');
 INSERT INTO `menu` VALUES ('df2a49f1d16f4b91bfd5af339e37a08c', '2017-08-22 16:05:23', '2017-08-22 16:05:23', '1', '1', null, '1', '角色管理', '10', '', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2');
 
