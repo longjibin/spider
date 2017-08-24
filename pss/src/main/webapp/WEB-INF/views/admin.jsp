@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
-<c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
+<%@ include file="/WEB-INF/common/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,33 +8,37 @@
 <title>AdminLTE 2 | Dashboard</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<!-- Bootstrap 3.3.6 -->
-<link rel="stylesheet" href="${ctx }/static/plugins/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="${ctx }/static/plugins/awesome/css/font-awesome.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet" href="${ctx }/static/plugins/ionicons/css/ionicons.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="${ctx }/static/plugins/adminlte/css/AdminLTE.min.css">
-<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-<link rel="stylesheet" href="${ctx }/static/plugins/adminlte/css/skins/_all-skins.min.css">
-
-<!-- jQuery 2.2.3 -->
-<script src="${ctx }/static/plugins/jQuery/jquery-1.12.4.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="${ctx }/static/plugins/bootstrap/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="${ctx }/static/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="${ctx }/static/plugins/adminlte/js/app.min.js"></script>
+<%@ include file="/WEB-INF/common/head.jsp"%>
 <script type="text/javascript">
 function reinitIframe(){
-	var content=$('#contentFrame').contents().find('body');
+	var content=$('#contentFrame').contents().find('#content');
 	//设置内容背景
 	content.css('background-color','#ecf0f5'); 
 	var iframeHeight = content.height();
 	//设置高度随内容自适应
 	$("#contentFrame").height(iframeHeight);
+}
+function loadPage(url){
+	var index;
+	$.ajax({
+	    url:'${ctxAdmin}/'+url,
+	    type:'GET', //GET
+	    async:true,    //或false,是否异步
+	    timeout:5000,    //超时时间
+	    dataType:'html',    //返回的数据格式：json/xml/html/script/jsonp/text
+	    beforeSend:function(xhr){
+	    	index = layer.load(1, {shade: [0.1,'#fff']});//0.1透明度的白色背景
+	    },
+	    success:function(data,textStatus,jqXHR){
+	    	$('#content').html(data);
+	    },
+	    error:function(xhr,textStatus){
+	    	layer.msg(textStatus);
+	    },
+	    complete:function(){
+	    	layer.close(index);
+	    }
+	})
 }
 </script>
 </head>
@@ -73,7 +75,7 @@ function reinitIframe(){
 										<li>
 											<!-- start message --> <a href="#">
 												<div class="pull-left">
-													<img src="${ctx }/static/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
+													<img src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -86,7 +88,7 @@ function reinitIframe(){
 										<!-- end message -->
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="${ctx }/static/plugins/adminlte/img/user3-128x128.jpg" class="img-circle"
+													<img src="${ctxStatic }/plugins/adminlte/img/user3-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -97,7 +99,7 @@ function reinitIframe(){
 										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="${ctx }/static/plugins/adminlte/img/user4-128x128.jpg" class="img-circle"
+													<img src="${ctxStatic }/plugins/adminlte/img/user4-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -108,7 +110,7 @@ function reinitIframe(){
 										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="${ctx }/static/plugins/adminlte/img/user3-128x128.jpg" class="img-circle"
+													<img src="${ctxStatic }/plugins/adminlte/img/user3-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -119,7 +121,7 @@ function reinitIframe(){
 										</a></li>
 										<li><a href="#">
 												<div class="pull-left">
-													<img src="${ctx }/static/plugins/adminlte/img/user4-128x128.jpg" class="img-circle"
+													<img src="${ctxStatic }/plugins/adminlte/img/user4-128x128.jpg" class="img-circle"
 														alt="User Image">
 												</div>
 												<h4>
@@ -239,14 +241,14 @@ function reinitIframe(){
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
-								src="${ctx }/static/plugins/adminlte/img/user2-160x160.jpg" class="user-image"
+								src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="user-image"
 								alt="User Image"> <span class="hidden-xs">Alexander
 									Pierce</span>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- User image -->
 								<li class="user-header"><img
-									src="${ctx }/static/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
+									src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
 									alt="User Image">
 
 									<p>
@@ -292,7 +294,7 @@ function reinitIframe(){
 				<!-- Sidebar user panel -->
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="${ctx }/static/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
+						<img src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
 							alt="User Image">
 					</div>
 					<div class="pull-left info">
@@ -306,7 +308,7 @@ function reinitIframe(){
 					<!-- 一级菜单 -->
 					<c:forEach items="${menus }" var="oneMenu">
 						<li class="treeview">
-							<a <c:choose><c:when test="${fn:length(oneMenu.children) ne 0}">href="javascript:void(0);"</c:when><c:otherwise>href="${ctx }/${oneMenu.url }" target="contentFrame"</c:otherwise></c:choose>>
+							<a <c:choose><c:when test="${fn:length(oneMenu.children) ne 0}">href="javascript:void(0);"</c:when><c:otherwise>href="javascript:loadPage('${oneMenu.url }');"</c:otherwise></c:choose>>
 								<i class="fa fa-share"></i><span> ${oneMenu.name } </span>
 								<!-- 当前菜单有子菜单 -->
 								<c:if test="${fn:length(oneMenu.children) ne 0}">
@@ -319,7 +321,7 @@ function reinitIframe(){
 									<!-- 二级菜单 -->
 									<c:forEach items="${oneMenu.children }" var="twoMenu">
 										<li>
-											<a <c:choose><c:when test="${fn:length(twoMenu.children) ne 0}">href="javascript:void(0);"</c:when><c:otherwise>href="${ctx }/${twoMenu.url }" target="contentFrame"</c:otherwise></c:choose>>
+											<a <c:choose><c:when test="${fn:length(twoMenu.children) ne 0}">href="javascript:void(0);"</c:when><c:otherwise>href="javascript:loadPage('${twoMenu.url }');"</c:otherwise></c:choose>>
 												<i class="fa fa-circle-o"></i> ${twoMenu.name } 
 												<c:if test="${fn:length(twoMenu.children) ne 0}">
 													<!-- 当前菜单有子菜单 -->
@@ -331,7 +333,7 @@ function reinitIframe(){
 												<ul class="treeview-menu">
 													<!-- 三级菜单 -->
 													<c:forEach items="${twoMenu.children }" var="threeMenu">
-														<li><a href="${ctx }/${threeMenu.url }" target="contentFrame"><i class="fa fa-circle-o"></i> ${threeMenu.name } </a></li>
+														<li><a href="javascript:loadPage('${threeMenu.url }');"><i class="fa fa-circle-o"></i> ${threeMenu.name } </a></li>
 													</c:forEach>
 												</ul>
 											</c:if>
@@ -350,18 +352,14 @@ function reinitIframe(){
 		</aside>
 
 		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<iframe id="contentFrame" name="contentFrame" width="100%" height="500px" src="http://www.baidu.com" frameborder=no scrolling="no" onload="reinitIframe();"></iframe>
-		</div>
+		<div id="content" class="content-wrapper"></div>
 		<!-- /.content-wrapper -->
 
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">
-				<b>Version</b> 2.3.8
+				<b>Version</b> ${fns:getConfig('version')}
 			</div>
-			<strong>Copyright &copy; 2014-2016 <a
-				href="http://almsaeedstudio.com">Almsaeed Studio</a>.
-			</strong> All rights reserved.
+			<strong>Copyright &copy; 2014-2016 Power By ${fns:getConfig('author')}.</strong>
 		</footer>
 
 		<!-- Control Sidebar -->

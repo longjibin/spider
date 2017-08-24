@@ -32,6 +32,9 @@ public class Menu extends BaseEntity {
 	// 图标
 	private String icon;
 
+	// 可见（1表示可见 2表示隐藏）
+	private Integer visible;
+
 	// 父菜单id
 	private String parentId;
 
@@ -135,12 +138,20 @@ public class Menu extends BaseEntity {
 		this.employee = employee;
 	}
 
+	public Integer getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Integer visible) {
+		this.visible = visible;
+	}
+
 	@Override
 	public String toString() {
-		return "Menu [name=" + name + ", sort=" + sort + ", url=" + url + ", icon=" + icon + ", parentId=" + parentId
-				+ ", permissions=" + permissions + ", type=" + type + ", level=" + level + ", id=" + id
-				+ ", createTime=" + createTime + ", updateTime=" + updateTime + ", createUserId=" + createUserId
-				+ ", updateUserId=" + updateUserId + ", remark=" + remark + ", delSign=" + delSign + "]";
+		return "Menu [name=" + name + ", sort=" + sort + ", url=" + url + ", icon=" + icon + ", visible=" + visible
+				+ ", parentId=" + parentId + ", permissions=" + permissions + ", type=" + type + ", level=" + level
+				+ ", id=" + id + ", createTime=" + createTime + ", updateTime=" + updateTime + ", createUserId="
+				+ createUserId + ", updateUserId=" + updateUserId + ", remark=" + remark + ", delSign=" + delSign + "]";
 	}
 
 }

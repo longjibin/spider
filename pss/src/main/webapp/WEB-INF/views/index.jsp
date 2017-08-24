@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
+<%@ include file="/WEB-INF/common/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,27 +8,7 @@
 <title>Log in</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<!-- Bootstrap 3.3.6 -->
-<link rel="stylesheet" href="${ctx }/static/plugins/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="${ctx }/static/plugins/awesome/css/font-awesome.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet" href="${ctx }/static/plugins/ionicons/css/ionicons.min.css">
-<!-- iCheck -->
-<link rel="stylesheet" href="${ctx }/static/plugins/iCheck/square/blue.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="${ctx }/static/plugins/adminlte/css/AdminLTE.min.css">
-
-<!-- jQuery 2.2.3 -->
-<script src="${ctx }/static/plugins/jQuery/jquery-1.12.4.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="${ctx }/static/plugins/bootstrap/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="${ctx }/static/plugins/iCheck/icheck.min.js"></script>
-<!-- layer -->
-<script src="${ctx }/static/plugins/layer/layer.js"></script>
-<!-- jquery-validation -->
-<script src="${ctx }/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<%@ include file="/WEB-INF/common/head.jsp"%>
 </head>
 <body class="hold-transition login-page">
 	<div class="login-box">
