@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="${ctxStatic }/plugins/timepicker/bootstrap-timepicker.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="${ctxStatic }/plugins/select2/select2.min.css">
+<!-- ztree -->
+<link rel="stylesheet" href="${ctxStatic }/plugins/zTree-v3/css/metroStyle/metroStyle.css">
 
 
 <!-- js -->
@@ -40,3 +42,6 @@
 <script src="${ctxStatic }/plugins/select2/select2.full.min.js"></script>
 <!-- bootstrap datepicker -->
 <script src="${ctxStatic }/plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- ztree -->
+<script src="${ctxStatic }/plugins/zTree-v3/js/jquery.ztree.core.js"></script>
+<script src="${ctxStatic }/plugins/zTree-v3/js/jquery.ztree.excheck.min.js"></script>

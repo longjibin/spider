@@ -10,6 +10,7 @@
 	<properties>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<jackson.version>2.2.3</jackson.version>
+		<fastjson.version>1.2.7</fastjson.version>
 		<ehcache.version>2.6.11</ehcache.version>
 		<ehcache-web.version>2.0.4</ehcache-web.version>
 		<shiro.version>1.2.3</shiro.version>
@@ -177,6 +178,13 @@
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		
+		<!-- fastjson -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>${fastjson.version}</version>
 		</dependency>
 		
 		<!-- CACHE begin -->

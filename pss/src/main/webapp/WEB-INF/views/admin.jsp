@@ -10,14 +10,9 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <%@ include file="/WEB-INF/common/head.jsp"%>
 <script type="text/javascript">
-function reinitIframe(){
-	var content=$('#contentFrame').contents().find('#content');
-	//设置内容背景
-	content.css('background-color','#ecf0f5'); 
-	var iframeHeight = content.height();
-	//设置高度随内容自适应
-	$("#contentFrame").height(iframeHeight);
-}
+/**
+ * 加载页面
+ */
 function loadPage(url){
 	var index;
 	$.ajax({

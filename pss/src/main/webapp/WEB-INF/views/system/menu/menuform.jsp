@@ -24,9 +24,10 @@
 							<div class="form-group">
 								<label for="inputName" class="col-sm-2 col-sm-offset-1 control-label">上级菜单</label>
 								<div class="col-sm-6 input-group">
-									<input id="parentName" name="parentName" type="email" class="form-control" id="inputName" disabled="disabled">
-									<div class="input-group-addon">
-										<a href="javascript:sb();"><i class="fa fa-plus"></i></a>
+									<input id="pName" name="pName" type="email" class="form-control" id="inputName" readonly="readonly" onclick="menuTree();">
+									<input id="pId" name="pId" type="hidden" value="${parentMenu.id }">
+									<div class="input-group-addon" onclick="menuTree();">
+										<i class="fa fa-plus"></i>
 				                  	</div>
 								</div>
 							</div>
@@ -45,7 +46,10 @@
 							<div class="form-group">
 								<label for="icon" class="col-sm-2 col-sm-offset-1 control-label">图标</label>
 								<div class="col-sm-6 input-group">
-									<input id="icon" name="icon" type="text" class="form-control" placeholder="图标">
+									<input id="icon" name="icon" type="text" class="form-control" placeholder="图标" readonly="readonly" onclick="menuIcons();">
+									<div class="input-group-addon" onclick="menuIcons();">
+										<i class="fa fa-star"></i>
+				                  	</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -99,14 +103,51 @@ $('input[type="radio"].minimal').iCheck({
   radioClass: 'iradio_minimal-blue'
 });
 
-function sb(){
+/**
+ * 菜单树
+ */
+function menuTree(){
 	layer.open({
 		type: 2,
-		title: 'layer mobile页',
+		title: '选择菜单',
 		shadeClose: true,
-		shade: 0.8,
-		area: ['380px', '90%'],
-		content: '${ctxAdmin}/menu/list'
+		shade: 0.5,
+		area: ['380px', '60%'],
+		content: '${ctxAdmin}/menu/tree',
+		btn: ['确定', '取消'],
+	  	yes: function(index, layero){
+	  		var iframeWin = window[layero.find('iframe')[0]['name']];
+	  		var node=iframeWin.getCheckedNode();
+	  		if(node!=undefined){
+	  			$('#pName').val(node.name);
+	  			$('#pId').val(node.id);
+	  			layer.close(index);
+	  		}
+	  	},
+	  	btn2: function(index, layero){
+	    	layer.close(index);
+	  	}
+	});
+}
+
+/**
+ * 菜单图标
+ */
+function menuIcons() {
+	layer.open({
+		type: 2,
+		title: '选择菜单',
+		shadeClose: true,
+		shade: 0.5,
+		area: ['1200px', '90%'],
+		content: '${ctxAdmin}/menu/icon',
+		btn: ['确定', '取消'],
+	  	yes: function(index, layero){
+	  		alert(123);
+	  	},
+	  	btn2: function(index, layero){
+	    	layer.close(index);
+	  	}
 	});
 }
 </script>

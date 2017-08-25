@@ -53,7 +53,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao> implements M
 	@Override
 	public List<Menu> findChildren(Menu menu) {
 		Menu query=new Menu();
-		query.setParentId(menu.getId());
+		query.setpId(menu.getId());
 		return menuDao.selectByModel(query);
 	}
 

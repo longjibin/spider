@@ -22,7 +22,7 @@ public class MenuDaoTest {
 		Employee employee=new Employee();
 		employee.setId("2");
 		query.setEmployee(employee);
-		query.setParentId("0");
+		query.setpId("0");
 		for (Menu menu : menuDao.selectChildrenByModel(query)) {
 			System.out.println(menu);
 		}

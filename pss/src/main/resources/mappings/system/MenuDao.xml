@@ -14,7 +14,7 @@
     	<result property="sort" column="sort"/>
     	<result property="url" column="url"/>
     	<result property="icon" column="icon"/>
-    	<result property="parentId" column="parent_id"/>
+    	<result property="pId" column="parent_id"/>
     	<result property="permissions" column="permissions"/>
     	<result property="type" column="type"/>
     	<result property="level" column="level"/>
@@ -25,7 +25,7 @@
 		INSERT INTO menu(id, create_time, update_time, create_user, update_user, remark, del_sign,
 			name, sort, url, icon, parent_id, permissions, type, level, visible) 
 		VALUES (#{id}, #{createTime}, #{updateTime}, #{createUserId}, #{updateUserId}, #{remark}, #{delSign}, 
-		#{name} ,#{sort} ,#{url} ,#{icon} ,#{parentId}, #{permissions}, #{type}, #{level}, #{visible})
+		#{name} ,#{sort} ,#{url} ,#{icon} ,#{pId}, #{permissions}, #{type}, #{level}, #{visible})
 	</insert>
 	
 	<delete id="deleteById">
@@ -53,7 +53,7 @@
 			sort = #{sort},
 			url = #{url},
 			icon = #{icon},
-			parent_id = #{parentId},
+			parent_id = #{pId},
 			permissions = #{permissions},
 			type = #{type},
 			level = #{level},
@@ -68,8 +68,8 @@
 			menu 
 		<where>
 			del_sign=#{DEL_NORMAL}
-			<if test="parentId != null and parentId != ''">
-				AND parent_id=#{parentId}
+			<if test="pId != null and pId != ''">
+				AND parent_id=#{pId}
 			</if>
 			ORDER BY level ASC, sort ASC
 		</where>
@@ -82,7 +82,6 @@
 			menu 
 		<where>
 			del_sign='1'
-			AND id != '0'
 		</where>
 	</select>
 	
@@ -101,7 +100,7 @@
 			m.sort as sort,
 			m.url as url,
 			m.icon as icon,
-			m.parent_id as parentId,
+			m.parent_id as pId,
 			m.permissions as permissions,
 			m.type as type,
 			m.level as level,

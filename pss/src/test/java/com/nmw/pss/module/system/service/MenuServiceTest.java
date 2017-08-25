@@ -28,7 +28,7 @@ public class MenuServiceTest {
 		menu.setSort(10);
 		menu.setUrl("");
 		menu.setIcon("");
-		menu.setParentId("0caeae1b80c74879a94352e8842b8c21");
+		menu.setpId("0caeae1b80c74879a94352e8842b8c21");
 		menu.setPermissions("");
 		menu.setType(Menu.TYPE_SYSTEM);
 		menu.setLevel(2);
