@@ -1,19 +1,24 @@
 package com.nmw.pss.module.system.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.nmw.pss.common.base.TreeNode;
+import com.nmw.pss.common.constant.HttpConstant;
 import com.nmw.pss.module.system.bean.Menu;
 import com.nmw.pss.module.system.service.MenuService;
 
@@ -29,7 +34,9 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String menuList(){
+	public String menuList(HttpServletRequest request){
+		List<Menu> list=menuService.findTreeTable();
+		request.setAttribute("list", list);
 		return "system/menu/menulist";
 	}
 	
@@ -38,8 +45,39 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="form",method=RequestMethod.GET)
-	public String menuForm(){
+	public String menuForm(Menu menu,HttpServletRequest request){
+		if (StringUtils.isNotBlank(menu.getId())) {
+			//修改菜单
+			menu=menuService.findById(menu.getId());
+			menu.setParent(menuService.findById(menu.getpId()));
+		}else{
+			//新增菜单
+			menu.setParent(menuService.findById("1"));
+		}
+		request.setAttribute("menu", menu);
 		return "system/menu/menuform";
+	}
+	
+	/**
+	 * 保存菜单
+	 * @param menu
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="save",method=RequestMethod.POST)
+	public Map<String, Object> menuSave(Menu menu){
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		try {
+			Menu parent=menuService.findById(menu.getpId());
+			menu.setLevel(parent.getLevel()+1);
+			menuService.save(menu);
+			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_200);
+			resultMap.put(HttpConstant.HTTP_MSG_KEY, HttpConstant.HTTP_MSG_200);
+		} catch (Exception e) {
+			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_500);
+			resultMap.put(HttpConstant.HTTP_MSG_KEY, "操作失败:"+e.getMessage());
+		}
+		return resultMap;
 	}
 	
 	/**

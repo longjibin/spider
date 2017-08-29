@@ -9,14 +9,8 @@ public interface TreeService<T> {
 	 * @param t
 	 * @return 返回根节点
 	 */
-	public T findTree(T t);
+	public void findTree(T t, List<T> list);
 	
-	/**
-	 * 按树表返回满足条件的数据集合
-	 * @param t
-	 * @return 返回根节点
-	 */
-	public T findTreeTable(T t);
 	
 	/**
 	 * 查询子节点
@@ -24,5 +18,12 @@ public interface TreeService<T> {
 	 * @return
 	 */
 	public List<T> findChildren(T t);
+	
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public List<T> findTreeTable();
 	
 }

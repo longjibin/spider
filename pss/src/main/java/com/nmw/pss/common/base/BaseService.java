@@ -26,4 +26,11 @@ public interface BaseService<T> {
 	 * @return
 	 */
 	public List<T> findAll();
+	
+	/**
+	 * 分页查询
+	 * @param page
+	 * @return
+	 */
+	public List<T> findByPage(Page<T> page);
 }

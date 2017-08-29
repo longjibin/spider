@@ -1,5 +1,6 @@
 package com.nmw.pss.module.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -26,27 +27,42 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao> implements M
 		//查询根节点
 		Menu rootMenu=menuDao.selectById("1");
 		//递归生成菜单数
-		rootMenu=findTree(rootMenu);
+		rootMenu=findTreeByCurrentEmployee(rootMenu);
 		return rootMenu;
 	}
 	
 	@Override
-	public Menu findTree(Menu menu) {
+	public Menu findTreeByCurrentEmployee(Menu menu) {
 		List<Menu> childrens=findChildrenByCurrentEmployee(menu);
 		if(childrens.size()>0){
 			//设置当前节点的子节点
 			menu.setChildren(childrens);
 			for (Menu child : childrens) {
-				findTree(child);
+				findTreeByCurrentEmployee(child);
 			}
 		}
 		return menu;
 	}
+	
+	@Override
+	public void findTree(Menu menu,  List<Menu> list) {
+		List<Menu> childrens=findChildren(menu);
+		if(childrens.size()>0){
+			for (Menu child : childrens) {
+				list.add(child);
+				findTree(child, list);
+			}
+		}
+	}
 
 	@Override
-	public Menu findTreeTable(Menu t) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Menu> findTreeTable() {
+		List<Menu> menus=new ArrayList<Menu>();
+		//查询根节点
+		Menu rootMenu=menuDao.selectById("1");
+		menus.add(rootMenu);
+		findTree(rootMenu, menus);
+		return menus;
 	}
 
 

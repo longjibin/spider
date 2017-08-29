@@ -17,8 +17,16 @@ public class Menu extends BaseEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	//普通菜单
 	public static final Integer TYPE_NORMAL = 1;
+	//系统菜单
 	public static final Integer TYPE_SYSTEM = 2;
+	//可见
+	public static final Integer VISIBLE = 1;
+	//不可见
+	public static final Integer INVISIBLE = 2;
+	
+	
 
 	// 菜单名
 	private String name;
@@ -33,7 +41,7 @@ public class Menu extends BaseEntity {
 	private String icon;
 
 	// 可见（1表示可见 2表示隐藏）
-	private Integer visible;
+	private Integer visible=VISIBLE;
 
 	// 父菜单id
 	private String pId;
@@ -42,7 +50,7 @@ public class Menu extends BaseEntity {
 	private String permissions;
 
 	// 菜单类型（1表示普通菜单 2表示系统菜单）
-	private Integer type;
+	private Integer type=TYPE_NORMAL;
 
 	// 菜单级数
 	private Integer level;
@@ -52,6 +60,9 @@ public class Menu extends BaseEntity {
 	 * 
 	 * @return
 	 */
+	//父菜单
+	private Menu parent;
+	
 	// 当前菜单的子菜单
 	private List<Menu> children;
 
@@ -144,6 +155,14 @@ public class Menu extends BaseEntity {
 
 	public void setVisible(Integer visible) {
 		this.visible = visible;
+	}
+
+	public Menu getParent() {
+		return parent;
+	}
+
+	public void setParent(Menu parent) {
+		this.parent = parent;
 	}
 
 	@Override

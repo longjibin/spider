@@ -304,7 +304,7 @@ function loadPage(url){
 					<c:forEach items="${menus }" var="oneMenu">
 						<li class="treeview">
 							<a <c:choose><c:when test="${fn:length(oneMenu.children) ne 0}">href="javascript:void(0);"</c:when><c:otherwise>href="javascript:loadPage('${oneMenu.url }');"</c:otherwise></c:choose>>
-								<i class="fa fa-share"></i><span> ${oneMenu.name } </span>
+								<i class="<c:choose><c:when test="${oneMenu.icon ne '' }">${oneMenu.icon }</c:when><c:otherwise>fa fa-circle-o</c:otherwise></c:choose>"></i><span> ${oneMenu.name } </span>
 								<!-- 当前菜单有子菜单 -->
 								<c:if test="${fn:length(oneMenu.children) ne 0}">
 									<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -317,7 +317,7 @@ function loadPage(url){
 									<c:forEach items="${oneMenu.children }" var="twoMenu">
 										<li>
 											<a <c:choose><c:when test="${fn:length(twoMenu.children) ne 0}">href="javascript:void(0);"</c:when><c:otherwise>href="javascript:loadPage('${twoMenu.url }');"</c:otherwise></c:choose>>
-												<i class="fa fa-circle-o"></i> ${twoMenu.name } 
+												<i class="<c:choose><c:when test="${twoMenu.icon ne '' }">${twoMenu.icon }</c:when><c:otherwise>fa fa-circle-o</c:otherwise></c:choose>"></i> ${twoMenu.name } 
 												<c:if test="${fn:length(twoMenu.children) ne 0}">
 													<!-- 当前菜单有子菜单 -->
 													<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span> 
@@ -328,7 +328,7 @@ function loadPage(url){
 												<ul class="treeview-menu">
 													<!-- 三级菜单 -->
 													<c:forEach items="${twoMenu.children }" var="threeMenu">
-														<li><a href="javascript:loadPage('${threeMenu.url }');"><i class="fa fa-circle-o"></i> ${threeMenu.name } </a></li>
+														<li><a href="javascript:loadPage('${threeMenu.url }');"><i class="<c:choose><c:when test="${threeMenu.icon ne '' }">${threeMenu.icon }</c:when><c:otherwise>fa fa-circle-o</c:otherwise></c:choose>"></i> ${threeMenu.name } </a></li>
 													</c:forEach>
 												</ul>
 											</c:if>

@@ -40,4 +40,10 @@ public interface BaseDao<T> {
 	 * @return
 	 */
 	public List<T> selectAll();
+	
+	/**
+	 * 分页查询记录
+	 * @return
+	 */
+	public List<T> selectByPage(Page<T> page);
 }

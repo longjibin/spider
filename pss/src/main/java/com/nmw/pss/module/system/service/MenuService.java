@@ -3,15 +3,22 @@ package com.nmw.pss.module.system.service;
 import java.util.List;
 
 import com.nmw.pss.common.base.BaseService;
+import com.nmw.pss.common.base.TreeService;
 import com.nmw.pss.module.system.bean.Menu;
 
-public interface MenuService extends BaseService<Menu> {
+public interface MenuService extends BaseService<Menu>, TreeService<Menu> {
 	
 	/**
 	 * 查询当前登录用户的菜单集合
 	 * @return 菜单树的根节点
 	 */
 	public Menu findMenuTreeByCurrentEmployee();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Menu findTreeByCurrentEmployee(Menu menu);
 	
 	/**
 	 * 查询当前用户指定的子菜单集合

@@ -21,7 +21,8 @@
 <link rel="stylesheet" href="${ctxStatic }/plugins/select2/select2.min.css">
 <!-- ztree -->
 <link rel="stylesheet" href="${ctxStatic }/plugins/zTree-v3/css/metroStyle/metroStyle.css">
-
+<!-- treegrid -->
+<link rel="stylesheet" href="${ctxStatic }/plugins/jQuery-treegrid/css/jquery.treegrid.css">
 
 <!-- js -->
 <!-- jQuery 2.2.3 -->
@@ -45,3 +46,6 @@
 <!-- ztree -->
 <script src="${ctxStatic }/plugins/zTree-v3/js/jquery.ztree.core.js"></script>
 <script src="${ctxStatic }/plugins/zTree-v3/js/jquery.ztree.excheck.min.js"></script>
+<!-- treegrid -->
+<script src="${ctxStatic }/plugins/jQuery-treegrid/js/jquery.treegrid.min.js"></script>
+<script src="${ctxStatic }/plugins/jQuery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
