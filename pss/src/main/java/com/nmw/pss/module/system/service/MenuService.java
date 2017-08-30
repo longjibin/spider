@@ -9,22 +9,15 @@ import com.nmw.pss.module.system.bean.Menu;
 public interface MenuService extends BaseService<Menu>, TreeService<Menu> {
 	
 	/**
-	 * 查询当前登录用户的菜单集合
+	 * 查询当前登录用户的菜单集合，按照树结构组织数据
 	 * @return 菜单树的根节点
 	 */
-	public Menu findMenuTreeByCurrentEmployee();
+	public Menu findMenuTreeByCE();
 	
 	/**
-	 * 
+	 * 查询当前登录用户的菜单集合，按照树表组织数据
 	 * @return
 	 */
-	public Menu findTreeByCurrentEmployee(Menu menu);
+	public List<Menu> findMenuTreeTableByCE();
 	
-	/**
-	 * 查询当前用户指定的子菜单集合
-	 * @param menu
-	 * @return
-	 */
-	public List<Menu> findChildrenByCurrentEmployee(Menu menu);
-
 }

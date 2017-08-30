@@ -86,7 +86,7 @@
 	</select>
 	
 	<!-- 查询当前节点的子节点 -->
-	<select id="selectChildrenByModel" resultType="Menu">
+	<select id="selectByCurrentEmployee" resultType="Menu">
 		SELECT 
 			m.id as id,
 			m.create_time as createTime,
@@ -111,7 +111,9 @@
 			LEFT JOIN menu m ON rm.menu_id=m.id
 		<where>
 			m.del_sign=#{DEL_NORMAL}
-			AND m.visible!=#{INVISIBLE}
+			<if test="visible != null and visible != ''">
+				AND m.visible=#{visible}
+			</if>
 			<if test="employee != null">
 				<if test="employee.id != null and employee.id != ''">
 					AND e.id=#{employee.id}

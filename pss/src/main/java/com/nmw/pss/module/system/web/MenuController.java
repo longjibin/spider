@@ -29,8 +29,9 @@ public class MenuController {
 
 	@Autowired
 	private MenuService menuService;
+	
 	/**
-	 * 菜单列表
+	 * 菜单列表(忽略登录用户的身份)
 	 * @return
 	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
@@ -45,7 +46,7 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="form",method=RequestMethod.GET)
-	public String menuForm(Menu menu,HttpServletRequest request){
+	public String menuForm(Menu menu, HttpServletRequest request){
 		if (StringUtils.isNotBlank(menu.getId())) {
 			//修改菜单
 			menu=menuService.findById(menu.getId());

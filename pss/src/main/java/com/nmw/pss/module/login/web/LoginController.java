@@ -72,7 +72,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value="admin",method=RequestMethod.GET)
 	public String admin(HttpServletRequest request){
-		List<Menu> menus=menuService.findMenuTreeByCurrentEmployee().getChildren();
+		List<Menu> menus=menuService.findMenuTreeByCE().getChildren();
 		request.setAttribute("menus", menus);
 		return "admin";
 	}

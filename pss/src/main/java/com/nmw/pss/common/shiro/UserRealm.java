@@ -1,5 +1,7 @@
 package com.nmw.pss.common.shiro;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -51,9 +53,9 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		Menu rootMenu=menuService.findMenuTreeByCurrentEmployee();
+		List<Menu> menus=menuService.findMenuTreeTableByCE();
 		//获取当前用户的权限集合
-		for (Menu menu : rootMenu.getChildren()) {
+		for (Menu menu : menus) {
 			if(StringUtils.isNotBlank(menu.getPermissions())){
 				for (String permission : StringUtils.split(menu.getPermissions(),",")) {
 					info.addStringPermission(permission);

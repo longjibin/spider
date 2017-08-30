@@ -19,7 +19,7 @@ public class RoleMenuServiceTest {
 	public void testSave() {
 		RoleMenu roleMenu=new RoleMenu();
 		roleMenu.setRoleId("1");
-		roleMenu.setMenuId("df2a49f1d16f4b91bfd5af339e37a08c");
+		roleMenu.setMenuId("86cceb967db04688a12cef367953dee1");
 		roleMenuService.save(roleMenu);
 	}
 

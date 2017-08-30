@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/common/taglib.jsp"%>
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>菜单管理</h1>
 	<ol class="breadcrumb">

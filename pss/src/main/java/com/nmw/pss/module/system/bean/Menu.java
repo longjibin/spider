@@ -41,7 +41,7 @@ public class Menu extends BaseEntity {
 	private String icon;
 
 	// 可见（1表示可见 2表示隐藏）
-	private Integer visible=VISIBLE;
+	private Integer visible;
 
 	// 父菜单id
 	private String pId;
@@ -50,7 +50,7 @@ public class Menu extends BaseEntity {
 	private String permissions;
 
 	// 菜单类型（1表示普通菜单 2表示系统菜单）
-	private Integer type=TYPE_NORMAL;
+	private Integer type;
 
 	// 菜单级数
 	private Integer level;

@@ -14,5 +14,5 @@ public interface MenuDao extends BaseDao<Menu> {
 	 * @param menu 当前节点
 	 * @return 子节点结合
 	 */
-	public List<Menu> selectChildrenByModel(Menu menu);
+	public List<Menu> selectByCurrentEmployee(Menu menu);
 }

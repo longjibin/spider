@@ -23,7 +23,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao> implements M
 	private MenuDao menuDao;
 	
 	@Override
-	public Menu findMenuTreeByCurrentEmployee() {
+	public Menu findMenuTreeByCE() {
 		//查询根节点
 		Menu rootMenu=menuDao.selectById("1");
 		//递归生成菜单数
@@ -31,9 +31,16 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao> implements M
 		return rootMenu;
 	}
 	
-	@Override
-	public Menu findTreeByCurrentEmployee(Menu menu) {
-		List<Menu> childrens=findChildrenByCurrentEmployee(menu);
+	private Menu findTreeByCurrentEmployee(Menu menu) {
+		//获取当前登录用户
+		Subject subject = SecurityUtils.getSubject();
+		Employee employee=(Employee) subject.getSession().getAttribute(ShiroConstant.LOGIN_USER);
+		//设置当前登录用户
+		Menu query=new Menu();
+		query.setEmployee(employee);
+		query.setId(menu.getId());
+		query.setVisible(Menu.VISIBLE);//菜单可见
+		List<Menu> childrens=menuDao.selectByCurrentEmployee(query);
 		if(childrens.size()>0){
 			//设置当前节点的子节点
 			menu.setChildren(childrens);
@@ -45,8 +52,23 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao> implements M
 	}
 	
 	@Override
-	public void findTree(Menu menu,  List<Menu> list) {
-		List<Menu> childrens=findChildren(menu);
+	public List<Menu> findTreeTable() {
+		List<Menu> menus=new ArrayList<Menu>();
+		//查询根节点
+		Menu rootMenu=menuDao.selectById("1");
+		findTree(rootMenu, menus);
+		return menus;
+	}
+	
+	/**
+	 * 
+	 * @param menu
+	 * @param list
+	 */
+	private void findTree(Menu menu,  List<Menu> list) {
+		Menu query=new Menu();
+		query.setpId(menu.getId());
+		List<Menu> childrens=menuDao.selectByModel(query);
 		if(childrens.size()>0){
 			for (Menu child : childrens) {
 				list.add(child);
@@ -56,33 +78,29 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuDao> implements M
 	}
 
 	@Override
-	public List<Menu> findTreeTable() {
-		List<Menu> menus=new ArrayList<Menu>();
+	public List<Menu> findMenuTreeTableByCE() {
+		List<Menu> list=new ArrayList<Menu>();
 		//查询根节点
 		Menu rootMenu=menuDao.selectById("1");
-		menus.add(rootMenu);
-		findTree(rootMenu, menus);
-		return menus;
+		findTreeTableByCE(rootMenu, list);
+		return list;
 	}
-
-
-	@Override
-	public List<Menu> findChildren(Menu menu) {
-		Menu query=new Menu();
-		query.setpId(menu.getId());
-		return menuDao.selectByModel(query);
-	}
-
-
-	@Override
-	public List<Menu> findChildrenByCurrentEmployee(Menu menu) {
+	
+	private void findTreeTableByCE(Menu menu, List<Menu> list) {
 		//获取当前登录用户
 		Subject subject = SecurityUtils.getSubject();
 		Employee employee=(Employee) subject.getSession().getAttribute(ShiroConstant.LOGIN_USER);
 		//设置当前登录用户
-		menu.setEmployee(employee);
-		//查询子菜单
-		return menuDao.selectChildrenByModel(menu);
+		Menu query=new Menu();
+		query.setEmployee(employee);
+		query.setId(menu.getId());
+		List<Menu> childrens=menuDao.selectByCurrentEmployee(query);
+		if(childrens.size()>0){
+			for (Menu child : childrens) {
+				list.add(child);
+				findTreeTableByCE(child, list);
+			}
+		}
 	}
 
 }
