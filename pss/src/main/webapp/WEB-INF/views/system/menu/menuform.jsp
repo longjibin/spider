@@ -20,6 +20,7 @@
 				<div class="tab-content">
 					<div class="active tab-pane">
 						<form id="modelForm" class="form-horizontal">
+							<input name="id" type="hidden" value="${menu.id }">
 							<div class="form-group">
 								<label for="pName" class="col-sm-2 col-sm-offset-1 control-label">上级菜单</label>
 								<div class="col-sm-6 input-group">
@@ -85,7 +86,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-9 input-group">
-									<a class="btn btn-danger" onclick="save('/menu/save','https://www.baidu.com');">保 存</a>
+									<a class="btn btn-danger" onclick="save('/menu/save','/menu/list');">保 存</a>
 								</div>
 							</div>
 						</form>
@@ -149,38 +150,5 @@ function menuIcons() {
 	    	layer.close(index);
 	  	}
 	});
-}
-
-/**
- * 保存菜单
- */
-function save(url,redirectUrl) {
-	var index;
-	$.ajax({
-	    url:'${ctxAdmin}/'+url,
-	    type:'POST', //GET
-	    data:$('#modelForm').serialize(),
-	    timeout:5000,    //超时时间
-	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-	    beforeSend:function(xhr){
-	    	index = layer.load(1, {shade: [0.1,'#fff']});//0.1透明度的白色背景
-	    },
-	    success:function(data,textStatus,jqXHR){
-	    	if(data.code==200){
-	    		layer.msg(data.msg);
-	    		setTimeout(function(){
-	    			window.location.href='${ctxAdmin}'+redirectUrl;
-	    		},2000);
-	    	}else{
-	    		layer.msg(data.msg);
-	    	}
-	    },
-	    error:function(xhr,textStatus){
-	    	layer.msg(textStatus);
-	    },
-	    complete:function(){
-	    	layer.close(index);
-	    }
-	})
 }
 </script>

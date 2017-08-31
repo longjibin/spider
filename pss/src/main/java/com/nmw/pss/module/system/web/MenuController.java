@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,9 +34,9 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String menuList(HttpServletRequest request){
+	public String menuList(Model model){
 		List<Menu> list=menuService.findTreeTable();
-		request.setAttribute("list", list);
+		model.addAttribute("list", list);
 		return "system/menu/menulist";
 	}
 	
@@ -46,7 +45,7 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="form",method=RequestMethod.GET)
-	public String menuForm(Menu menu, HttpServletRequest request){
+	public String menuForm(Menu menu, Model model){
 		if (StringUtils.isNotBlank(menu.getId())) {
 			//修改菜单
 			menu=menuService.findById(menu.getId());
@@ -54,8 +53,10 @@ public class MenuController {
 		}else{
 			//新增菜单
 			menu.setParent(menuService.findById("1"));
+			menu.setVisible(Menu.VISIBLE);
+			menu.setType(Menu.TYPE_NORMAL);
 		}
-		request.setAttribute("menu", menu);
+		model.addAttribute("menu", menu);
 		return "system/menu/menuform";
 	}
 	
@@ -81,19 +82,34 @@ public class MenuController {
 		return resultMap;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="remove",method=RequestMethod.GET)
+	public Map<String, Object> menuRemove(Menu menu){
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		try {
+			menuService.removeById(menu.getId());
+			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_200);
+			resultMap.put(HttpConstant.HTTP_MSG_KEY, HttpConstant.HTTP_MSG_200);
+		} catch (Exception e) {
+			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_500);
+			resultMap.put(HttpConstant.HTTP_MSG_KEY, "操作失败:"+e.getMessage());
+		}
+		return resultMap;
+	}
+	
 	/**
 	 * 菜单树
 	 * @return
 	 */
 	@RequestMapping(value="tree",method=RequestMethod.GET)
-	public String menuTree(HttpServletRequest request){
+	public String menuTree(Model model){
 		List<TreeNode> treeNodes=new ArrayList<TreeNode>();
 		List<Menu> menus=menuService.findAll();
 		for (Menu menu : menus) {
 			treeNodes.add(new TreeNode(menu.getId(), menu.getpId(), menu.getName()));
 		}
 		LOGGER.info("treeNodes:"+JSON.toJSONString(treeNodes));
-		request.setAttribute("treeNodes", JSON.toJSONString(treeNodes));
+		model.addAttribute("treeNodes", JSON.toJSONString(treeNodes));
 		return "system/menu/menutree";
 	}
 	

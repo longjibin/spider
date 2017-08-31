@@ -53,7 +53,7 @@ $(document).ready(function() {
 												<shiro:hasPermission name="system:menu:edit">
 													<td width="150px;">
 														<a href="javascript:loadPage('menu/form?id=${menu.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-														<a href="#"><i class="fa fa-times"></i> 删 除</a>
+														<a href="javascript:remove('menu/remove?id=${menu.id }','menu/list');"><i class="fa fa-times"></i> 删 除</a>
 													</td>
 												</shiro:hasPermission>
 											</tr>
