@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nmw.pss.common.constant.HttpConstant;
-import com.nmw.pss.common.constant.ShiroConstant;
+import com.nmw.pss.common.utils.UserUtils;
 import com.nmw.pss.module.login.bean.Employee;
 import com.nmw.pss.module.login.exception.AccountDisableException;
 import com.nmw.pss.module.login.service.EmployeeService;
@@ -46,7 +46,7 @@ public class LoginController {
 		try {
 			subject.login(new UsernamePasswordToken(employee.getLoginName(), DigestUtils.md5Hex(employee.getLoginPass())));
 			//登陆成功，保存当前登录用户
-			subject.getSession().setAttribute(ShiroConstant.LOGIN_USER, employeeService.findEmployeeByLoginName(employee.getLoginName()));
+			UserUtils.saveCurrentUser(employeeService.findEmployeeByLoginName(employee.getLoginName()));
 			result.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_200);
 			result.put(HttpConstant.HTTP_MSG_KEY, HttpConstant.HTTP_MSG_200);
 		} catch(UnknownAccountException e){

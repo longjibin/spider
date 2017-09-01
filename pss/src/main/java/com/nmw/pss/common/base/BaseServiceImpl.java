@@ -8,6 +8,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nmw.pss.common.utils.UserUtils;
+import com.nmw.pss.module.login.bean.Employee;
+
 public class BaseServiceImpl<T extends BaseEntity, D extends BaseDao<T>> implements BaseService<T>{
 	
 	@Autowired
@@ -17,12 +20,13 @@ public class BaseServiceImpl<T extends BaseEntity, D extends BaseDao<T>> impleme
 	@Override
 	public void save(T t){
 		Date date=new Date();
+		Employee current=UserUtils.getCurrentUser();
 		t.setUpdateTime(date);
-		t.setUpdateUserId("1");
+		t.setUpdateUserId(current.getId());
 		if(StringUtils.isBlank(t.getId())){
 			t.setId(UUID.randomUUID().toString().replace("-", ""));
 			t.setCreateTime(date);
-			t.setCreateUserId("1");
+			t.setCreateUserId(current.getId());
 			dao.insert(t);
 		}else{
 			dao.updateById(t);

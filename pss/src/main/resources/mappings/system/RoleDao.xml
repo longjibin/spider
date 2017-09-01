@@ -33,6 +33,16 @@
 			id = #{id}
 	</select>
 	
+	<select id="selectAll" resultMap="entityResult">
+		SELECT 
+			*
+		FROM 
+			role
+		<where>
+			del_sign='1'
+		</where>
+	</select>
+	
 	<update id="updateById">
 		UPDATE role 
 		SET 

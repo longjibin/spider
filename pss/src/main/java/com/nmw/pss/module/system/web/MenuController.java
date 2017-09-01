@@ -78,6 +78,7 @@ public class MenuController {
 		} catch (Exception e) {
 			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_500);
 			resultMap.put(HttpConstant.HTTP_MSG_KEY, "操作失败:"+e.getMessage());
+			LOGGER.warn("菜单保存失败", e);
 		}
 		return resultMap;
 	}
@@ -93,6 +94,7 @@ public class MenuController {
 		} catch (Exception e) {
 			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_500);
 			resultMap.put(HttpConstant.HTTP_MSG_KEY, "操作失败:"+e.getMessage());
+			LOGGER.warn("菜单删除失败", e);
 		}
 		return resultMap;
 	}

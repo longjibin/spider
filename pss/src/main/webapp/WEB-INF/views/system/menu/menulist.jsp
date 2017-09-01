@@ -21,7 +21,9 @@ $(document).ready(function() {
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="javascript:loadPage('menu/list');">菜单列表</a></li>
-					<li><a href="javascript:loadPage('menu/form');">新增菜单</a></li>
+					<shiro:hasPermission name="system:menu:edit">
+						<li><a href="javascript:loadPage('menu/form');">新增菜单</a></li>
+					</shiro:hasPermission>
 				</ul>
 				<div class="tab-content">
 					<div class="active tab-pane">

@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : local
 Source Server Version : 50628
 Source Host           : localhost:3306
 Source Database       : pss
@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2017-08-31 21:31:23
+Date: 2017-09-01 17:32:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `demo`
+-- Table structure for demo
 -- ----------------------------
 DROP TABLE IF EXISTS `demo`;
 CREATE TABLE `demo` (
@@ -35,7 +35,7 @@ CREATE TABLE `demo` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `employee`
+-- Table structure for employee
 -- ----------------------------
 DROP TABLE IF EXISTS `employee`;
 CREATE TABLE `employee` (
@@ -65,7 +65,7 @@ INSERT INTO `employee` VALUES ('1', '2017-08-18 14:23:44', '2017-08-18 14:26:08'
 INSERT INTO `employee` VALUES ('2', '2017-08-22 13:53:22', '2017-08-22 13:53:26', '1', '1', '测试用户', '1', '20170822', 'test', '21232f297a57a5a743894a0e4a801fc3', 'test', null, '996835067@qq.com', '18584568356', '02368629315', '1');
 
 -- ----------------------------
--- Table structure for `employee_role`
+-- Table structure for employee_role
 -- ----------------------------
 DROP TABLE IF EXISTS `employee_role`;
 CREATE TABLE `employee_role` (
@@ -88,7 +88,7 @@ INSERT INTO `employee_role` VALUES ('054a379886c1428e88efe2995b59e31b', '2017-08
 INSERT INTO `employee_role` VALUES ('1874910c89204cb59282102d65f496d1', '2017-08-22 13:59:12', '2017-08-22 13:59:12', '1', '1', null, '1', '2', '2');
 
 -- ----------------------------
--- Table structure for `menu`
+-- Table structure for menu
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
@@ -117,14 +117,13 @@ CREATE TABLE `menu` (
 INSERT INTO `menu` VALUES ('0caeae1b80c74879a94352e8842b8c21', '2017-08-22 09:59:10', '2017-08-22 09:59:10', '1', '1', null, '1', '系统设置', '30', '', 'fa fa-cogs', '1', 'system:view', '2', '1', '1');
 INSERT INTO `menu` VALUES ('1', '2017-08-21 17:36:10', '2017-08-21 17:36:10', '1', '1', null, '1', '顶级菜单', '0', '', '', '0', '', '2', '0', '2');
 INSERT INTO `menu` VALUES ('47efd6c234ac4fd4b16bab4a16d1a0e1', '2017-08-22 16:04:34', '2017-08-22 16:04:34', '1', '1', null, '1', '菜单管理', '10', 'menu/list', '', '0caeae1b80c74879a94352e8842b8c21', 'system:menu:view', '2', '2', '1');
-INSERT INTO `menu` VALUES ('658b690738834ae2947a3fa663f3c28f', '2017-08-26 16:11:10', '2017-08-31 20:27:38', '1', '1', '', '1', '采购管理', '20', 'mmmm/ffffff', '', '1', '', '2', '1', '2');
 INSERT INTO `menu` VALUES ('86cceb967db04688a12cef367953dee1', '2017-08-26 16:22:55', '2017-08-26 16:22:55', '1', '1', '', '1', '菜单编辑', '10', '', '', '47efd6c234ac4fd4b16bab4a16d1a0e1', 'system:menu:edit', '1', '3', '2');
 INSERT INTO `menu` VALUES ('c86f413d2017417b8a837e497d285628', '2017-08-22 16:05:32', '2017-08-22 16:05:32', '1', '1', null, '1', '权限管理', '30', 'menu/form', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2', '1');
 INSERT INTO `menu` VALUES ('d5713f5c064e4ac79a0387cfe5579e83', '2017-08-21 21:09:29', '2017-08-31 20:29:39', '1', '1', '', '1', '资料管理', '10', 'data', '', '1', '', '1', '1', '1');
-INSERT INTO `menu` VALUES ('df2a49f1d16f4b91bfd5af339e37a08c', '2017-08-22 16:05:23', '2017-08-22 16:05:23', '1', '1', null, '1', '角色管理', '20', '', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2', '1');
+INSERT INTO `menu` VALUES ('df2a49f1d16f4b91bfd5af339e37a08c', '2017-08-22 16:05:23', '2017-09-01 15:43:52', '1', '1', '', '1', '角色管理', '20', 'role/list', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2', '1');
 
 -- ----------------------------
--- Table structure for `role`
+-- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -144,9 +143,10 @@ CREATE TABLE `role` (
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', '2017-08-21 17:15:58', '2017-08-21 17:15:58', '1', '1', null, '1', '系统管理员');
 INSERT INTO `role` VALUES ('2', '2017-08-22 13:54:43', '2017-08-22 13:54:47', '1', '1', null, '1', '系统测试人员');
+INSERT INTO `role` VALUES ('c277f706df8641f2a231b11a4f3730a1', '2017-09-01 16:44:33', '2017-09-01 16:44:33', '1', '1', '', '1', '测试人员');
 
 -- ----------------------------
--- Table structure for `role_menu`
+-- Table structure for role_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `role_menu`;
 CREATE TABLE `role_menu` (
