@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2017-09-01 17:32:59
+Date: 2017-09-04 17:34:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -118,7 +118,7 @@ INSERT INTO `menu` VALUES ('0caeae1b80c74879a94352e8842b8c21', '2017-08-22 09:59
 INSERT INTO `menu` VALUES ('1', '2017-08-21 17:36:10', '2017-08-21 17:36:10', '1', '1', null, '1', '顶级菜单', '0', '', '', '0', '', '2', '0', '2');
 INSERT INTO `menu` VALUES ('47efd6c234ac4fd4b16bab4a16d1a0e1', '2017-08-22 16:04:34', '2017-08-22 16:04:34', '1', '1', null, '1', '菜单管理', '10', 'menu/list', '', '0caeae1b80c74879a94352e8842b8c21', 'system:menu:view', '2', '2', '1');
 INSERT INTO `menu` VALUES ('86cceb967db04688a12cef367953dee1', '2017-08-26 16:22:55', '2017-08-26 16:22:55', '1', '1', '', '1', '菜单编辑', '10', '', '', '47efd6c234ac4fd4b16bab4a16d1a0e1', 'system:menu:edit', '1', '3', '2');
-INSERT INTO `menu` VALUES ('c86f413d2017417b8a837e497d285628', '2017-08-22 16:05:32', '2017-08-22 16:05:32', '1', '1', null, '1', '权限管理', '30', 'menu/form', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2', '1');
+INSERT INTO `menu` VALUES ('c86f413d2017417b8a837e497d285628', '2017-08-22 16:05:32', '2017-09-04 16:07:45', '1', '1', '', '1', '员工管理', '30', 'employee/list', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2', '1');
 INSERT INTO `menu` VALUES ('d5713f5c064e4ac79a0387cfe5579e83', '2017-08-21 21:09:29', '2017-08-31 20:29:39', '1', '1', '', '1', '资料管理', '10', 'data', '', '1', '', '1', '1', '1');
 INSERT INTO `menu` VALUES ('df2a49f1d16f4b91bfd5af339e37a08c', '2017-08-22 16:05:23', '2017-09-01 15:43:52', '1', '1', '', '1', '角色管理', '20', 'role/list', '', '0caeae1b80c74879a94352e8842b8c21', '', '2', '2', '1');
 
@@ -142,8 +142,7 @@ CREATE TABLE `role` (
 -- Records of role
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', '2017-08-21 17:15:58', '2017-08-21 17:15:58', '1', '1', null, '1', '系统管理员');
-INSERT INTO `role` VALUES ('2', '2017-08-22 13:54:43', '2017-08-22 13:54:47', '1', '1', null, '1', '系统测试人员');
-INSERT INTO `role` VALUES ('c277f706df8641f2a231b11a4f3730a1', '2017-09-01 16:44:33', '2017-09-01 16:44:33', '1', '1', '', '1', '测试人员');
+INSERT INTO `role` VALUES ('2', '2017-08-22 13:54:43', '2017-09-04 16:01:42', '1', '1', '', '1', '系统测试人员');
 
 -- ----------------------------
 -- Table structure for role_menu
@@ -166,10 +165,11 @@ CREATE TABLE `role_menu` (
 -- Records of role_menu
 -- ----------------------------
 INSERT INTO `role_menu` VALUES ('014d50ceb44b49f686c6cb5ed5f88033', '2017-08-26 16:23:12', '2017-08-26 16:23:12', '1', '1', null, '1', '1', '86cceb967db04688a12cef367953dee1');
+INSERT INTO `role_menu` VALUES ('12a2b7034f17489a806d504c92b22dd1', '2017-09-04 16:01:42', '2017-09-04 16:01:42', '1', '1', null, '1', '2', '0caeae1b80c74879a94352e8842b8c21');
 INSERT INTO `role_menu` VALUES ('2ee790cc602d47e39b085ef2591d864a', '2017-08-22 16:07:18', '2017-08-22 16:07:18', '1', '1', null, '1', '1', 'df2a49f1d16f4b91bfd5af339e37a08c');
-INSERT INTO `role_menu` VALUES ('435d17de913c4611888dcedd6f5c0a95', '2017-08-26 16:13:46', '2017-08-26 16:13:46', '1', '1', null, '1', '1', '658b690738834ae2947a3fa663f3c28f');
+INSERT INTO `role_menu` VALUES ('35ef4997bf9842d78247fea9236b1382', '2017-09-04 11:16:37', '2017-09-04 11:16:37', '1', '1', null, '1', '1', '1');
 INSERT INTO `role_menu` VALUES ('5d7c9dbd5b5944a895309adb1241bfd6', '2017-08-22 16:06:54', '2017-08-22 16:06:54', '1', '1', null, '1', '1', '47efd6c234ac4fd4b16bab4a16d1a0e1');
 INSERT INTO `role_menu` VALUES ('5fb2d032410f4965a92616f7614bc87f', '2017-08-22 16:07:06', '2017-08-22 16:07:06', '1', '1', null, '1', '1', 'c86f413d2017417b8a837e497d285628');
-INSERT INTO `role_menu` VALUES ('62df7aa718004b10aa4a189604facc42', '2017-08-22 13:57:54', '2017-08-22 13:57:54', '1', '1', null, '1', '2', 'd5713f5c064e4ac79a0387cfe5579e83');
 INSERT INTO `role_menu` VALUES ('a367bbd4783947128cc00089928e800c', '2017-08-22 13:57:23', '2017-08-22 13:57:23', '1', '1', null, '1', '1', '0caeae1b80c74879a94352e8842b8c21');
+INSERT INTO `role_menu` VALUES ('dacd4f70637540a8890f1344d411d1fc', '2017-09-04 16:01:42', '2017-09-04 16:01:42', '1', '1', null, '1', '2', '1');
 INSERT INTO `role_menu` VALUES ('ef51fe6c3f244ccb905af5cba13203eb', '2017-08-21 21:10:43', '2017-08-21 21:10:43', '1', '1', null, '1', '1', 'd5713f5c064e4ac79a0387cfe5579e83');
