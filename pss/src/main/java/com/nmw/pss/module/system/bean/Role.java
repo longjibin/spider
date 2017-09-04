@@ -1,5 +1,8 @@
 package com.nmw.pss.module.system.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.nmw.pss.common.base.BaseEntity;
 
 /**
@@ -17,6 +20,12 @@ public class Role extends BaseEntity {
 
 	// 角色名
 	private String name;
+	
+	/**
+	 * 辅助属性
+	 * @return
+	 */
+	List<Menu> menus=new ArrayList<Menu>();
 
 	public String getName() {
 		return name;
@@ -24,6 +33,14 @@ public class Role extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 
 	@Override

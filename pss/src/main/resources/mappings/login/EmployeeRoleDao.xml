@@ -25,6 +25,19 @@
 		DELETE FROM employee_role WHERE id = #{id}
 	</delete>
 	
+	<delete id="deleteByModel">
+		DELETE FROM 
+			employee_role 
+		<where>
+			<if test="employeeId != null and employeeId != ''">
+				employee_id=#{employeeId}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				role_id=#{roleId}
+			</if>
+		</where>
+	</delete>
+	
 	<select id="selectById" resultMap="entityResult">
 		SELECT 
 			*

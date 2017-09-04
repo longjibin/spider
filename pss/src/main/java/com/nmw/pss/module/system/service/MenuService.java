@@ -19,5 +19,5 @@ public interface MenuService extends BaseService<Menu>, TreeService<Menu> {
 	 * @return
 	 */
 	public List<Menu> findMenuTreeTableByCE();
-	
+
 }

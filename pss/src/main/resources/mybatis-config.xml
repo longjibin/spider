@@ -38,13 +38,14 @@
         <setting name="jdbcTypeForNull" value="NULL"/>
 		
 	</settings>
-	<!-- 
+	
 	<typeAliases>
-		<typeAlias alias="Page" type="com.thinkgem.jeesite.common.persistence.Page" />分页 
+		<typeAlias alias="Page" type="com.nmw.pss.common.base.Page" />
 	</typeAliases>
 	
 	<plugins>
-		<plugin interceptor="com.thinkgem.jeesite.common.persistence.interceptor.PaginationInterceptor" />
+		<plugin interceptor="com.nmw.pss.common.interceptor.PageInterceptor">
+			<property name="databaseType" value="mysql"/>
+		</plugin>
     </plugins>
-	 -->
 </configuration>

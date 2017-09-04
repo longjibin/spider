@@ -23,7 +23,7 @@ public class EmployeeServiceTest {
 	public void testSave() {
 		Employee employee=new Employee();
 		
-		employee.setRemark("系统管理员");
+		employee.setRemark("bug人员");
 		employee.setDelSign(Employee.DEL_NORMAL);
 		employee.setJobNo("20170818");
 		employee.setLoginName("admin");

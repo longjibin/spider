@@ -20,6 +20,8 @@ public class TreeNode implements Serializable {
 
 	private String name;
 
+	private Boolean checked;
+
 	public String getId() {
 		return id;
 	}
@@ -44,16 +46,25 @@ public class TreeNode implements Serializable {
 		this.name = name;
 	}
 
-	public TreeNode(String id, String pId, String name) {
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
+
+	public TreeNode(String id, String pId, String name, Boolean checked) {
 		super();
 		this.id = id;
 		this.pId = pId;
 		this.name = name;
+		this.checked = checked;
 	}
 
 	@Override
 	public String toString() {
-		return "TreeNode [id=" + id + ", pId=" + pId + ", name=" + name + "]";
+		return "TreeNode [id=" + id + ", pId=" + pId + ", name=" + name + ", checked=" + checked + "]";
 	}
 
 }

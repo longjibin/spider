@@ -219,7 +219,7 @@ public class PageInterceptor implements Interceptor {
 	 * @return
 	 */
 	private String getCountSql(String sql) {
-		int index = sql.indexOf("from");
+		int index = sql.indexOf("FROM");
 		return "select count(*) " + sql.substring(index);
 	}
 

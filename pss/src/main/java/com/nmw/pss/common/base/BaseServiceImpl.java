@@ -23,10 +23,12 @@ public class BaseServiceImpl<T extends BaseEntity, D extends BaseDao<T>> impleme
 		Employee current=UserUtils.getCurrentUser();
 		t.setUpdateTime(date);
 		t.setUpdateUserId(current.getId());
+//		t.setUpdateUserId("1");
 		if(StringUtils.isBlank(t.getId())){
 			t.setId(UUID.randomUUID().toString().replace("-", ""));
 			t.setCreateTime(date);
 			t.setCreateUserId(current.getId());
+//			t.setCreateUserId("1");
 			dao.insert(t);
 		}else{
 			dao.updateById(t);

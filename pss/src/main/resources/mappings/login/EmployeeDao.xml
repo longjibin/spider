@@ -81,4 +81,27 @@
 		</where>
 	</select>
 	
+	<select id="selectByPage" parameterType="Page" resultMap="entityResult">
+		SELECT 
+			*
+		FROM 
+			employee 
+		<where>
+			<if test="queryObj != null">
+				del_sign=#{queryObj.DEL_NORMAL}
+				<if test="queryObj.jobNo != null and queryObj.jobNo != ''">
+					AND job_no=#{queryObj.jobNo}
+				</if>
+				<if test="queryObj.loginName != null and queryObj.loginName != ''">
+					AND login_name=#{queryObj.loginName}
+				</if>
+				<if test="queryObj.phone != null and queryObj.phone != ''">
+					AND phone=#{queryObj.phone}
+				</if>
+				<if test="queryObj.status != null and queryObj.status != ''">
+					AND status=#{queryObj.status}
+				</if>
+			</if>
+		</where>
+	</select>
 </mapper>

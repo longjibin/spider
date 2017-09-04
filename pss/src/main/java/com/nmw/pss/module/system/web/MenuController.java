@@ -108,7 +108,7 @@ public class MenuController {
 		List<TreeNode> treeNodes=new ArrayList<TreeNode>();
 		List<Menu> menus=menuService.findAll();
 		for (Menu menu : menus) {
-			treeNodes.add(new TreeNode(menu.getId(), menu.getpId(), menu.getName()));
+			treeNodes.add(new TreeNode(menu.getId(), menu.getpId(), menu.getName(), false));
 		}
 		LOGGER.info("treeNodes:"+JSON.toJSONString(treeNodes));
 		model.addAttribute("treeNodes", JSON.toJSONString(treeNodes));

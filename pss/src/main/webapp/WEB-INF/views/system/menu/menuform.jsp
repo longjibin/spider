@@ -120,7 +120,7 @@ function menuTree(){
 		btn: ['确定', '取消'],
 	  	yes: function(index, layero){
 	  		var iframeWin = window[layero.find('iframe')[0]['name']];
-	  		var node=iframeWin.getCheckedNode();
+	  		var node=iframeWin.getSelectedNode();
 	  		if(node!=undefined){
 	  			$('#pName').val(node.name);
 	  			$('#pId').val(node.id);

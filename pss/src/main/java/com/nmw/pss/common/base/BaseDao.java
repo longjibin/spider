@@ -29,6 +29,12 @@ public interface BaseDao<T> {
 	public void updateById(T t);
 	
 	/**
+	 * 删除满足条件的数据
+	 * @param t
+	 */
+	public void deleteByModel(T t);
+	
+	/**
 	 * 查询满足条件的数据
 	 * @param t
 	 * @return

@@ -23,7 +23,7 @@ $(function(){
 /**
  * 获取当前选中的节点对象
  */
-function getCheckedNode() {
+function getSelectedNode() {
 	var treeObj=$.fn.zTree.getZTreeObj('treeDemo');
 	var nodes=treeObj.getSelectedNodes();
 	if(nodes.length==0){

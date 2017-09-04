@@ -30,7 +30,8 @@
 							<div class="form-group">
 								<label for="name" class="col-sm-2 col-sm-offset-1 control-label">权限设置</label>
 								<div class="col-sm-6 input-group">
-									
+									<ul id="treeDemo" class="ztree"></ul>
+									<input id="treeNodes" name="treeNodes" type="hidden" value="">
 								</div>
 							</div>
 							<div class="form-group">
@@ -41,7 +42,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-3 col-sm-9 input-group">
-									<a class="btn btn-danger" onclick="save('role/save','role/list');">保 存</a>
+									<a class="btn btn-danger" onclick="getCheckedNodes();save('role/save','role/list');">保 存</a>
 								</div>
 							</div>
 						</form>
@@ -53,6 +54,10 @@
 </section>
 <script>
 var setting = {
+	check: {
+        enable: true,
+        chkboxType : { "Y" : "p", "N" : "p" }
+    },
 	data: {
 		simpleData: {
 			enable: true,
@@ -73,17 +78,13 @@ $(function(){
 /**
  * 获取当前选中的节点对象
  */
-function getCheckedNode() {
+function getCheckedNodes() {
+	var checkedIds=new Array();
 	var treeObj=$.fn.zTree.getZTreeObj('treeDemo');
-	var nodes=treeObj.getSelectedNodes();
-	if(nodes.length==0){
-		layer.msg('当前未选中');
-		return;
+	var nodes=treeObj.getCheckedNodes(true);
+	for (var i = 0; i < nodes.length; i++) {
+		checkedIds.push(nodes[i].id);
 	}
-	if(nodes.length!=1){
-		layer.msg('不允许选中多个');
-		return;
-	}
-	return nodes[0];
+	$('#treeNodes').val(checkedIds);
 }
 </script>
