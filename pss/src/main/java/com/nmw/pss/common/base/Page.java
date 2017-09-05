@@ -45,7 +45,7 @@ public class Page<T> implements Serializable{
 	private List<T> records;
 	
 	//封装的查询对象
-	private T queryObj;
+	private Object queryObj;
 	
 	//排序条件
 	private String orderBy;
@@ -141,11 +141,11 @@ public class Page<T> implements Serializable{
 		this.records = records;
 	}
 
-	public T getQueryObj() {
+	public Object getQueryObj() {
 		return queryObj;
 	}
 
-	public void setQueryObj(T queryObj) {
+	public void setQueryObj(Object queryObj) {
 		this.queryObj = queryObj;
 	}
 
@@ -200,4 +200,13 @@ public class Page<T> implements Serializable{
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Page [recordCount=" + recordCount + ", pageSize=" + pageSize + ", pageCount=" + pageCount + ", pageNow="
+				+ pageNow + ", preNum=" + preNum + ", nextNum=" + nextNum + ", showNum=" + showNum + ", startNum="
+				+ startNum + ", endNum=" + endNum + ", records=" + records + ", queryObj=" + queryObj + ", orderBy="
+				+ orderBy + "]";
+	}
+	
 }

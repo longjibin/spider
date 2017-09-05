@@ -52,7 +52,11 @@ public class MenuController {
 			menu.setParent(menuService.findById(menu.getpId()));
 		}else{
 			//新增菜单
-			menu.setParent(menuService.findById("1"));
+			if(StringUtils.isNotBlank(menu.getpId())){
+				menu.setParent(menuService.findById(menu.getpId()));
+			}else{
+				menu.setParent(menuService.findById("1"));
+			}
 			menu.setVisible(Menu.VISIBLE);
 			menu.setType(Menu.TYPE_NORMAL);
 		}

@@ -15,8 +15,8 @@
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="javascript:loadPage('role/list');">角色列表</a></li>
-					<li><a href="javascript:loadPage('role/form');">新增角色</a></li>
+					<li class="active"><a href="javascript:loadPage('role/list','GET',null);">角色列表</a></li>
+					<li><a href="javascript:loadPage('role/form','GET',null);">新增角色</a></li>
 				</ul>
 				<div class="tab-content">
 					<div class="active tab-pane">
@@ -35,7 +35,7 @@
 												<td>${s.count }</td>
 												<td>${role.name }</td>
 												<td width="150px;">
-													<a href="javascript:loadPage('role/form?id=${role.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+													<a href="javascript:loadPage('role/form?id=${role.id }','GET',null);"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 													<a href="javascript:remove('role/remove?id=${role.id }','role/list');"><i class="fa fa-times"></i> 删 除</a>
 												</td>
 											</tr>

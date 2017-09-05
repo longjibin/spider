@@ -20,9 +20,9 @@ $(document).ready(function() {
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="javascript:loadPage('menu/list');">菜单列表</a></li>
+					<li class="active"><a href="javascript:loadPage('menu/list','GET',null);">菜单列表</a></li>
 					<shiro:hasPermission name="system:menu:edit">
-						<li><a href="javascript:loadPage('menu/form');">新增菜单</a></li>
+						<li><a href="javascript:loadPage('menu/form','GET',null);">新增菜单</a></li>
 					</shiro:hasPermission>
 				</ul>
 				<div class="tab-content">
@@ -53,8 +53,9 @@ $(document).ready(function() {
 												<td>${menu.permissions }  </td>
 												<td>${menu.visible eq 1 ? '显示' : '隐藏' }  </td>
 												<shiro:hasPermission name="system:menu:edit">
-													<td width="150px;">
-														<a href="javascript:loadPage('menu/form?id=${menu.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+													<td width="250px;">
+														<a href="javascript:loadPage('menu/form?pId=${menu.id }','GET',null);"><i class="fa fa-plus-square-o"></i> 添加子菜单</a>&nbsp;&nbsp;&nbsp;&nbsp;
+														<a href="javascript:loadPage('menu/form?id=${menu.id }','GET',null);"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 														<a href="javascript:remove('menu/remove?id=${menu.id }','menu/list');"><i class="fa fa-times"></i> 删 除</a>
 													</td>
 												</shiro:hasPermission>

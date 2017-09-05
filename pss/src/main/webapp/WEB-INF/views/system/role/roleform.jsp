@@ -14,8 +14,8 @@
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li><a href="javascript:loadPage('role/list');">角色列表</a></li>
-					<li class="active"><a href="javascript:loadPage('role/form?id=${role.id }');">${empty role.id?'新增':'修改' }角色</a></li>
+					<li><a href="javascript:loadPage('role/list','GET',null);">角色列表</a></li>
+					<li class="active"><a href="javascript:loadPage('role/form?id=${role.id }','GET',null);">${empty role.id?'新增':'修改' }角色</a></li>
 				</ul>
 				<div class="tab-content">
 					<div class="active tab-pane">

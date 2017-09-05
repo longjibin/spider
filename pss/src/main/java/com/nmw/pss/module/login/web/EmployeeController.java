@@ -1,7 +1,6 @@
 package com.nmw.pss.module.login.web;
 
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,29 @@ public class EmployeeController {
 	 * 员工列表
 	 * @return
 	 */
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String employeeList(Page<Employee> page, Model model){
-		List<Employee> list=employeeService.findByPage(page);
-		model.addAttribute("list", list);
+	@RequestMapping(value="list",method={RequestMethod.GET, RequestMethod.POST})
+	public String employeeList(Employee employee, Page<Employee> page, Model model){
+		page.setQueryObj(employee);
+		employeeService.findByPage(page);
+		model.addAttribute("page", page);
+		model.addAttribute("employee", employee);
 		return "system/employee/employeelist";
+	}
+	
+	/**
+	 * 员工表单
+	 * @return
+	 */
+	@RequestMapping(value="form",method=RequestMethod.GET)
+	public String employeeForm(Employee employee, Model model){
+		if (StringUtils.isNotBlank(employee.getId())) {
+			//员工编辑
+			employee=employeeService.findById(employee.getId());
+		}else{
+			//新增员工
+			employee.setStatus(Employee.STATUS_ENABLE);
+		}
+		model.addAttribute("employee", employee);
+		return "system/employee/employeeform";
 	}
 }

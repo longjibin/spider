@@ -14,9 +14,9 @@
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li><a href="javascript:loadPage('menu/list');">菜单列表</a></li>
+					<li><a href="javascript:loadPage('menu/list','GET',null);">菜单列表</a></li>
 					<shiro:hasPermission name="system:menu:edit">
-						<li class="active"><a href="javascript:loadPage('menu/form?id=${menu.id }');">${empty menu.id?'新增':'修改' }菜单</a></li>
+						<li class="active"><a href="javascript:loadPage('menu/form?id=${menu.id }','GET',null);">${empty menu.id?'新增':'修改' }菜单</a></li>
 					</shiro:hasPermission>
 				</ul>
 				<div class="tab-content">
@@ -102,8 +102,8 @@
 <script>
 //iCheck for checkbox and radio inputs
 $('input[type="radio"].minimal').iCheck({
-  checkboxClass: 'icheckbox_minimal-blue',
-  radioClass: 'iradio_minimal-blue'
+	checkboxClass: 'icheckbox_minimal-blue',
+	radioClass: 'iradio_minimal-blue'
 });
 
 /**
