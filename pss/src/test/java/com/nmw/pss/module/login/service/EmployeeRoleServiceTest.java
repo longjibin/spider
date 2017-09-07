@@ -18,8 +18,8 @@ public class EmployeeRoleServiceTest {
 	@Test
 	public void testSave() {
 		EmployeeRole employeeRole=new EmployeeRole();
-		employeeRole.setEmployeeId("2");
-		employeeRole.setRoleId("2");
+		employeeRole.setEmployeeId("7f1f152ef53d4963b4076c46b890cccf");
+		employeeRole.setRoleId("541a26de2d21483588a6d87f9cd855c6");
 		employeeRoleService.save(employeeRole);
 	}
 

@@ -45,7 +45,7 @@ public class RoleController {
 	@Autowired
 	private RoleMenuService roleMenuService;
 
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(value = "list")
 	public String roleList(Model model) {
 		List<Role> list = roleService.findAll();
 		model.addAttribute("list", list);

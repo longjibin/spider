@@ -25,7 +25,9 @@ public class Role extends BaseEntity {
 	 * 辅助属性
 	 * @return
 	 */
-	List<Menu> menus=new ArrayList<Menu>();
+	private List<Menu> menus=new ArrayList<Menu>();
+	//角色是否被选中
+	private Boolean selected=false;
 
 	public String getName() {
 		return name;
@@ -41,6 +43,14 @@ public class Role extends BaseEntity {
 
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
+	}
+
+	public Boolean getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class MenuController {
 	 * 菜单列表(忽略登录用户的身份)
 	 * @return
 	 */
-	@RequestMapping(value="list",method=RequestMethod.GET)
+	@RequestMapping(value="list")
 	public String menuList(Model model){
 		List<Menu> list=menuService.findTreeTable();
 		model.addAttribute("list", list);

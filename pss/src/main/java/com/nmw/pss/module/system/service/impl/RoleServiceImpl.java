@@ -76,5 +76,5 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleDao> implements R
 		//删除角色
 		roleDao.deleteById(id);
 	}
-	
+
 }

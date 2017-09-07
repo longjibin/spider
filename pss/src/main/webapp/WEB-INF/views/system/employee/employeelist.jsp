@@ -98,7 +98,6 @@ function submit(pageNow) {
 												<th>工号</th>
 												<th>登录账号</th>
 												<th>昵称</th>
-												<th>登录账号</th>
 												<th>手机号</th>
 												<th>状态</th>
 												<shiro:hasPermission name="system:employee:edit">
@@ -108,33 +107,63 @@ function submit(pageNow) {
 											</tr>
 											<c:choose>
 												<c:when test="${not empty page.records }">
-													<c:forEach items="${page.records }" var="employee" varStatus="s">
-														<tr>
-															<td>
-																<div class="user-panel">
-																	<div class="image">
-															          	<img src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-															        </div>
-																</div>
-        													</td>
-															<td>${employee.jobNo }</td>
-															<td>${employee.loginName }</td>
-															<td>${employee.nickName }</td>
-															<td>${employee.loginName }</td>
-															<td>${employee.phone }</td>
-															<td>${employee.status eq 1?'正常':'禁用' }</td>
-															<shiro:hasPermission name="system:employee:edit">
-																<td width="150px;">
-																	<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-																	<a href="javascript:remove('employee/remove?id=${employee.id }','employee/list');"><i class="fa fa-times"></i> 删 除</a>
-																</td>
-															</shiro:hasPermission>
-														</tr>
+													<c:forEach items="${page.records }" var="employee">
+														<c:choose>
+															<c:when test="${employee.loginName ne fns:getConfig('adminAccount') }">
+																<tr>
+																	<td>
+																		<div class="user-panel">
+																			<div class="image">
+																	          	<img src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+																	        </div>
+																		</div>
+		        													</td>
+																	<td>${employee.jobNo }</td>
+																	<td>${employee.loginName }</td>
+																	<td>${employee.nickName }</td>
+																	<td>${employee.phone }</td>
+																	<td>
+																		<c:if test="${employee.status eq 1 }">正常</c:if>
+																		<c:if test="${employee.status eq 2 }">禁用</c:if>
+																		<c:if test="${employee.status eq 3 }">离职</c:if>
+																	</td>
+																	<shiro:hasPermission name="system:employee:edit">
+																		<td width="150px;">
+																			<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																			<a href="javascript:remove('employee/remove?id=${employee.id }','employee/list');"><i class="fa fa-times"></i> 删 除</a>
+																		</td>
+																	</shiro:hasPermission>
+																</tr>
+															</c:when>
+															<c:otherwise>
+																<c:if test="${employee.loginName eq current.loginName }">
+																	<tr>
+																		<td>
+																			<div class="user-panel">
+																				<div class="image">
+																		          	<img src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+																		        </div>
+																			</div>
+			        													</td>
+																		<td>${employee.jobNo }</td>
+																		<td>${employee.loginName }</td>
+																		<td>${employee.nickName }</td>
+																		<td>${employee.phone }</td>
+																		<td>正常</td>
+																		<shiro:hasPermission name="system:employee:edit">
+																			<td width="150px;">
+																				<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																			</td>
+																		</shiro:hasPermission>
+																	</tr>
+																</c:if>
+															</c:otherwise>
+														</c:choose>
 													</c:forEach>
 												</c:when>
 												<c:otherwise>
 													<tr>
-														<td colspan="${canEdit eq true?8:7 }">无满足条件的数据！</td>
+														<td colspan="${canEdit eq true?7:6 }">无满足条件的数据！</td>
 													</tr>
 												</c:otherwise>
 											</c:choose>

@@ -43,6 +43,7 @@
 <script src="${ctxStatic }/plugins/select2/select2.full.min.js"></script>
 <!-- bootstrap datepicker -->
 <script src="${ctxStatic }/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="${ctxStatic }/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
 <!-- ztree -->
 <script src="${ctxStatic }/plugins/zTree-v3/js/jquery.ztree.core.js"></script>
 <script src="${ctxStatic }/plugins/zTree-v3/js/jquery.ztree.excheck.min.js"></script>

@@ -55,7 +55,7 @@ function save(url, redirectUrl) {
 	    	if(data.code==200){
 	    		layer.msg(data.msg);
 	    		setTimeout(function(){
-	    			loadPage(redirectUrl, 'GET', null);
+	    			loadPage(redirectUrl, 'POST', null);
 	    		},500);
 	    	}else{
 	    		layer.msg(data.msg);

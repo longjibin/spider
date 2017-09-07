@@ -54,5 +54,10 @@ public class EmployeeServiceTest {
 		employee.setPhone("13251407498");
 		employeeService.save(employee);
 	}
+	
+	@Test
+	public void testFindByLoginName(){
+		System.out.println(employeeService.findEmployeeByLoginName("admin"));
+	}
 
 }

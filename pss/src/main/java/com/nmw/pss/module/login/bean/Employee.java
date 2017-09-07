@@ -23,6 +23,15 @@ public class Employee extends BaseEntity {
 	private String loginName;
 	// 登录密码
 	private String loginPass;
+	// 状态(1正常 2禁用 3离职)
+	private Integer status;
+	// 入职时间
+	private String entryTime;
+	// 离职时间
+	private String quitTime;
+	// 身份证号码
+	private String idCardNo;
+	
 	// 昵称
 	private String nickName;
 	// 头像
@@ -33,8 +42,14 @@ public class Employee extends BaseEntity {
 	private String phone;
 	// 座机
 	private String tel;
-	// 状态(1正常 2禁用)
-	private Integer status;
+	// 生日
+	private String birthday;
+	
+	/**
+	 * 辅助属性
+	 * @return
+	 */
+	private String roleIds;
 
 	public String getJobNo() {
 		return jobNo;
@@ -108,13 +123,54 @@ public class Employee extends BaseEntity {
 		this.status = status;
 	}
 
+	public String getEntryTime() {
+		return entryTime;
+	}
+
+	public void setEntryTime(String entryTime) {
+		this.entryTime = entryTime;
+	}
+
+	public String getQuitTime() {
+		return quitTime;
+	}
+
+	public void setQuitTime(String quitTime) {
+		this.quitTime = quitTime;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
+	}
+
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [jobNo=" + jobNo + ", loginName=" + loginName + ", loginPass=" + loginPass + ", nickName="
 				+ nickName + ", headPic=" + headPic + ", email=" + email + ", phone=" + phone + ", tel=" + tel
-				+ ", status=" + status + ", id=" + id + ", createTime=" + createTime + ", updateTime=" + updateTime
-				+ ", createUserId=" + createUserId + ", updateUserId=" + updateUserId + ", remark=" + remark
-				+ ", delSign=" + delSign + "]";
+				+ ", status=" + status + ", entryTime=" + entryTime + ", quitTime=" + quitTime + ", birthday="
+				+ birthday + ", idCardNo=" + idCardNo + ", id=" + id + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", createUserId=" + createUserId + ", updateUserId=" + updateUserId + ", remark="
+				+ remark + ", delSign=" + delSign + "]";
 	}
 
 }
