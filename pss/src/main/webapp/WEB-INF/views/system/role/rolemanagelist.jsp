@@ -15,8 +15,8 @@
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li class="active"><a href="javascript:loadPage('role/list','GET',null);">我的角色</a></li>
-					<li><a href="javascript:loadPage('role/manage/list','GET',null);">我管理的角色</a></li>
+					<li><a href="javascript:loadPage('role/list','GET',null);">我的角色</a></li>
+					<li class="active"><a href="javascript:loadPage('role/manage/list','GET',null);">我管理的角色</a></li>
 					<li><a href="javascript:loadPage('role/form?id=','GET',null);">新增角色</a></li>
 				</ul>
 				<div class="tab-content">
@@ -36,7 +36,8 @@
 												<td>${s.count }</td>
 												<td>${role.name }</td>
 												<td width="150px;">
-													<a href="javascript:loadPage('role/form?id=${role.id }','GET',null);"><i class="fa fa-edit"></i> ${employee.loginName eq fns:getConfig('adminAccount')?'修改':'查看' }</a>&nbsp;&nbsp;&nbsp;&nbsp;
+													<a href="javascript:loadPage('role/form?id=${role.id }','GET',null);"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+													<a href="javascript:remove('role/remove?id=${role.id }','role/list');"><i class="fa fa-times"></i> 删 除</a>
 												</td>
 											</tr>
 										</c:forEach>

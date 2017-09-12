@@ -14,7 +14,8 @@
 		<div class="col-md-12">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li><a href="javascript:loadPage('role/list','GET',null);">角色列表</a></li>
+					<li><a href="javascript:loadPage('role/list','GET',null);">我的角色</a></li>
+					<li><a href="javascript:loadPage('role/manage/list','GET',null);">我管理的角色</a></li>
 					<li class="active"><a href="javascript:loadPage('role/form?id=${role.id }','GET',null);">${empty role.id?'新增':'修改' }角色</a></li>
 				</ul>
 				<div class="tab-content">
@@ -40,11 +41,24 @@
 									<textarea id="remark" name="remark" class="form-control" placeholder="备注"></textarea>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9 input-group">
-									<a class="btn btn-danger" onclick="getCheckedNodes();save('role/save','role/list');">保 存</a>
-								</div>
-							</div>
+							<c:choose>
+								<c:when test="${role.id ne '' }">
+									<c:if test="${role.createUserId eq employee.id }">
+										<div class="form-group">
+											<div class="col-sm-offset-3 col-sm-9 input-group">
+												<a class="btn btn-danger" onclick="getCheckedNodes();save('role/save','role/list');">保 存</a>
+											</div>
+										</div>
+									</c:if>
+								</c:when>
+								<c:otherwise>
+									<div class="form-group">
+										<div class="col-sm-offset-3 col-sm-9 input-group">
+											<a class="btn btn-danger" onclick="getCheckedNodes();save('role/save','role/list');">保 存</a>
+										</div>
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</form>
 					</div>
 				</div>

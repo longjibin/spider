@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.nmw.pss.common.base.TreeNode;
 import com.nmw.pss.common.constant.HttpConstant;
 import com.nmw.pss.common.utils.UserUtils;
+import com.nmw.pss.module.login.bean.Employee;
 import com.nmw.pss.module.system.bean.Menu;
 import com.nmw.pss.module.system.bean.Role;
 import com.nmw.pss.module.system.bean.RoleMenu;
@@ -45,13 +46,35 @@ public class RoleController {
 	@Autowired
 	private RoleMenuService roleMenuService;
 
+	/**
+	 * 我的角色列表
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "list")
 	public String roleList(Model model) {
-		List<Role> list = roleService.findAll();
+		//获取当前登录用户
+		Employee employee=UserUtils.getCurrentUser();
+		List<Role> list = roleService.findByCE(employee.getId());
 		model.addAttribute("list", list);
+		model.addAttribute("employee", employee);
 		return "system/role/rolelist";
 	}
-
+	
+	/**
+	 * 我管理的角色列表
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "manage/list")
+	public String roleManageList(Model model) {
+		//获取当前登录用户
+		Employee employee=UserUtils.getCurrentUser();
+		List<Role> list = roleService.findByCreateUser(employee.getId());
+		model.addAttribute("list", list);
+		return "system/role/rolemanagelist";
+	}
+	
 	/**
 	 * 角色信息编辑
 	 * 
@@ -61,6 +84,8 @@ public class RoleController {
 	 */
 	@RequestMapping(value = "form", method = RequestMethod.GET)
 	public String roleForm(Role role, Model model) {
+		//获取当前登录用户
+		Employee employee=UserUtils.getCurrentUser();
 		// 查询当前用户拥有的菜单集合
 		List<Menu> ownMenus = UserUtils.isAdmin(UserUtils.getCurrentUser()) ? menuService.findAll()
 				: menuService.findMenuTreeTableByCE();
@@ -86,6 +111,7 @@ public class RoleController {
 		}
 		model.addAttribute("role", role);
 		model.addAttribute("treeNodes", JSON.toJSONString(treeNodes));
+		model.addAttribute("employee", employee);
 		LOGGER.info(JSON.toJSONString(treeNodes));
 		return "system/role/roleform";
 	}

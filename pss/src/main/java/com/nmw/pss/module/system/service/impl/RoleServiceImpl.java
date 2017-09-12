@@ -1,6 +1,8 @@
 package com.nmw.pss.module.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
@@ -75,6 +77,25 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleDao> implements R
 		roleMenuDao.deleteByModel(roleMenu);
 		//删除角色
 		roleDao.deleteById(id);
+	}
+
+	@Override
+	public List<Role> findByCreateUser(String createUserId) {
+		Role query=new Role();
+		query.setCreateUserId(createUserId);
+		return roleDao.selectByModel(query);
+	}
+
+	@Override
+	public List<Role> findByCE(String employeeId) {
+		List<Role> list=new ArrayList<Role>();
+		EmployeeRole query=new EmployeeRole();
+		query.setEmployeeId(employeeId);
+		List<EmployeeRole> employeeRoles=employeeRoleDao.selectByModel(query);
+		for (EmployeeRole employeeRole : employeeRoles) {
+			list.add(roleDao.selectById(employeeRole.getRoleId()));
+		}
+		return list;
 	}
 
 }
