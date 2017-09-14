@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/common/taglib.jsp"%>
 <script>
+/**
+ * 分页查询员工
+ */
 function submit(pageNow) {
 	var pageCount=${page.pageCount};
 	if(pageCount!=0){
@@ -22,13 +25,30 @@ function submit(pageNow) {
 	}
 }
 
+/**
+ * 查看员工详情
+ */
 function view(id) {
 	layer.open({
 		type: 2,
 	  	title: '员工详情',
 	  	shadeClose: true,
 	  	shade: 0.8,
-	  	area: ['800px', '75%'],
+	  	area: ['500px', '70%'],
+	  	content: '${ctxAdmin }/employee/view?id='+id
+	}); 
+}
+
+/**
+ * 角色分配
+ */
+function roleSet() {
+	layer.open({
+		type: 2,
+	  	title: '员工详情',
+	  	shadeClose: true,
+	  	shade: 0.8,
+	  	area: ['500px', '70%'],
 	  	content: '${ctxAdmin }/employee/view?id='+id
 	}); 
 }
@@ -49,9 +69,6 @@ function view(id) {
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="javascript:loadPage('employee/list','POST',null);">员工列表</a></li>
-					<shiro:hasPermission name="system:employee:roleset">
-						<li><a href="#">分配角色</a></li>
-					</shiro:hasPermission>
 					<shiro:hasPermission name="system:employee:edit">
 						<li><a href="javascript:loadPage('employee/form','GET',null);">新增员工</a></li>
 					</shiro:hasPermission>

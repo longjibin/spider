@@ -15,9 +15,6 @@
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					<li><a href="javascript:loadPage('employee/list','GET',null);">员工列表</a></li>
-					<shiro:hasPermission name="system:employee:roleset">
-						<li><a href="#">分配角色</a></li>
-					</shiro:hasPermission>
 					<li class="active"><a href="javascript:loadPage('employee/form?id=${employee.id }','GET',null);">${empty employee.id?'新增':'修改' }员工</a></li>
 				</ul>
 				<div class="tab-content">
