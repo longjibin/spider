@@ -15,6 +15,9 @@
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					<li><a href="javascript:loadPage('employee/list','GET',null);">员工列表</a></li>
+					<shiro:hasPermission name="system:employee:roleset">
+						<li><a href="#">分配角色</a></li>
+					</shiro:hasPermission>
 					<li class="active"><a href="javascript:loadPage('employee/form?id=${employee.id }','GET',null);">${empty employee.id?'新增':'修改' }员工</a></li>
 				</ul>
 				<div class="tab-content">
@@ -35,18 +38,6 @@
 									<input id="loginName" name="loginName" type="text" value="${employee.loginName }" class="form-control" placeholder="登陆账号" <c:if test="${not empty employee.id}">readonly="readonly"</c:if>>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="loginPass" class="col-sm-2 col-sm-offset-1 control-label">登陆密码</label>
-								<div class="col-sm-6 input-group">
-									<input id="loginPass" name="loginPass" type="password" class="form-control" placeholder="登陆密码">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="againLoginPass" class="col-sm-2 col-sm-offset-1 control-label">确认密码</label>
-								<div class="col-sm-6 input-group">
-									<input id="againLoginPass" name="againLoginPass" type="password" class="form-control" placeholder="确认密码">
-								</div>
-							</div>
 							<c:if test="${employee.loginName ne fns:getConfig('adminAccount') }">
 								<div class="form-group">
 									<label for="idCardNo" class="col-sm-2 col-sm-offset-1 control-label">身份证号</label>
@@ -60,7 +51,7 @@
 					                  	<div class="input-group-addon">
 					                    	<i class="fa fa-calendar"></i>
 					                  	</div>
-					                  	<input id="entryTime" name="entryTime" type="text" class="form-control pull-right datepicker">
+					                  	<input id="entryTime" name="entryTime" value="${employee.entryTime }" type="text" class="form-control pull-right datepicker">
 					                </div>
 				              	</div>
 				              	<shiro:hasPermission name="system:employee:disable">
@@ -87,29 +78,24 @@
 					                  	<div class="input-group-addon">
 					                    	<i class="fa fa-calendar"></i>
 					                  	</div>
-					                  	<input id="quitTime" name="quitTime" type="text" class="form-control pull-right datepicker">
+					                  	<input id="quitTime" name="quitTime" value="${employee.quitTime }" type="text" class="form-control pull-right datepicker">
 					                </div>
 				              	</div>
 							</c:if>
-							<div class="form-group">
-				                <label class="col-sm-2 col-sm-offset-1 control-label">角色分配</label>
-				                <div class="col-sm-6 input-group">
-				                	<select name="roleIds" class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;" <c:if test="${employee.loginName eq fns:getConfig('adminAccount') }">disabled="disabled"</c:if>>
-				                  		<c:forEach items="${roles }" var="role">
-				                  			<option value="${role.id }" <c:if test="${role.selected eq true }">selected="selected"</c:if> <c:if test="${role.id eq 1 and fns:getConfig('adminAccount') ne employee.loginName}">disabled="disabled"</c:if>>${role.name }</option>
-				                  		</c:forEach>
-				                	</select>
-								</div>
-			              	</div>
 							<div class="form-group">
 								<label for="remark" class="col-sm-2 col-sm-offset-1 control-label">备注</label>
 								<div class="col-sm-6 input-group">
 									<textarea id="remark" name="remark" class="form-control" placeholder="备注">${employee.remark }</textarea>
 								</div>
 							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9 input-group">
-									<a class="btn btn-danger" onclick="save('employee/save','employee/list');">保 存</a>
+							<div class="box-footer">
+								<div class="col-sm-offset-3 col-sm-3">
+									<a class="btn btn-success" onclick="save('employee/save','employee/list');">保 存</a>
+									<c:if test="${employee.loginName ne fns:getConfig('adminAccount') }">
+										<shiro:hasPermission name="system:employee:resetpass">
+											<a class="btn btn-info" onclick="resetPass('${employee.id}');">重置密码</a>
+										</shiro:hasPermission>
+									</c:if>
 								</div>
 							</div>
 						</form>
@@ -145,5 +131,30 @@ function toggle(obj) {
 	}else{
 		$('#quitTimeDiv').hide();
 	}
+}
+
+/**
+ * 重置员工密码
+ */
+function resetPass(id) {
+	$.ajax({
+	    url:'${ctxAdmin}/employee/resetpass?id='+id,
+	    type:'GET', //GET
+	    async:true,    //或false,是否异步
+	    timeout:5000,    //超时时间
+	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+	    beforeSend:function(xhr){
+	    	index = layer.load(1, {shade: [0.1,'#fff']});//0.1透明度的白色背景
+	    },
+	    success:function(data,textStatus,jqXHR){
+	    	layer.msg(data.msg);
+	    },
+	    error:function(xhr,textStatus){
+	    	layer.msg(textStatus);
+	    },
+	    complete:function(){
+	    	layer.close(index);
+	    }
+	})
 }
 </script>

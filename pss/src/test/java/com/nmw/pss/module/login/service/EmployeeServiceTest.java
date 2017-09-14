@@ -60,4 +60,9 @@ public class EmployeeServiceTest {
 		System.out.println(employeeService.findEmployeeByLoginName("admin"));
 	}
 
+	@Test
+	public void testIdCard(){
+		String idCardNo="51162219920812521X".replaceAll("[xX]", "0");
+		System.out.println(idCardNo.substring(idCardNo.length()-6));
+	}
 }

@@ -53,6 +53,7 @@ public class EmployeeController {
 	public String employeeList(Employee employee, Page<Employee> page, Model model){
 		//获取当前登录员工
 		Employee current=UserUtils.getCurrentUser();
+		employee.setId(current.getId());
 		page.setQueryObj(employee);
 		employeeService.findByPage(page);
 		model.addAttribute("page", page);
@@ -63,47 +64,25 @@ public class EmployeeController {
 	
 	/**
 	 * 员工表单
+	 * @param employee 
+	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="form",method=RequestMethod.GET)
 	public String employeeForm(Employee employee, Model model){
-		//定义员工已有的角色集合
-		List<Role> ownRoles=new ArrayList<Role>();
-		//查询可选的角色集合
-		List<Role> roles = roleService.findAll();
-		//获取当前登录员工
-		Employee current=UserUtils.getCurrentUser();
-		//判断是修改员工还是新增员工
 		if (StringUtils.isNotBlank(employee.getId())) {//修改员工
-			//查询编辑的员工信息
+			//查询员工信息
 			employee=employeeService.findById(employee.getId());
-			//查询编辑员工的角色集合
-			List<EmployeeRole> employeeRoles=employeeRoleService.findByEmployeeId(employee.getId());
-			for (EmployeeRole employeeRole : employeeRoles) {
-				ownRoles.add(roleService.findById(employeeRole.getRoleId()));
-			}
-		}else{
-			//新增员工
+		}else{//新增员工
 			employee.setStatus(Employee.STATUS_ENABLE);
 		}
-		for (Role role : roles) {
-			for (Role role2 : ownRoles) {
-				if(role.getId().equals(role2.getId())){
-					role.setSelected(true);
-					break;
-				}
-			}
-		}
 		model.addAttribute("employee", employee);
-		model.addAttribute("current", current);
-		model.addAttribute("roles", roles);
 		return "system/employee/employeeform";
 	}
 	
 	/**
 	 * 保存员工信息
 	 * @param employee 员工对象
-	 * @param roleIds 角色id，多个角色用,隔开
 	 * @return
 	 */
 	@ResponseBody
@@ -111,13 +90,10 @@ public class EmployeeController {
 	public Map<String, Object> employeeSave(Employee employee){
 		Map<String, Object> resultMap=new HashMap<String, Object>();
 		try {
-			if(StringUtils.isNotBlank(employee.getId())){//修改
-				if(StringUtils.isNotBlank(employee.getLoginPass())){
-					employee.setLoginPass(DigestUtils.md5Hex(employee.getLoginPass()));
-				}
-			}else{//新增
+			if(StringUtils.isBlank(employee.getId())){//新增
 				employee.setJobNo(new SimpleDateFormat("yyyyMMdd").format(new Date())+System.currentTimeMillis());
-				employee.setLoginPass(DigestUtils.md5Hex(employee.getLoginPass()));
+				String idCardNo=employee.getIdCardNo().replaceAll("[xX]", "0");
+				employee.setLoginPass(DigestUtils.md5Hex(idCardNo.substring(idCardNo.length()-6)));
 			}
 			//保存员工信息以及员工的角色关联
 			employeeService.save(employee);
@@ -148,6 +124,52 @@ public class EmployeeController {
 			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_500);
 			resultMap.put(HttpConstant.HTTP_MSG_KEY, "操作失败:"+e.getMessage());
 			LOGGER.warn("员工删除失败", e);
+		}
+		return resultMap;
+	}
+	
+	/**
+	 * 查看员工信息
+	 * @param employee
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="view",method=RequestMethod.GET)
+	public String employeeView(Employee employee, Model model){
+		//查询员工信息
+		employee=employeeService.findById(employee.getId());
+		//定义员工已有的角色集合
+		List<Role> roles=new ArrayList<Role>();
+		//查询员工的角色集合
+		List<EmployeeRole> employeeRoles=employeeRoleService.findByEmployeeId(employee.getId());
+		for (EmployeeRole employeeRole : employeeRoles) {
+			roles.add(roleService.findById(employeeRole.getRoleId()));
+		}
+		model.addAttribute("employee", employee);
+		model.addAttribute("roles", roles);
+		return "system/employee/employeedetail";
+	}
+	
+	/**
+	 * 重置用户密码为身份号后六位，X用0代替
+	 * @param employee
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="resetpass",method=RequestMethod.GET)
+	public Map<String, Object> employeeResetPass(Employee employee){
+		Map<String, Object> resultMap=new HashMap<String, Object>();
+		try {
+			employee=employeeService.findById(employee.getId());
+			String idCardNo=employee.getIdCardNo().replaceAll("[xX]", "0");
+			employee.setLoginPass(DigestUtils.md5Hex(idCardNo.substring(idCardNo.length()-6)));
+			employeeService.save(employee);
+			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_200);
+			resultMap.put(HttpConstant.HTTP_MSG_KEY, "重置成功");
+		} catch (Exception e) {
+			resultMap.put(HttpConstant.HTTP_CODE_KEY, HttpConstant.HTTP_CODE_500);
+			resultMap.put(HttpConstant.HTTP_MSG_KEY, "重置失败:"+e.getMessage());
+			LOGGER.warn("重置密码失败", e);
 		}
 		return resultMap;
 	}

@@ -3,13 +3,34 @@
 <script>
 function submit(pageNow) {
 	var pageCount=${page.pageCount};
-	if(pageNow>0&&pageNow<=pageCount){
-		$('#pageNow').val(pageNow);
-		var data=$('#modelForm').serialize();
-		loadPage('employee/list', 'POST', data);
+	if(pageCount!=0){
+		if(pageNow>0 && pageNow<=pageCount){
+			$('#pageNow').val(pageNow);
+			var data=$('#modelForm').serialize();
+			loadPage('employee/list', 'POST', data);
+		}else{
+			layer.msg('不可请求的页号');
+		}
 	}else{
-		layer.msg('不可请求的页号');
+		if(pageNow==1){
+			$('#pageNow').val(pageNow);
+			var data=$('#modelForm').serialize();
+			loadPage('employee/list', 'POST', data);
+		}else{
+			layer.msg('不可请求的页号');
+		}
 	}
+}
+
+function view(id) {
+	layer.open({
+		type: 2,
+	  	title: '员工详情',
+	  	shadeClose: true,
+	  	shade: 0.8,
+	  	area: ['800px', '75%'],
+	  	content: '${ctxAdmin }/employee/view?id='+id
+	}); 
 }
 </script>
 <!-- Content Header (Page header) -->
@@ -28,6 +49,9 @@ function submit(pageNow) {
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="javascript:loadPage('employee/list','POST',null);">员工列表</a></li>
+					<shiro:hasPermission name="system:employee:roleset">
+						<li><a href="#">分配角色</a></li>
+					</shiro:hasPermission>
 					<shiro:hasPermission name="system:employee:edit">
 						<li><a href="javascript:loadPage('employee/form','GET',null);">新增员工</a></li>
 					</shiro:hasPermission>
@@ -46,7 +70,7 @@ function submit(pageNow) {
 						                  	<label class="col-sm-3 control-label">工号</label>
 						                  	<div class="col-sm-9">
 						                  		<div class="input-group">
-									            	<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+									            	<span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
 									                <input name="jobNo" value="${employee.jobNo }" type="text" class="form-control" placeholder="工号">
 								              	</div>
 						                  	</div>
@@ -100,10 +124,7 @@ function submit(pageNow) {
 												<th>昵称</th>
 												<th>手机号</th>
 												<th>状态</th>
-												<shiro:hasPermission name="system:employee:edit">
-													<c:set var="canEdit" value="true"></c:set>
-													<th>操作</th>
-												</shiro:hasPermission>
+												<th>操作</th>
 											</tr>
 											<c:choose>
 												<c:when test="${not empty page.records }">
@@ -127,12 +148,20 @@ function submit(pageNow) {
 																		<c:if test="${employee.status eq 2 }">禁用</c:if>
 																		<c:if test="${employee.status eq 3 }">离职</c:if>
 																	</td>
-																	<shiro:hasPermission name="system:employee:edit">
-																		<td width="150px;">
+																	<td>
+																		<shiro:hasPermission name="system:employee:view">
+																			<a href="javascript:view('${employee.id }');"><i class="fa fa-edit"></i> 查 看</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																		</shiro:hasPermission>
+																		<shiro:hasPermission name="system:employee:edit">
 																			<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-																			<a href="javascript:remove('employee/remove?id=${employee.id }','employee/list');"><i class="fa fa-times"></i> 删 除</a>
-																		</td>
-																	</shiro:hasPermission>
+																		</shiro:hasPermission>
+																		<shiro:hasPermission name="system:employee:roleset">
+																			<a href="#"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																		</shiro:hasPermission>
+																		<shiro:hasPermission name="system:employee:delete">
+																			<a href="javascript:remove('employee/remove?id=${employee.id }','employee/list');"><i class="fa fa-edit"></i> 删 除</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																		</shiro:hasPermission>
+																	</td>
 																</tr>
 															</c:when>
 															<c:otherwise>
@@ -149,12 +178,22 @@ function submit(pageNow) {
 																		<td>${employee.loginName }</td>
 																		<td>${employee.nickName }</td>
 																		<td>${employee.phone }</td>
-																		<td>正常</td>
-																		<shiro:hasPermission name="system:employee:edit">
-																			<td width="150px;">
+																		<td>
+																			<c:if test="${employee.status eq 1 }">正常</c:if>
+																			<c:if test="${employee.status eq 2 }">禁用</c:if>
+																			<c:if test="${employee.status eq 3 }">离职</c:if>
+																		</td>
+																		<td>
+																			<shiro:hasPermission name="system:employee:view">
+																				<a href="javascript:view('${employee.id }');"><i class="fa fa-edit"></i> 查 看</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																			</shiro:hasPermission>
+																			<shiro:hasPermission name="system:employee:edit">
 																				<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-																			</td>
-																		</shiro:hasPermission>
+																			</shiro:hasPermission>
+																			<shiro:hasPermission name="system:employee:roleset">
+																				<a href="#"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																			</shiro:hasPermission>
+																		</td>
 																	</tr>
 																</c:if>
 															</c:otherwise>
@@ -163,7 +202,7 @@ function submit(pageNow) {
 												</c:when>
 												<c:otherwise>
 													<tr>
-														<td colspan="${canEdit eq true?7:6 }">无满足条件的数据！</td>
+														<td colspan="7">无满足条件的数据！</td>
 													</tr>
 												</c:otherwise>
 											</c:choose>
@@ -172,7 +211,8 @@ function submit(pageNow) {
 					            </div>
 					            <!-- /.box-body -->
 					            <div class="box-footer clearfix">
-					            	<input id="pageNow" name="pageNow" type="hidden" value="${page.pageNow }">					            <ul class="pagination pagination-sm no-margin pull-right">
+					            	<input id="pageNow" name="pageNow" type="hidden" value="${page.pageNow }">					            
+					            	<ul class="pagination pagination-sm no-margin pull-right">
 						           		<li><a href="javascript:submit(${page.preNum });">«</a></li>
 						           		<c:forEach begin="${page.startNum }" end="${page.endNum }" varStatus="s">
 						           			<li><a href="javascript:submit(${s.index });">${s.index }</a></li>

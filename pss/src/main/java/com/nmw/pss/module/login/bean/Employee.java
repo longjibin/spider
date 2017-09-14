@@ -45,12 +45,6 @@ public class Employee extends BaseEntity {
 	// 生日
 	private String birthday;
 	
-	/**
-	 * 辅助属性
-	 * @return
-	 */
-	private String roleIds;
-
 	public String getJobNo() {
 		return jobNo;
 	}
@@ -153,14 +147,6 @@ public class Employee extends BaseEntity {
 
 	public void setIdCardNo(String idCardNo) {
 		this.idCardNo = idCardNo;
-	}
-
-	public String getRoleIds() {
-		return roleIds;
-	}
-
-	public void setRoleIds(String roleIds) {
-		this.roleIds = roleIds;
 	}
 
 	@Override

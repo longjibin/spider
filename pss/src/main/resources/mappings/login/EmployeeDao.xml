@@ -91,24 +91,42 @@
 	
 	<select id="selectByPage" parameterType="Page" resultMap="entityResult">
 		SELECT 
-			*
+			e.id as id,
+			e.create_time as createTime,
+			e.update_time as updateTime,
+			e.create_user as createUserId,
+			e.update_user as updateUserId,
+			e.remark as remark,
+			e.del_sign as delSign,
+			
+			e.job_no as jobNo,
+			e.login_name as loginName,
+			e.login_pass as loginPass,
+			e.nick_name as nickName,
+			e.head_pic as headPic,
+			e.email as email,
+			e.phone as phone,
+			e.tel as tel,
+			e.status as status,
+			e.entry_time as entryTime,
+			e.quit_time as quitTime,
+			e.birthday as birthday,
+			e.idcard_no as idCardNo
 		FROM 
-			employee 
+			(SELECT * FROM employee WHERE id=#{queryObj.id}) as temp RIGHT JOIN employee e ON temp.id=e.id
 		<where>
-			<if test="queryObj != null">
-				del_sign=#{queryObj.DEL_NORMAL}
-				<if test="queryObj.jobNo != null and queryObj.jobNo != ''">
-					AND job_no=#{queryObj.jobNo}
-				</if>
-				<if test="queryObj.loginName != null and queryObj.loginName != ''">
-					AND login_name=#{queryObj.loginName}
-				</if>
-				<if test="queryObj.phone != null and queryObj.phone != ''">
-					AND phone=#{queryObj.phone}
-				</if>
-				<if test="queryObj.status != null and queryObj.status != ''">
-					AND status=#{queryObj.status}
-				</if>
+			e.del_sign=#{queryObj.DEL_NORMAL}
+			<if test="queryObj.jobNo != null and queryObj.jobNo != ''">
+				AND e.job_no=#{queryObj.jobNo}
+			</if>
+			<if test="queryObj.loginName != null and queryObj.loginName != ''">
+				AND e.login_name=#{queryObj.loginName}
+			</if>
+			<if test="queryObj.phone != null and queryObj.phone != ''">
+				AND e.phone=#{queryObj.phone}
+			</if>
+			<if test="queryObj.status != null and queryObj.status != ''">
+				AND e.status=#{queryObj.status}
 			</if>
 		</where>
 	</select>
