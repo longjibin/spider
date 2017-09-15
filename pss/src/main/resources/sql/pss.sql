@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2017-09-14 17:32:25
+Date: 2017-09-15 17:32:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -91,6 +91,7 @@ CREATE TABLE `employee_role` (
 -- ----------------------------
 INSERT INTO `employee_role` VALUES ('054a379886c1428e88efe2995b59e31b', '2017-08-21 20:51:31', '2017-08-21 20:51:31', '1', '1', null, '1', '1', '1');
 INSERT INTO `employee_role` VALUES ('1874910c89204cb59282102d65f496d1', '2017-08-22 13:59:12', '2017-08-22 13:59:12', '1', '1', null, '1', '2', '2');
+INSERT INTO `employee_role` VALUES ('440773a3814c423da6de09913170ab13', '2017-09-15 17:30:07', '2017-09-15 17:30:07', '1', '1', null, '1', '7f1f152ef53d4963b4076c46b890cccf', '2');
 INSERT INTO `employee_role` VALUES ('e96e54772f264b1b8948b44ba4a46c18', '2017-09-12 20:04:16', '2017-09-12 20:04:16', '1', '1', null, '1', '7f1f152ef53d4963b4076c46b890cccf', '541a26de2d21483588a6d87f9cd855c6');
 
 -- ----------------------------

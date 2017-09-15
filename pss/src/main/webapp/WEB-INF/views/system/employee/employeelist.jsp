@@ -42,15 +42,15 @@ function view(id) {
 /**
  * 角色分配
  */
-function roleSet() {
+function roleSet(id) {
 	layer.open({
 		type: 2,
-	  	title: '员工详情',
+	  	title: '角色分配',
 	  	shadeClose: true,
 	  	shade: 0.8,
 	  	area: ['500px', '70%'],
-	  	content: '${ctxAdmin }/employee/view?id='+id
-	}); 
+	  	content: '${ctxAdmin }/employee/employeeroleset?id='+id
+	});
 }
 </script>
 <!-- Content Header (Page header) -->
@@ -173,7 +173,7 @@ function roleSet() {
 																			<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 																		</shiro:hasPermission>
 																		<shiro:hasPermission name="system:employee:roleset">
-																			<a href="#"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																			<a href="javascript:roleSet('${employee.id }');"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
 																		</shiro:hasPermission>
 																		<shiro:hasPermission name="system:employee:delete">
 																			<a href="javascript:remove('employee/remove?id=${employee.id }','employee/list');"><i class="fa fa-edit"></i> 删 除</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -206,9 +206,6 @@ function roleSet() {
 																			</shiro:hasPermission>
 																			<shiro:hasPermission name="system:employee:edit">
 																				<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-																			</shiro:hasPermission>
-																			<shiro:hasPermission name="system:employee:roleset">
-																				<a href="#"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
 																			</shiro:hasPermission>
 																		</td>
 																	</tr>

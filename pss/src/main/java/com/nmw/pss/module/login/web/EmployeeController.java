@@ -173,4 +173,28 @@ public class EmployeeController {
 		}
 		return resultMap;
 	}
+	
+	/**
+	 * 员工分配角色
+	 * @return
+	 */
+	@RequestMapping(value="employeeroleset",method=RequestMethod.GET)
+	public String employeeRoleSet(Employee employee, Model model){
+		//查询所有的角色集合
+		List<Role> roles=roleService.findAll();
+		
+		//查询指定用户的角色集合
+		List<Role> ownRoles=roleService.findByCE(employee.getId());
+		
+		for (Role role : roles) {
+			for (Role role2 : ownRoles) {
+				if(role.getId().equals(role2.getId())){
+					role.setSelected(true);
+				}
+			}
+		}
+		model.addAttribute("roles", roles);
+		model.addAttribute("employee", employee);
+		return "system/employee/employeeroleset";
+	}
 }

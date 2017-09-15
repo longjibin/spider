@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/common/taglib.jsp"%>
 <%@ include file="/WEB-INF/common/head.jsp"%>
 <!-- Main content -->
-<div style="background-color: #ecf0f5;">
+<body style="background-color: #ecf0f5;">
 	<section class="content">
 		<div class="box box-primary">
 			<div class="box-body box-profile">
@@ -36,4 +36,4 @@
 			</div>
 		</div>
 	</section>
-</div>
+</body>

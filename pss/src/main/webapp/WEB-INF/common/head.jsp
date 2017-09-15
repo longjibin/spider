@@ -23,6 +23,8 @@
 <link rel="stylesheet" href="${ctxStatic }/plugins/zTree-v3/css/metroStyle/metroStyle.css">
 <!-- treegrid -->
 <link rel="stylesheet" href="${ctxStatic }/plugins/jQuery-treegrid/css/jquery.treegrid.css">
+<!-- multi-select -->
+<link rel="stylesheet" href="${ctxStatic }/plugins/jQuery-multiselect/css/multi-select.css">
 
 <!-- js -->
 <!-- jQuery 2.2.3 -->
@@ -50,3 +52,5 @@
 <!-- treegrid -->
 <script src="${ctxStatic }/plugins/jQuery-treegrid/js/jquery.treegrid.min.js"></script>
 <script src="${ctxStatic }/plugins/jQuery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<!-- multi-select -->
+<script src="${ctxStatic }/plugins/jQuery-multiselect/js/jquery.multi-select.js"></script>
