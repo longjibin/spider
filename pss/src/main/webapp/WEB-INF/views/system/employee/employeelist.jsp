@@ -42,13 +42,13 @@ function view(id) {
 /**
  * 角色分配
  */
-function roleSet(id) {
+function roleSet(name, id) {
 	layer.open({
 		type: 2,
-	  	title: '角色分配',
+	  	title: name+'的角色',
 	  	shadeClose: true,
 	  	shade: 0.8,
-	  	area: ['500px', '70%'],
+	  	area: ['500px', '50%'],
 	  	content: '${ctxAdmin }/employee/employeeroleset?id='+id
 	});
 }
@@ -173,7 +173,7 @@ function roleSet(id) {
 																			<a href="javascript:loadPage('employee/form?id=${employee.id }');"><i class="fa fa-edit"></i> 修 改</a>&nbsp;&nbsp;&nbsp;&nbsp;
 																		</shiro:hasPermission>
 																		<shiro:hasPermission name="system:employee:roleset">
-																			<a href="javascript:roleSet('${employee.id }');"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
+																			<a href="javascript:roleSet('${employee.loginName }','${employee.id }');"><i class="fa fa-edit"></i> 角色分配</a>&nbsp;&nbsp;&nbsp;&nbsp;
 																		</shiro:hasPermission>
 																		<shiro:hasPermission name="system:employee:delete">
 																			<a href="javascript:remove('employee/remove?id=${employee.id }','employee/list');"><i class="fa fa-edit"></i> 删 除</a>&nbsp;&nbsp;&nbsp;&nbsp;

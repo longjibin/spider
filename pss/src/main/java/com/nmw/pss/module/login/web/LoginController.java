@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -14,6 +12,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -71,9 +70,11 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value="admin",method=RequestMethod.GET)
-	public String admin(HttpServletRequest request){
+	public String admin(Model model){
+		Employee employee=UserUtils.getCurrentUser();
 		List<Menu> menus=menuService.findMenuTreeByCE().getChildren();
-		request.setAttribute("menus", menus);
+		model.addAttribute("menus", menus);
+		model.addAttribute("employee", employee);
 		return "admin";
 	}
 }

@@ -116,7 +116,7 @@ function remove(url, redirectUrl) {
 			<!-- Logo -->
 			<a href="javascript:void(0);" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>A</b>LT</span> <!-- logo for regular state and mobile devices -->
-				<span class="logo-lg"><b>Admin</b>LTE</span>
+				<span class="logo-lg">${fns:getConfig('productName')}</span>
 			</a>
 
 			<!-- Header Navbar: style can be found in header.less -->
@@ -128,108 +128,39 @@ function remove(url, redirectUrl) {
 				<!-- Navbar Right Menu -->
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
-						<!-- Messages: style can be found in dropdown.less-->
-						<li class="dropdown messages-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> <i
-								class="fa fa-envelope-o"></i> <span class="label label-success">4</span>
-						</a>
-							<ul class="dropdown-menu">
-								<li class="header">You have 4 messages</li>
-								<li>
-									<!-- inner menu: contains the actual data -->
-									<ul class="menu">
-										<li>
-											<!-- start message --> <a href="#">
-												<div class="pull-left">
-													<img src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="img-circle"
-														alt="User Image">
-												</div>
-												<h4>
-													Support Team <small><i class="fa fa-clock-o"></i> 5
-														mins</small>
-												</h4>
-												<p>Why not buy a new awesome theme?</p>
-										</a>
-										</li>
-										<!-- end message -->
-										<li><a href="#">
-												<div class="pull-left">
-													<img src="${ctxStatic }/plugins/adminlte/img/user3-128x128.jpg" class="img-circle"
-														alt="User Image">
-												</div>
-												<h4>
-													AdminLTE Design Team <small><i
-														class="fa fa-clock-o"></i> 2 hours</small>
-												</h4>
-												<p>Why not buy a new awesome theme?</p>
-										</a></li>
-										<li><a href="#">
-												<div class="pull-left">
-													<img src="${ctxStatic }/plugins/adminlte/img/user4-128x128.jpg" class="img-circle"
-														alt="User Image">
-												</div>
-												<h4>
-													Developers <small><i class="fa fa-clock-o"></i>
-														Today</small>
-												</h4>
-												<p>Why not buy a new awesome theme?</p>
-										</a></li>
-										<li><a href="#">
-												<div class="pull-left">
-													<img src="${ctxStatic }/plugins/adminlte/img/user3-128x128.jpg" class="img-circle"
-														alt="User Image">
-												</div>
-												<h4>
-													Sales Department <small><i class="fa fa-clock-o"></i>
-														Yesterday</small>
-												</h4>
-												<p>Why not buy a new awesome theme?</p>
-										</a></li>
-										<li><a href="#">
-												<div class="pull-left">
-													<img src="${ctxStatic }/plugins/adminlte/img/user4-128x128.jpg" class="img-circle"
-														alt="User Image">
-												</div>
-												<h4>
-													Reviewers <small><i class="fa fa-clock-o"></i> 2
-														days</small>
-												</h4>
-												<p>Why not buy a new awesome theme?</p>
-										</a></li>
-									</ul>
-								</li>
-								<li class="footer"><a href="#">See All Messages</a></li>
-							</ul></li>
 						<!-- Notifications: style can be found in dropdown.less -->
-						<li class="dropdown notifications-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> <i
-								class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
-						</a>
+						<li class="dropdown notifications-menu">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+								<i class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
+							</a>
 							<ul class="dropdown-menu">
 								<li class="header">You have 10 notifications</li>
 								<li>
 									<!-- inner menu: contains the actual data -->
 									<ul class="menu">
-										<li><a href="#"> <i class="fa fa-users text-aqua"></i>
-												5 new members joined today
-										</a></li>
-										<li><a href="#"> <i class="fa fa-warning text-yellow"></i>
+										<li>
+											<a href="#"> <i class="fa fa-users text-aqua"></i>
+													5 new members joined today
+											</a>
+										</li>
+										<li>
+											<a href="#"> <i class="fa fa-warning text-yellow"></i>
 												Very long description here that may not fit into the page
 												and may cause design problems
-										</a></li>
-										<li><a href="#"> <i class="fa fa-users text-red"></i>
-												5 new members joined
-										</a></li>
-										<li><a href="#"> <i
-												class="fa fa-shopping-cart text-green"></i> 25 sales made
-										</a></li>
-										<li><a href="#"> <i class="fa fa-user text-red"></i>
-												You changed your username
-										</a></li>
+											</a>
+										</li>
+										<li>
+											<a href="#"> <i class="fa fa-users text-red"></i> 5 new members joined </a>
+										</li>
+										<li>
+											<a href="#"> <i class="fa fa-shopping-cart text-green"></i> 25 sales made</a>
+										</li>
+										<li><a href="#"> <i class="fa fa-user text-red"></i> You changed your username </a></li>
 									</ul>
 								</li>
 								<li class="footer"><a href="#">View all</a></li>
-							</ul></li>
+							</ul>
+						</li>
 						<!-- Tasks: style can be found in dropdown.less -->
 						<li class="dropdown tasks-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
@@ -308,8 +239,7 @@ function remove(url, redirectUrl) {
 						<li class="dropdown user user-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <img
 								src="${ctxStatic }/plugins/adminlte/img/user2-160x160.jpg" class="user-image"
-								alt="User Image"> <span class="hidden-xs">Alexander
-									Pierce</span>
+								alt="User Image"> <span class="hidden-xs">${employee.loginName }</span>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- User image -->
@@ -364,8 +294,8 @@ function remove(url, redirectUrl) {
 							alt="User Image">
 					</div>
 					<div class="pull-left info">
-						<p>Alexander Pierce</p>
-						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+						<p>${employee.loginName }</p>
+						<a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
 					</div>
 				</div>
 				<!-- sidebar menu: : style can be found in sidebar.less -->

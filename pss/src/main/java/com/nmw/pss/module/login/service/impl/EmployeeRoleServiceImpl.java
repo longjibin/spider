@@ -25,7 +25,7 @@ public class EmployeeRoleServiceImpl extends BaseServiceImpl<EmployeeRole, Emplo
 
 	@Override
 	public void removeByEidAndRid(EmployeeRole employeeRole) {
-		employeeRoleDao.selectByModel(employeeRole);
+		employeeRoleDao.deleteByModel(employeeRole);
 	}
 
 }
