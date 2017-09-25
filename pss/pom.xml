@@ -8,9 +8,25 @@
 	<name>pss Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<!-- spring -->
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<jackson.version>2.2.3</jackson.version>
 		<fastjson.version>1.2.7</fastjson.version>
+		
+		<!-- orm -->
+		<mybatis.version>3.2.8</mybatis.version>
+		<mybatis.spring.version>1.2.2</mybatis.spring.version>
+		<mysql.version>5.1.38</mysql.version>
+		<druid.version>1.0.18</druid.version>
+		
+		<!-- log -->
+		<slf4j.version>1.7.21</slf4j.version>
+		
+		<!-- activiti -->
+		<activiti.version>5.22.0</activiti.version>
+		
 		<ehcache.version>2.6.11</ehcache.version>
 		<ehcache-web.version>2.0.4</ehcache-web.version>
 		<shiro.version>1.2.3</shiro.version>
@@ -34,11 +50,10 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <version>2.5</version>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
 		    <scope>provided</scope>
 		</dependency>
 		
@@ -64,12 +79,7 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-tx</artifactId>
-		    <version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-jdbc</artifactId>
+		    <artifactId>spring-orm</artifactId>
 		    <version>${spring.version}</version>
 		</dependency>
 		<dependency>
@@ -80,29 +90,25 @@
 		<!-- spring end -->
 		
 		<!-- orm start -->
-		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis</artifactId>
-		    <version>3.2.8</version>
+		    <version>${mybatis.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis-spring</artifactId>
-		    <version>1.2.2</version>
+		    <version>${mybatis.spring.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.38</version>
+		    <version>${mysql.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
 		<dependency>
 		    <groupId>com.alibaba</groupId>
 		    <artifactId>druid</artifactId>
-		    <version>1.0.18</version>
+		    <version>${druid.version}</version>
 		</dependency>
 		<!-- orm end -->
 		
@@ -142,13 +148,13 @@
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-api</artifactId>
-		    <version>1.7.21</version>
+		    <version>${slf4j.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-log4j12</artifactId>
-		    <version>1.7.21</version>
+		    <version>${slf4j.version}</version>
 		</dependency>
 		<!-- google java lib -->
 		<dependency>
@@ -178,6 +184,11 @@
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.uuid</groupId>
+		    <artifactId>java-uuid-generator</artifactId>
+		    <version>3.1.2</version>
 		</dependency>
 		
 		<!-- fastjson -->
@@ -238,6 +249,24 @@
 		     <version>${shiro.version}</version>    
 		</dependency> 
 		<!-- SECURITY end -->
+		
+		<!-- activiti start -->
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-modeler</artifactId>
+		    <version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-diagram-rest</artifactId>
+		    <version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-spring</artifactId>
+		    <version>${activiti.version}</version>
+		</dependency>
+		<!-- activiti end -->
 	</dependencies>
 	<build>
 		<finalName>pss</finalName>

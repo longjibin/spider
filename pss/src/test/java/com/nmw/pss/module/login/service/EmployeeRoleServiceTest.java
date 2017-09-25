@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.nmw.pss.module.login.bean.EmployeeRole;
+import com.nmw.pss.module.system.bean.EmployeeRole;
+import com.nmw.pss.module.system.service.EmployeeRoleService;
 
 @RunWith(SpringJUnit4ClassRunner.class)  //使用junit4进行测试  
 @ContextConfiguration("classpath:spring-context.xml") //加载配置文件  

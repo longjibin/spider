@@ -4,7 +4,7 @@ import org.apache.shiro.SecurityUtils;
 
 import com.nmw.pss.common.config.Global;
 import com.nmw.pss.common.constant.ShiroConstant;
-import com.nmw.pss.module.login.bean.Employee;
+import com.nmw.pss.module.system.bean.Employee;
 
 /**
  * 用户工具类

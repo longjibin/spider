@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.nmw.pss.common.base.BaseServiceImpl;
 import com.nmw.pss.common.base.TreeService;
 import com.nmw.pss.common.constant.ShiroConstant;
-import com.nmw.pss.module.login.bean.Employee;
+import com.nmw.pss.module.system.bean.Employee;
 import com.nmw.pss.module.system.bean.Menu;
 import com.nmw.pss.module.system.dao.MenuDao;
 import com.nmw.pss.module.system.service.MenuService;

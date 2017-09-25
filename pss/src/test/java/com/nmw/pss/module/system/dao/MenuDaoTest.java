@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.nmw.pss.module.login.bean.Employee;
+import com.nmw.pss.module.system.bean.Employee;
 import com.nmw.pss.module.system.bean.Menu;
 
 @RunWith(SpringJUnit4ClassRunner.class)  //使用junit4进行测试  

@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nmw.pss.common.base.BaseServiceImpl;
 import com.nmw.pss.common.utils.UserUtils;
-import com.nmw.pss.module.login.bean.Employee;
-import com.nmw.pss.module.login.bean.EmployeeRole;
-import com.nmw.pss.module.login.dao.EmployeeRoleDao;
+import com.nmw.pss.module.system.bean.Employee;
+import com.nmw.pss.module.system.bean.EmployeeRole;
 import com.nmw.pss.module.system.bean.Menu;
 import com.nmw.pss.module.system.bean.Role;
 import com.nmw.pss.module.system.bean.RoleMenu;
+import com.nmw.pss.module.system.dao.EmployeeRoleDao;
 import com.nmw.pss.module.system.dao.RoleDao;
 import com.nmw.pss.module.system.dao.RoleMenuDao;
 import com.nmw.pss.module.system.service.RoleService;

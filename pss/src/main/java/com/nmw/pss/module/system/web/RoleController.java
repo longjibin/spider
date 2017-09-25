@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.nmw.pss.common.base.TreeNode;
 import com.nmw.pss.common.constant.HttpConstant;
 import com.nmw.pss.common.utils.UserUtils;
-import com.nmw.pss.module.login.bean.Employee;
+import com.nmw.pss.module.system.bean.Employee;
 import com.nmw.pss.module.system.bean.Menu;
 import com.nmw.pss.module.system.bean.Role;
 import com.nmw.pss.module.system.bean.RoleMenu;

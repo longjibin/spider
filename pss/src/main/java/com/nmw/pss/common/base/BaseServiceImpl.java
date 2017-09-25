@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nmw.pss.common.utils.UserUtils;
-import com.nmw.pss.module.login.bean.Employee;
+import com.nmw.pss.module.system.bean.Employee;
 
 public class BaseServiceImpl<T extends BaseEntity, D extends BaseDao<T>> implements BaseService<T>{
 	

@@ -3,7 +3,6 @@ package com.nmw.pss.module.system.bean;
 import java.util.List;
 
 import com.nmw.pss.common.base.BaseEntity;
-import com.nmw.pss.module.login.bean.Employee;
 
 /**
  * 菜单实体
