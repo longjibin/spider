@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lgb.goods.dao.GoodsBrandDAO">
+    <resultMap type="GoodsBrand" id="entityResult">
+    	<id property="id" column="id"/>
+    	<result property="createDateTime" column="create_date_time"/>
+    	<result property="updateDateTime" column="update_date_time"/>
+    	
+    	<result property="sbId" column="sb_id"/>
+    	<result property="source" column="source"/>
+    	<result property="brand" column="brand"/>
+    	<result property="goodsListUrl" column="goods_list_url"/>
+    	<result property="categoryId" column="category_id"/>
+    </resultMap>
+    
+	<insert id="insert">
+		INSERT INTO goods_brand(id, create_date_time,update_date_time,
+			sb_id, source, brand, goods_list_url, category_id) 
+		VALUES (#{id}, #{createDateTime}, #{updateDateTime},
+		#{sbId}, #{source}, #{brand}, #{goodsListUrl}, #{categoryId})
+	</insert>
+	
+	<select id="selectCount" resultType="java.lang.Integer">
+		select count(*) from goods_brand 
+		<where>
+			<if test="sbId != null and sbId != ''">
+				and sb_id=#{sbId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="update">
+		update 
+			goods_brand 
+		set 
+			brand=#{brand},
+			goods_list_url=#{goodsListUrl},
+			
+			update_date_time=#{updateDateTime}
+		where
+			sb_id=#{sbId}
+	</update>
+</mapper>

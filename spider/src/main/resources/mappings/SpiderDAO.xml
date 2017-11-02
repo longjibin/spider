@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lgb.spider.dao.SpiderDAO">
+    <resultMap type="Spider" id="entityResult">
+    	<id property="id" column="id"/>
+    	<result property="createDateTime" column="create_date_time"/>
+    	
+    	<result property="name" column="name"/>
+    	<result property="url" column="url"/>
+    	<result property="threadNum" column="thread_num"/>
+    	<result property="state" column="state"/>
+    </resultMap>
+    
+	<insert id="insert">
+		INSERT INTO spider(id, create_date_time,
+			name, url, thread_num, state) 
+		VALUES (#{id}, #{createDateTime},
+		#{name}, #{url}, #{threadNum}, #{state})
+	</insert>
+	
+	<select id="select" parameterType="java.lang.String" resultMap="entityResult">
+		select * from spider where id=#{id}
+	</select>
+	
+	<select id="selectAll" resultMap="entityResult">
+		select * from spider
+	</select>
+	
+	<update id="update">
+		update spider set
+		<if test="name != null and name != ''">
+			name=#{name},
+		</if>
+		<if test="url != null and url != ''">
+			url=#{url},
+		</if>
+		<if test="threadNum != null and threadNum != ''">
+			thread_num=#{threadNum},
+		</if>
+		<if test="state != null and state != ''">
+			state=#{state}
+		</if>
+	</update>
+	
+</mapper>
