@@ -1,4 +1,4 @@
-package com.lgb.webspider.mobile.communication.mobile.processor.jd;
+package com.lgb.webspider.jd.script.common;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

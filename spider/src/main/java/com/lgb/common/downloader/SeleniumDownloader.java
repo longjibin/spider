@@ -17,9 +17,7 @@ import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.downloader.Downloader;
-import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.PlainText;
-import us.codecraft.webmagic.utils.UrlUtils;
 
 /**
  * SeleniumDownloader
@@ -71,7 +69,6 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		String content = webElement.getAttribute("outerHTML");
 		Page page = new Page();
 		page.setRawText(content);
-		page.setHtml(new Html(UrlUtils.fixAllRelativeHrefs(content, request.getUrl())));
 		page.setUrl(new PlainText(request.getUrl()));
 		page.setRequest(request);
 		webDriverPool.returnToPool(webDriver);

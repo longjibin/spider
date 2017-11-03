@@ -1,5 +1,9 @@
 package com.lgb.common.utils;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -31,6 +35,16 @@ public class ConfigUtil {
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Map<String, String> getKeyValueMap(){
+		Map<String, String> map=new HashMap<String, String>();
+		String key="";
+		for (Iterator<String> iterator = cfg.getKeys(); iterator.hasNext();) {
+			key=iterator.next();
+			map.put(key, cfg.getString(key));
+		}
+		return map;
 	}
 	
 	public static String getString(String key){

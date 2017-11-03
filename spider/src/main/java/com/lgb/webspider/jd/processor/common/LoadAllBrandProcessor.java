@@ -1,33 +1,44 @@
-package com.lgb.webspider.mobile.communication.mobile.processor.jd;
+package com.lgb.webspider.jd.processor.common;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
-import com.lgb.common.downloader.SeleniumDownloader;
 import com.lgb.common.processor.CommonProcessor;
-import com.lgb.common.utils.SpringContextHelper;
+import com.lgb.common.utils.ConfigUtil;
 import com.lgb.common.utils.URLResolver;
 import com.lgb.common.utils.UUIDUtil;
 import com.lgb.goods.dao.GoodsBrandDAO;
 import com.lgb.goods.entity.GoodsBrand;
-import com.lgb.spider.dao.SpiderDAO;
-import com.lgb.spider.entity.Spider;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.selector.Selectable;
 
+/**
+ * 京东
+ * 爬取指定分类下的所有品牌
+ * @author Administrator
+ *
+ * @date 2017年11月3日
+ */
 @Component
 public class LoadAllBrandProcessor extends CommonProcessor {
-
-	@Autowired
-	private SpiderDAO spiderDAO;
+	
+	private static final Logger LOGGER=Logger.getLogger(LoadAllBrandProcessor.class);
 	
 	@Autowired
 	private GoodsBrandDAO goodsBrandDAO;
+	
+	/**
+	 * 指定分类id
+	 */
+	private String categoryId;
 	
 	@Override
 	public Site getSite() {
@@ -54,7 +65,7 @@ public class LoadAllBrandProcessor extends CommonProcessor {
 			//设置商品列表url
 			goodsBrand.setGoodsListUrl(li.xpath("li/a/@href").toString());
 			//设置关联的分类
-			goodsBrand.setCategoryId("3");
+			goodsBrand.setCategoryId(categoryId);
 			
 			query=new GoodsBrand();
 			query.setSbId(goodsBrand.getSbId());
@@ -83,12 +94,19 @@ public class LoadAllBrandProcessor extends CommonProcessor {
 
 	@Override
 	public void execute() {
-		SeleniumDownloader downloader=new SeleniumDownloader("D:\\chromedriver.exe", new LoadAllBrandScript());
-		LoadAllBrandProcessor loadAllBrandProcessor = (LoadAllBrandProcessor) SpringContextHelper.getBean("loadAllBrandProcessor");
-		// 获取爬虫配置对象
-		Spider spider = spiderDAO.select("2");
-		us.codecraft.webmagic.Spider.create(loadAllBrandProcessor).addUrl(spider.getUrl()).setDownloader(downloader)
-				.thread(spider.getThreadNum()).run();
+		/**
+		 * 加载需要更新的分类下的品牌
+		 */
+		ConfigUtil.loadProperties("spider/config/jd/brands.properties");
+		Map<String, String> map=ConfigUtil.getKeyValueMap();
+		for (Entry<String, String> entry : map.entrySet()) {
+			LOGGER.info("key:"+entry.getKey()+"\t value:"+entry.getValue());
+//			categoryId=entry.getKey();
+//			SeleniumDownloader downloader=new SeleniumDownloader("D:\\chromedriver.exe", new LoadAllBrandScript());
+//			LoadAllBrandProcessor loadAllBrandProcessor = (LoadAllBrandProcessor) SpringContextHelper.getBean("loadAllBrandProcessor");
+//			us.codecraft.webmagic.Spider.create(loadAllBrandProcessor).addUrl(entry.getValue()).setDownloader(downloader)
+//					.thread(1).run();
+		}
 	}
 	
 }

@@ -65,7 +65,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.lgb"/>
-        <property name="typeAliasesSuperType" value="com.lgb.common.entity.Resource"/>
+        <property name="typeAliasesSuperType" value="com.lgb.common.entity.BaseEntity"/>
         <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
     </bean>

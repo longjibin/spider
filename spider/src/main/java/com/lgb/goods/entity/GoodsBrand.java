@@ -1,6 +1,6 @@
 package com.lgb.goods.entity;
 
-import com.lgb.common.entity.Resource;
+import com.lgb.common.entity.BaseEntity;
 
 /**
  * 商品品牌实体
@@ -9,7 +9,7 @@ import com.lgb.common.entity.Resource;
  *
  * @date 2017年11月2日
  */
-public class GoodsBrand extends Resource {
+public class GoodsBrand extends BaseEntity {
 
 	/**
 	 * 

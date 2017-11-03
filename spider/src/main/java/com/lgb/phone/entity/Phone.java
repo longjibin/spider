@@ -1,8 +1,8 @@
 package com.lgb.phone.entity;
 
-import com.lgb.common.entity.Resource;
+import com.lgb.common.entity.BaseEntity;
 
-public class Phone extends Resource {
+public class Phone extends BaseEntity {
 
 	/**
 	 * 

@@ -1,6 +1,6 @@
 package com.lgb.goods.entity;
 
-import com.lgb.common.entity.Resource;
+import com.lgb.common.entity.BaseEntity;
 
 /**
  * 商品源对象
@@ -9,7 +9,7 @@ import com.lgb.common.entity.Resource;
  *
  * @date 2017年11月1日
  */
-public class GoodsSource extends Resource {
+public class GoodsSource extends BaseEntity {
 
 	/**
 	 * 

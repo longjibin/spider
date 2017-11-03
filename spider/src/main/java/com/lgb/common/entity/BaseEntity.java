@@ -9,7 +9,7 @@ import java.util.Date;
  *
  * @date 2017年10月25日
  */
-public class Resource implements Serializable{
+public class BaseEntity implements Serializable{
 	/**
 	 * 
 	 */
@@ -30,7 +30,7 @@ public class Resource implements Serializable{
 	 */
 	protected Date updateDateTime;
 
-	public Resource() {
+	public BaseEntity() {
 		super();
 	}
 
