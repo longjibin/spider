@@ -14,8 +14,10 @@
 
 	<task:scheduled-tasks scheduler="taskScheduler">
 		<!-- 京东爬虫 -->
-		<!-- 爬虫:爬取京东手机所有品牌的产品列表url 每周更新一次品牌  每周星期天凌晨1点实行一次：0 0 1 ? * L -->
+		<!-- 爬虫:爬取京东指定分类下所有品牌的产品列表url 每周更新一次品牌  每周星期天凌晨1点实行一次：0 0 1 ? * 7 -->
 		<task:scheduled ref="loadAllBrandProcessor" method="execute" cron="40 17 * * * ?" />
+		<!-- 爬虫:爬取京东指定分类下的所有商品链接 -->
+		<task:scheduled ref="goodsSourceProcessor" method="execute" cron="0 45 * * * ?" />
 		
 		
 		<!-- 淘宝爬虫 -->

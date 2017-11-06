@@ -29,6 +29,21 @@
 		</where>
 	</select>
 	
+	<select id="selectByModel" resultMap="entityResult">
+		select 
+			* 
+		from 
+			goods_brand
+		<where>
+			<if test="source != null and source != ''">
+				and source=#{source}
+			</if>
+			<if test="categoryId != null and categoryId != ''">
+				and category_id=#{categoryId}
+			</if>
+		</where>
+	</select>
+	
 	<update id="update">
 		update 
 			goods_brand 

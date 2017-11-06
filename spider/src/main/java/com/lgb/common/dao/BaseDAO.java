@@ -24,6 +24,13 @@ public interface BaseDAO<T> {
 	T select(String id);
 	
 	/**
+	 * 查询满足条件的数据
+	 * @param t
+	 * @return
+	 */
+	List<T> selectByModel(T t);
+	
+	/**
 	 * 查询记录数
 	 * @param t
 	 * @return

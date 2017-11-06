@@ -1,17 +1,28 @@
 package com.lgb.webspider.jd.processor.common;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.lgb.common.Constant;
 import com.lgb.common.downloader.SeleniumDownloader;
 import com.lgb.common.processor.CommonProcessor;
 import com.lgb.common.utils.SpringContextHelper;
+import com.lgb.common.utils.UUIDUtil;
+import com.lgb.goods.dao.GoodsBrandDAO;
 import com.lgb.goods.dao.GoodsSourceDAO;
+import com.lgb.goods.entity.GoodsBrand;
+import com.lgb.goods.entity.GoodsSource;
 import com.lgb.webspider.jd.script.common.LoadMoreScript;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
+import us.codecraft.webmagic.selector.Selectable;
 
 /**
  * 商品概要信息爬虫
@@ -25,67 +36,79 @@ public class GoodsSourceProcessor extends CommonProcessor {
 	private static final Logger LOGGER = Logger.getLogger(GoodsSourceProcessor.class);
 	
 	@Autowired
+	private GoodsBrandDAO goodsBrandDAO;
+	
+	@Autowired
 	private GoodsSourceDAO goodsSourceDAO;
+	
+	private String brandId="b615952e-e344-4212-96cf-2edf69b54ac6";
 
 	@Override
 	public void process(Page page) {
-//		// 获取手机列表
-//		Selectable iphoneList = page.getHtml().xpath("//div[@id='J_goodsList']/ul/li");
-//		// 商品源对象
-//		GoodsSource goodsSource = null;
-//		for (Selectable iphone : iphoneList.nodes()) {
-//			/**
-//			 * 爬取商品源信息
-//			 */
-//			goodsSource = new GoodsSource();
-//			goodsSource.setBrandId(brandId);
-//			goodsSource.setSku(iphone.xpath("li/@data-sku").toString());
-//			goodsSource.setUrl(iphone.xpath("li/div/div[@class='p-name p-name-type-2']/a/@href").toString());
-//
-//			/**
-//			 * 获取sku构造查询对象
-//			 */
-//			if (StringUtils.isNotBlank(goodsSource.getSku())) {
-//				Integer count = goodsSourceDAO.selectCount(goodsSource.getSku());
-//				if (count == 0) {
-//					Date date = new Date();
-//					/**
-//					 * 新增
-//					 */
-//					// 设置id
-//					phone.setId(UUIDUtil.getUUID());
-//					// 设置创建时间
-//					phone.setCreateDateTime(date);
-//					// 设置修改时间
-//					phone.setUpdateDateTime(date);
-//					phoneDAO.insert(phone);
-//				} else {
-//					/**
-//					 * 更新记录
-//					 */
-//					phone.setUpdateDateTime(new Date());
-//					phoneDAO.update(phone);
-//				}
-//			} else {
-//				LOGGER.info("无效的sku");
-//			}
-//		}
-
-		// SEARCH.page(1, true)
-//		List<String> urls = new ArrayList<String>();
-//		Selectable pageUrls = page.getHtml().xpath("//div[@id='J_bottomPage']/span/a");
-//		for (Selectable pageUrl : pageUrls.nodes()) {
-//			String url = pageUrl.xpath("a/@onclick").toString();
-//			if (StringUtils.isNotBlank(url)) {
-//				String pageNo = url.substring(url.indexOf("(") + 1, url.indexOf(","));
-//				System.out.println("pageNo:" + pageNo);
-//				urls.add(
-//						"https://search.jd.com/search?keyword=%E6%89%8B%E6%9C%BA&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E6%89%8B%E6%9C%BA&cid2=653&cid3=655&ev=exbrand_Apple%5E&page="
-//								+ pageNo);
-//			}
-//		}
-//
-//		page.addTargetRequests(urls);
+		Date date=new Date();
+		// 获取商品集合
+		Selectable goodsList = page.getHtml().xpath("//*[@id='plist']/ul/li");
+		List<GoodsSource> goodsSources=new ArrayList<GoodsSource>();
+		GoodsSource goodsSource=null;
+		for (Selectable goods : goodsList.nodes()) {
+			/**
+			 * 解析封面商品并保存到集合
+			 */
+			goodsSource=new GoodsSource();
+			goodsSource.setBrandId(brandId);
+			goodsSource.setSku(goods.xpath("li/div/@data-sku").toString());
+			goodsSource.setUrl("https://item.jd.com/"+goodsSource.getSku()+".html");
+			goodsSources.add(goodsSource);
+			
+			/**
+			 * 解析关联商品并保存到集合
+			 */
+			Selectable items=goods.xpath("li/div/div[2]/div/ul/li");
+			for (Selectable item : items.nodes()) {
+				String sku=item.xpath("li/@ids").toString();
+				if(StringUtils.isNotBlank(sku)){
+					goodsSource=new GoodsSource();
+					goodsSource.setBrandId(brandId);
+					goodsSource.setSku(sku);
+					goodsSource.setUrl("https://item.jd.com/"+sku+".html");
+					goodsSources.add(goodsSource);
+				}
+			}
+			
+			/**
+			 * 将集合中的数据保存到数据库
+			 */
+			for (GoodsSource goodsSourcePo : goodsSources) {
+				Integer count=goodsSourceDAO.selectCount(goodsSourcePo);
+				if(count==0){
+					/**
+					 * 新增
+					 */
+					// 设置id
+					goodsSourcePo.setId(UUIDUtil.getUUID());
+					// 设置创建时间
+					goodsSourcePo.setCreateDateTime(date);
+					// 设置修改时间
+					goodsSourcePo.setUpdateDateTime(date);
+					goodsSourceDAO.insert(goodsSourcePo);
+				}else{
+					/**
+					 * 更新
+					 */
+					goodsSourcePo.setUpdateDateTime(date);
+					goodsSourceDAO.update(goodsSourcePo);
+				}
+			}
+		}
+		
+		Selectable pageUrls = page.getHtml().xpath("//*[@id='J_bottomPage']/span[1]/a");
+		for (Selectable pageUrl : pageUrls.nodes()) {
+			String url = pageUrl.xpath("a/@href").toString();
+			if(!url.contains("undefined")){
+				page.addTargetRequest(url);
+			}
+		}
+		
 	}
 
 	@Override
@@ -95,10 +118,21 @@ public class GoodsSourceProcessor extends CommonProcessor {
 
 	@Override
 	public void execute() {
-		SeleniumDownloader downloader=new SeleniumDownloader("D:\\chromedriver\\chromedriver.exe", new LoadMoreScript());
-		GoodsSourceProcessor mobileProcessor = (GoodsSourceProcessor) SpringContextHelper.getBean("jdPhoneProcessor");
+		/**
+		 * 
+		 */
+		GoodsBrand query=new GoodsBrand();
+		query.setSource(Constant.PLATFORM_JD);
+		query.setCategoryId("3");
+		List<GoodsBrand> goodsBrands=goodsBrandDAO.selectByModel(query);
+		
+		for (GoodsBrand goodsBrand : goodsBrands) {
+			LOGGER.info(goodsBrand.getGoodsListUrl());
+		}
+		SeleniumDownloader downloader=new SeleniumDownloader("D:\\chromedriver.exe", new LoadMoreScript());
+		GoodsSourceProcessor goodsSourceProcessor = (GoodsSourceProcessor) SpringContextHelper.getBean("goodsSourceProcessor");
 		// 获取爬虫配置对象
-		us.codecraft.webmagic.Spider.create(mobileProcessor).addUrl("").setDownloader(downloader)
+		us.codecraft.webmagic.Spider.create(goodsSourceProcessor).addUrl("https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&sort=sort%5Frank%5Fasc&trans=1&JL=3_品牌_Apple").setDownloader(downloader)
 				.thread(1).run();
 	}
 

@@ -19,7 +19,7 @@ public class GoodsSource extends BaseEntity {
 	/**
 	 * 品牌id
 	 */
-	private Integer brandId;
+	private String brandId;
 
 	/**
 	 * 商品sku（不可拆分的商品标记）
@@ -35,11 +35,11 @@ public class GoodsSource extends BaseEntity {
 		super();
 	}
 
-	public Integer getBrandId() {
+	public String getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(Integer brandId) {
+	public void setBrandId(String brandId) {
 		this.brandId = brandId;
 	}
 

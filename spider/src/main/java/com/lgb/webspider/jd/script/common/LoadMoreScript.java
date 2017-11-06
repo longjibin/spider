@@ -18,7 +18,7 @@ public class LoadMoreScript implements Script {
 	@Override
 	public void script(WebDriver webDriver) {
 		// 找到滑动到的元素
-		WebElement loadMore = webDriver.findElement(By.xpath("//div[@id='J_bottomPage']"));
+		WebElement loadMore = webDriver.findElement(By.xpath("//*[@id='J_bottomPage']"));
 		// 声明一个动作
 		Actions action = new Actions(webDriver);
 

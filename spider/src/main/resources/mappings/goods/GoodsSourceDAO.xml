@@ -15,7 +15,7 @@
 		INSERT INTO goods_source(id, create_date_time,update_date_time,
 			brand_id, sku, url) 
 		VALUES (#{id}, #{createDateTime}, #{updateDateTime},
-		#{brandId}, #{"sku"}, #{url})
+		#{brandId}, #{sku}, #{url})
 	</insert>
 	
 	<select id="selectCount" resultType="java.lang.Integer">
