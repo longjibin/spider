@@ -1,5 +1,6 @@
 package com.lgb.webspider.jd.processor.common;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
+import com.lgb.common.downloader.SeleniumDownloader;
 import com.lgb.common.processor.CommonProcessor;
-import com.lgb.common.utils.ConfigUtil;
+import com.lgb.common.utils.JSONReader;
+import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.common.utils.URLResolver;
 import com.lgb.common.utils.UUIDUtil;
 import com.lgb.goods.dao.GoodsBrandDAO;
 import com.lgb.goods.entity.GoodsBrand;
+import com.lgb.webspider.jd.script.common.LoadAllBrandScript;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -97,15 +101,15 @@ public class LoadAllBrandProcessor extends CommonProcessor {
 		/**
 		 * 加载需要更新的分类下的品牌
 		 */
-		ConfigUtil.loadProperties("spider/config/jd/brands.properties");
-		Map<String, String> map=ConfigUtil.getKeyValueMap();
+		File jsonFile=new File(LoadAllBrandProcessor.class.getClassLoader().getResource("spider/config/jd/brands.json").getPath());
+		Map<String, String> map=JSONReader.readFileToMap(jsonFile);
 		for (Entry<String, String> entry : map.entrySet()) {
 			LOGGER.info("key:"+entry.getKey()+"\t value:"+entry.getValue());
-//			categoryId=entry.getKey();
-//			SeleniumDownloader downloader=new SeleniumDownloader("D:\\chromedriver.exe", new LoadAllBrandScript());
-//			LoadAllBrandProcessor loadAllBrandProcessor = (LoadAllBrandProcessor) SpringContextHelper.getBean("loadAllBrandProcessor");
-//			us.codecraft.webmagic.Spider.create(loadAllBrandProcessor).addUrl(entry.getValue()).setDownloader(downloader)
-//					.thread(1).run();
+			categoryId=entry.getKey();
+			SeleniumDownloader downloader=new SeleniumDownloader("D:\\chromedriver.exe", new LoadAllBrandScript());
+			LoadAllBrandProcessor loadAllBrandProcessor = (LoadAllBrandProcessor) SpringContextHelper.getBean("loadAllBrandProcessor");
+			us.codecraft.webmagic.Spider.create(loadAllBrandProcessor).addUrl(entry.getValue()).setDownloader(downloader)
+					.thread(1).run();
 		}
 	}
 	

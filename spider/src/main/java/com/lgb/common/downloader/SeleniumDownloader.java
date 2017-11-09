@@ -43,6 +43,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
 	@Override
 	public Page download(Request request, Task task) {
+		Page page = new Page();
 		checkInit();
 		WebDriver webDriver;
 		try {
@@ -55,7 +56,9 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		webDriver.get(request.getUrl());
 
 		// 执行脚本
-		script.script(webDriver);
+		if(script!=null){
+			script.script(webDriver, page);
+		}
 		
 		WebDriver.Options manage = webDriver.manage();
 		Site site = task.getSite();
@@ -67,7 +70,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		}
 		WebElement webElement = webDriver.findElement(By.xpath("/html"));
 		String content = webElement.getAttribute("outerHTML");
-		Page page = new Page();
+		
 		page.setRawText(content);
 		page.setUrl(new PlainText(request.getUrl()));
 		page.setRequest(request);

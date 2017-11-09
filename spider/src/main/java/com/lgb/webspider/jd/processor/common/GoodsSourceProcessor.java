@@ -13,6 +13,7 @@ import com.lgb.common.Constant;
 import com.lgb.common.downloader.SeleniumDownloader;
 import com.lgb.common.processor.CommonProcessor;
 import com.lgb.common.utils.SpringContextHelper;
+import com.lgb.common.utils.URLResolver;
 import com.lgb.common.utils.UUIDUtil;
 import com.lgb.goods.dao.GoodsBrandDAO;
 import com.lgb.goods.dao.GoodsSourceDAO;
@@ -42,6 +43,44 @@ public class GoodsSourceProcessor extends CommonProcessor {
 	private GoodsSourceDAO goodsSourceDAO;
 	
 	private String brandId="b615952e-e344-4212-96cf-2edf69b54ac6";
+	
+	/**
+	 * 页号列表
+	 */
+	private List<String> pageNos=new ArrayList<String>();
+	
+	/**
+	 * 判断是否重复访问相同页号
+	 * @param url
+	 * @return true表示重复 false表示不重复
+	 */
+	private Boolean havePageNo(String url){
+		/**
+		 * 解析url获取page参数值
+		 */
+		URLResolver.analysis(url);
+		String pageNo=URLResolver.getValue("page");
+		if(StringUtils.isBlank(pageNo)){
+			//默认第一页
+			pageNo="1";
+		}
+		Boolean isHave=false;
+		//如果页号<=0,则排除
+		if(pageNo.contains("-")||pageNo.equals("0")){
+			isHave=true;
+		}else{
+			for (String page : pageNos) {
+				if(page.equals(pageNo)){
+					isHave=true;
+					break;
+				}
+			}
+		}
+		if(!isHave){
+			pageNos.add(pageNo);
+		}
+		return isHave;
+	}
 
 	@Override
 	public void process(Page page) {
@@ -104,7 +143,7 @@ public class GoodsSourceProcessor extends CommonProcessor {
 		Selectable pageUrls = page.getHtml().xpath("//*[@id='J_bottomPage']/span[1]/a");
 		for (Selectable pageUrl : pageUrls.nodes()) {
 			String url = pageUrl.xpath("a/@href").toString();
-			if(!url.contains("undefined")){
+			if(!url.contains("undefined") && !havePageNo(url)){
 				page.addTargetRequest(url);
 			}
 		}
