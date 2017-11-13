@@ -13,12 +13,11 @@ public class SpringContextHelper implements ApplicationContextAware{
 		context=applicationContext;
 	}
 	
-	/**    
-     * 这是一个便利的方法，帮助我们快速得到一个BEAN    
-     * @param beanName bean的名字    
-     * @return 返回一个bean对象    
-     * @author wangdf   
-     */      
+	/**
+	 *    
+	 * @param beanName
+	 * @return
+	 */
     public static Object getBean(String beanName) {    
         return context.getBean(beanName);     
     }   
