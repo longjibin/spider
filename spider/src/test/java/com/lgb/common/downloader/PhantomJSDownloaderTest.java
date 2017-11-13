@@ -1,24 +1,19 @@
 package com.lgb.common.downloader;
 
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.lgb.webspider.downloader.PhantomJSDownloader;
+import com.lgb.webspider.ecp.jd.loadallbrand.LoadAllBrandProcessor;
+import com.lgb.webspider.ecp.jd.loadallbrand.LoadAllBrandScript;
 
 public class PhantomJSDownloaderTest {
 
 	@Test
 	public void test() {
-		System.setProperty("phantomjs.binary.path","D:/phantomjs/phantomjs.exe");
-	    
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setJavascriptEnabled(true);
-		capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
-		WebDriver driver = new PhantomJSDriver(capabilities);
-		
-	    driver.get("http://list.jd.com/list.html?cat=9987,653,655");
-	    System.out.println(driver.getPageSource());
+		PhantomJSDownloader downloader = new PhantomJSDownloader("D:\\phantomjs\\phantomjs.exe", new LoadAllBrandScript());
+		LoadAllBrandProcessor loadAllBrandProcessor = new LoadAllBrandProcessor();
+		us.codecraft.webmagic.Spider.create(loadAllBrandProcessor)
+				.addUrl("http://list.jd.com/list.html?cat=9987,653,655").setDownloader(downloader).thread(2).run();
 	}
 
 }
