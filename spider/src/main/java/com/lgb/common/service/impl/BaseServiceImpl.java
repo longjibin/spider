@@ -50,4 +50,9 @@ public class BaseServiceImpl<T extends BaseEntity, D extends BaseDAO<T>> impleme
 		return dao.selectCount(t);
 	}
 
+	@Override
+	public T findById(String id) {
+		return dao.select(id);
+	}
+
 }

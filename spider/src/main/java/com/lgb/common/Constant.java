@@ -19,4 +19,9 @@ public class Constant {
 	 * 天猫
 	 */
 	public static final String PLATFORM_TM="TM";
+	
+	/**
+	 * 父级分类的id分割符
+	 */
+	public static final String CATEGORY_PARENT_SPLIT=",";
 }

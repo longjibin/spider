@@ -37,9 +37,4 @@ public abstract class AbstractProcessor implements PageProcessor {
 		return site;
 	}
 
-	/**
-	 * 运行爬虫
-	 */
-	public abstract void execute();
-
 }

@@ -20,4 +20,11 @@ public interface BaseService<T> {
 	 * @return
 	 */
 	Integer count(T t);
+	
+	/**
+	 * 查询指定id的数据
+	 * @param id id
+	 * @return
+	 */
+	T findById(String id);
 }

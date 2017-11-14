@@ -131,22 +131,22 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 		return Site.me().setRetryTimes(3).setSleepTime(3000);
 	}
 
-	@Override
-	public void execute() {
-		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
-
-		for (GoodsBrand goodsBrand : goodsBrands) {
-			LOGGER.info(goodsBrand.getGoodsListUrl());
-		}
-		PhantomJsDownloader downloader = new PhantomJsDownloader(
-				GoodsSourceProcessor.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(),
-				new LoadMoreScript());
-		GoodsSourceProcessor goodsSourceProcessor = (GoodsSourceProcessor) SpringContextHelper
-				.getBean("goodsSourceProcessor");
-		// 获取爬虫配置对象
-		Spider.create(goodsSourceProcessor)
-				.addUrl("http://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&sort=sort%5Frank%5Fasc&trans=1&JL=3_品牌_Apple")
-				.setDownloader(downloader).addPipeline(goodsSourcePipeline).thread(1).run();
-	}
+//	@Override
+//	public void execute() {
+//		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
+//
+//		for (GoodsBrand goodsBrand : goodsBrands) {
+//			LOGGER.info(goodsBrand.getGoodsListUrl());
+//		}
+//		PhantomJsDownloader downloader = new PhantomJsDownloader(
+//				GoodsSourceProcessor.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(),
+//				new LoadMoreScript());
+//		GoodsSourceProcessor goodsSourceProcessor = (GoodsSourceProcessor) SpringContextHelper
+//				.getBean("goodsSourceProcessor");
+//		// 获取爬虫配置对象
+//		Spider.create(goodsSourceProcessor)
+//				.addUrl("http://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&sort=sort%5Frank%5Fasc&trans=1&JL=3_品牌_Apple")
+//				.setDownloader(downloader).addPipeline(goodsSourcePipeline).thread(1).run();
+//	}
 
 }

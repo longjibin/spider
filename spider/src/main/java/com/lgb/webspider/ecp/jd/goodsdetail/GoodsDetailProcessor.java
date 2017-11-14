@@ -39,16 +39,16 @@ public class GoodsDetailProcessor extends AbstractProcessor {
 		System.out.println(goodsDetail);
 	}
 
-	@Override
-	public void execute() {
-		SeleniumDownloader downloader=new SeleniumDownloader("D:/chromedriver.exe", null);
-		GoodsDetailProcessor goodsDetailProcessor = (GoodsDetailProcessor) SpringContextHelper
-				.getBean("goodsSourceProcessor");
-		// 获取爬虫配置对象
-		us.codecraft.webmagic.Spider.create(goodsDetailProcessor).addUrl("https://item.jd.com/15503252649.html")
-				 .setDownloader(downloader)
-				.thread(1).run();
-	}
+//	@Override
+//	public void execute() {
+//		SeleniumDownloader downloader=new SeleniumDownloader("D:/chromedriver.exe", null);
+//		GoodsDetailProcessor goodsDetailProcessor = (GoodsDetailProcessor) SpringContextHelper
+//				.getBean("goodsSourceProcessor");
+//		// 获取爬虫配置对象
+//		us.codecraft.webmagic.Spider.create(goodsDetailProcessor).addUrl("https://item.jd.com/15503252649.html")
+//				 .setDownloader(downloader)
+//				.thread(1).run();
+//	}
 
 	public static void main(String[] args) {
 		PhantomJsDownloader downloader = new PhantomJsDownloader(

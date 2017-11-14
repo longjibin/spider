@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lgb.goods.dao.GoodsCategoryDAO">
+    <resultMap type="GoodsCategory" id="entityResult">
+    	<id property="id" column="id"/>
+    	
+    	<result property="name" column="name"/>
+    	<result property="parents" column="parents"/>
+    </resultMap>
+    
+	<insert id="insert">
+		INSERT INTO goods_category(id,
+			name, parents) 
+		VALUES (#{id},
+		#{name}, #{parents})
+	</insert>
+	
+	<select id="select" resultMap="entityResult">
+		SELECT * FROM goods_category WHERE id=#{id}
+	</select>
+</mapper>
