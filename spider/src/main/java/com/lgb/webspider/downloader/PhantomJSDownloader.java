@@ -20,6 +20,12 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.selector.PlainText;
 
+/**
+ * 
+ * @author Administrator
+ *
+ * @date 2017年11月14日
+ */
 public class PhantomJSDownloader implements Downloader, Closeable {
 
 	private volatile WebDriverPool webDriverPool;

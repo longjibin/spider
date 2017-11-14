@@ -4,6 +4,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * 
+ * @author Administrator
+ *
+ * @date 2017年11月14日
+ */
 public class SpringContextHelper implements ApplicationContextAware{
 
 	private static ApplicationContext context;

@@ -7,7 +7,13 @@ import com.lgb.common.utils.ConfigUtil;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-public abstract class CommonProcessor implements PageProcessor{
+/**
+ * 
+ * @author Administrator
+ *
+ * @date 2017年11月14日
+ */
+public abstract class AbstractProcessor implements PageProcessor{
 	
 	@Override
 	public Site getSite() {

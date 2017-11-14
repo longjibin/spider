@@ -14,6 +14,8 @@ public interface Script {
 
 	/**
 	 * 在selenium下载下来的页面上执行脚本逻辑
+	 * @param webDriver web驱动
+	 * @param page 页面
 	 */
 	void script(WebDriver webDriver, Page page);
 }

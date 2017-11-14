@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
-import com.lgb.common.processor.CommonProcessor;
+import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.common.utils.URLResolver;
 import com.lgb.common.utils.UUIDUtil;
@@ -33,7 +33,7 @@ import us.codecraft.webmagic.selector.Selectable;
  * @date 2017年11月2日
  */
 @Component
-public class GoodsSourceProcessor extends CommonProcessor {
+public class GoodsSourceProcessor extends AbstractProcessor {
 
 	private static final Logger LOGGER = Logger.getLogger(GoodsSourceProcessor.class);
 
@@ -68,7 +68,7 @@ public class GoodsSourceProcessor extends CommonProcessor {
 		}
 		Boolean isHave = false;
 		// 如果页号<=0,则排除
-		if (pageNo.contains("-") || pageNo.equals("0")) {
+		if (pageNo.contains("-") || "0".equals(pageNo)) {
 			isHave = true;
 		} else {
 			for (String page : pageNos) {

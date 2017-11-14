@@ -2,6 +2,12 @@ package com.lgb.common.dao;
 
 import java.util.List;
 
+/**
+ * 
+ * @author Administrator
+ *
+ * @date 2017年11月14日
+ */
 public interface BaseDAO<T> {
 	
 	/**
@@ -17,7 +23,7 @@ public interface BaseDAO<T> {
 	void update(T t);
 	
 	/**
-	 * 
+	 * 查询指定id的数据
 	 * @param id
 	 * @return
 	 */
@@ -38,7 +44,7 @@ public interface BaseDAO<T> {
 	Integer selectCount(T t);
 	
 	/**
-	 * 
+	 * 查询所有数据
 	 * @return
 	 */
 	List<T> selectAll();
