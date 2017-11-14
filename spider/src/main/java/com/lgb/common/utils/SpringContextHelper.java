@@ -4,12 +4,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-/**
- * 
- * @author Administrator
- *
- * @date 2017年11月14日
- */
 public class SpringContextHelper implements ApplicationContextAware{
 
 	private static ApplicationContext context;
@@ -19,12 +13,11 @@ public class SpringContextHelper implements ApplicationContextAware{
 		context=applicationContext;
 	}
 	
-	/**    
-     * 这是一个便利的方法，帮助我们快速得到一个BEAN    
-     * @param beanName bean的名字    
-     * @return 返回一个bean对象    
-     * @author wangdf   
-     */      
+	/**
+	 *    
+	 * @param beanName
+	 * @return
+	 */
     public static Object getBean(String beanName) {    
         return context.getBean(beanName);     
     }   
