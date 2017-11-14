@@ -1,7 +1,6 @@
 package com.lgb.webspider.ecp.jd.goodssource;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,15 +11,14 @@ import org.springframework.stereotype.Component;
 import com.lgb.common.Constant;
 import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.common.utils.SpringContextHelper;
-import com.lgb.common.utils.URLResolver;
-import com.lgb.common.utils.UUIDUtil;
-import com.lgb.goods.dao.GoodsBrandDAO;
-import com.lgb.goods.dao.GoodsSourceDAO;
+import com.lgb.common.utils.UrlResolver;
 import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
-import com.lgb.webspider.downloader.PhantomJSDownloader;
+import com.lgb.goods.service.GoodsBrandService;
+import com.lgb.webspider.downloader.PhantomJsDownloader;
 
 import us.codecraft.webmagic.Page;
+import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.selector.Selectable;
@@ -38,17 +36,17 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 	private static final Logger LOGGER = Logger.getLogger(GoodsSourceProcessor.class);
 
 	@Autowired
-	private GoodsBrandDAO goodsBrandDAO;
+	private GoodsSourcePipeline goodsSourcePipeline;
 
 	@Autowired
-	private GoodsSourceDAO goodsSourceDAO;
+	private GoodsBrandService goodsBrandService;
 
 	private String brandId = "b615952e-e344-4212-96cf-2edf69b54ac6";
 
 	/**
 	 * 页号列表
 	 */
-	private List<String> pageNos = new ArrayList<String>();
+	private List<Integer> pageNos = new ArrayList<Integer>();
 
 	/**
 	 * 判断是否重复访问相同页号
@@ -60,18 +58,19 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 		/**
 		 * 解析url获取page参数值
 		 */
-		URLResolver.analysis(url);
-		String pageNo = URLResolver.getValue("page");
-		if (StringUtils.isBlank(pageNo)) {
+		UrlResolver.analysis(url);
+		String pageNoStr = UrlResolver.getValue("page");
+		if (StringUtils.isBlank(pageNoStr)) {
 			// 默认第一页
-			pageNo = "1";
+			pageNoStr = "1";
 		}
+		Integer pageNo = Integer.parseInt(pageNoStr);
 		Boolean isHave = false;
 		// 如果页号<=0,则排除
-		if (pageNo.contains("-") || "0".equals(pageNo)) {
+		if (pageNo <= 0) {
 			isHave = true;
 		} else {
-			for (String page : pageNos) {
+			for (Integer page : pageNos) {
 				if (page.equals(pageNo)) {
 					isHave = true;
 					break;
@@ -86,10 +85,10 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 
 	@Override
 	public void process(Page page) {
-		Date date = new Date();
+		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合
 		Selectable goodsList = page.getHtml().xpath("//*[@id='plist']/ul/li");
-		List<GoodsSource> goodsSources = new ArrayList<GoodsSource>();
+
 		GoodsSource goodsSource = null;
 		for (Selectable goods : goodsList.nodes()) {
 			/**
@@ -99,7 +98,7 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 			goodsSource.setBrandId(brandId);
 			goodsSource.setSku(goods.xpath("li/div/@data-sku").toString());
 			goodsSource.setUrl("http://item.jd.com/" + goodsSource.getSku() + ".html");
-			goodsSources.add(goodsSource);
+			resultItems.put(goodsSource.getSku(), goodsSource);
 
 			/**
 			 * 解析关联商品并保存到集合
@@ -112,32 +111,7 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 					goodsSource.setBrandId(brandId);
 					goodsSource.setSku(sku);
 					goodsSource.setUrl("http://item.jd.com/" + sku + ".html");
-					goodsSources.add(goodsSource);
-				}
-			}
-
-			/**
-			 * 将集合中的数据保存到数据库
-			 */
-			for (GoodsSource goodsSourcePo : goodsSources) {
-				Integer count = goodsSourceDAO.selectCount(goodsSourcePo);
-				if (count == 0) {
-					/**
-					 * 新增
-					 */
-					// 设置id
-					goodsSourcePo.setId(UUIDUtil.getUUID());
-					// 设置创建时间
-					goodsSourcePo.setCreateDateTime(date);
-					// 设置修改时间
-					goodsSourcePo.setUpdateDateTime(date);
-					goodsSourceDAO.insert(goodsSourcePo);
-				} else {
-					/**
-					 * 更新
-					 */
-					goodsSourcePo.setUpdateDateTime(date);
-					goodsSourceDAO.update(goodsSourcePo);
+					resultItems.put(goodsSource.getSku(), goodsSource);
 				}
 			}
 		}
@@ -159,18 +133,12 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 
 	@Override
 	public void execute() {
-		/**
-		 * 
-		 */
-		GoodsBrand query = new GoodsBrand();
-		query.setSource(Constant.PLATFORM_JD);
-		query.setCategoryId("3");
-		List<GoodsBrand> goodsBrands = goodsBrandDAO.selectByModel(query);
+		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
 
 		for (GoodsBrand goodsBrand : goodsBrands) {
 			LOGGER.info(goodsBrand.getGoodsListUrl());
 		}
-		PhantomJSDownloader downloader = new PhantomJSDownloader(
+		PhantomJsDownloader downloader = new PhantomJsDownloader(
 				GoodsSourceProcessor.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(),
 				new LoadMoreScript());
 		GoodsSourceProcessor goodsSourceProcessor = (GoodsSourceProcessor) SpringContextHelper
@@ -178,7 +146,7 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 		// 获取爬虫配置对象
 		Spider.create(goodsSourceProcessor)
 				.addUrl("http://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&sort=sort%5Frank%5Fasc&trans=1&JL=3_品牌_Apple")
-				.setDownloader(downloader).thread(1).run();
+				.setDownloader(downloader).addPipeline(goodsSourcePipeline).thread(1).run();
 	}
 
 }

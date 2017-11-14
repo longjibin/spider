@@ -1,5 +1,8 @@
 package com.lgb.goods.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lgb.common.service.impl.BaseServiceImpl;
@@ -15,5 +18,16 @@ import com.lgb.goods.service.GoodsBrandService;
  */
 @Service
 public class GoodsBrandServiceImpl extends BaseServiceImpl<GoodsBrand, GoodsBrandDAO> implements GoodsBrandService {
+
+	@Autowired
+	private GoodsBrandDAO goodsBrandDAO;
+	
+	@Override
+	public List<GoodsBrand> selectBySourceAndCategoryId(String source, String categoryId) {
+		GoodsBrand query=new GoodsBrand();
+		query.setSource(source);
+		query.setCategoryId(categoryId);
+		return goodsBrandDAO.selectByModel(query);
+	}
 	
 }

@@ -38,7 +38,7 @@ public class ConfigUtil {
 	}
 	
 	public static Map<String, String> getKeyValueMap(){
-		Map<String, String> map=new HashMap<String, String>();
+		Map<String, String> map=new HashMap<String, String>(16);
 		String key="";
 		for (Iterator<String> iterator = cfg.getKeys(); iterator.hasNext();) {
 			key=iterator.next();

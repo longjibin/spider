@@ -12,9 +12,9 @@ import com.lgb.common.Constant;
 import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.common.utils.FileUtils;
 import com.lgb.common.utils.SpringContextHelper;
-import com.lgb.common.utils.URLResolver;
+import com.lgb.common.utils.UrlResolver;
 import com.lgb.goods.entity.GoodsBrand;
-import com.lgb.webspider.downloader.PhantomJSDownloader;
+import com.lgb.webspider.downloader.PhantomJsDownloader;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
@@ -56,7 +56,7 @@ public class LoadAllBrandProcessor extends AbstractProcessor {
 		for (Selectable li : lis.nodes()) {
 			goodsBrand = new GoodsBrand();
 			String url = li.xpath("li/a/@href").toString();
-			URLResolver.analysis(url);
+			UrlResolver.analysis(url);
 			// 设置电商品牌id brand-8557
 			String sbId = li.xpath("li/@id").toString();
 			goodsBrand.setSbId(sbId.substring(sbId.indexOf("-") + 1));
@@ -80,8 +80,8 @@ public class LoadAllBrandProcessor extends AbstractProcessor {
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = JSON.parseObject(jsonContent, Map.class);
 		// 初始化页面下载器并设置脚本动作
-		PhantomJSDownloader downloader = new PhantomJSDownloader(
-				PhantomJSDownloader.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(),
+		PhantomJsDownloader downloader = new PhantomJsDownloader(
+				PhantomJsDownloader.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(),
 				new LoadAllBrandScript());
 		// 加载页面处理器
 		LoadAllBrandProcessor loadAllBrandProcessor = (LoadAllBrandProcessor) SpringContextHelper

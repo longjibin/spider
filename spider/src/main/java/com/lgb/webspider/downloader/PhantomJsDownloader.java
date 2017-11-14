@@ -26,7 +26,7 @@ import us.codecraft.webmagic.selector.PlainText;
  *
  * @date 2017年11月14日
  */
-public class PhantomJSDownloader implements Downloader, Closeable {
+public class PhantomJsDownloader implements Downloader, Closeable {
 
 	private volatile WebDriverPool webDriverPool;
 
@@ -36,7 +36,7 @@ public class PhantomJSDownloader implements Downloader, Closeable {
 
 	private Script script;
 
-	public PhantomJSDownloader(String phantomJSDriverPath, Script script) {
+	public PhantomJsDownloader(String phantomJSDriverPath, Script script) {
 		System.getProperties().setProperty("phantomjs.binary.path", phantomJSDriverPath);
 		this.script = script;
 	}

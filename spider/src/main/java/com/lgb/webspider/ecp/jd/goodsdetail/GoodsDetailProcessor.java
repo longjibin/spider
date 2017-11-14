@@ -3,7 +3,7 @@ package com.lgb.webspider.ecp.jd.goodsdetail;
 import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.goods.entity.GoodsDetail;
-import com.lgb.webspider.downloader.PhantomJSDownloader;
+import com.lgb.webspider.downloader.PhantomJsDownloader;
 import com.lgb.webspider.downloader.SeleniumDownloader;
 
 import us.codecraft.webmagic.Page;
@@ -51,7 +51,7 @@ public class GoodsDetailProcessor extends AbstractProcessor {
 	}
 
 	public static void main(String[] args) {
-		PhantomJSDownloader downloader = new PhantomJSDownloader(
+		PhantomJsDownloader downloader = new PhantomJsDownloader(
 				GoodsDetailProcessor.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(), null);
 //		SeleniumDownloader downloader=new SeleniumDownloader("D:/chromedriver.exe", null);
 		GoodsDetailProcessor goodsDetailProcessor = new GoodsDetailProcessor();
