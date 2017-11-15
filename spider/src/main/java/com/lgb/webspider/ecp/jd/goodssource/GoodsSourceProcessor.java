@@ -2,25 +2,18 @@ package com.lgb.webspider.ecp.jd.goodssource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.lgb.common.Constant;
 import com.lgb.common.processor.AbstractProcessor;
-import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.common.utils.UrlResolver;
-import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
-import com.lgb.goods.service.GoodsBrandService;
-import com.lgb.webspider.downloader.PhantomJsDownloader;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.selector.Selectable;
 
 /**
@@ -33,20 +26,18 @@ import us.codecraft.webmagic.selector.Selectable;
 @Component
 public class GoodsSourceProcessor extends AbstractProcessor {
 
-	private static final Logger LOGGER = Logger.getLogger(GoodsSourceProcessor.class);
+	private String brandId;
 
-	@Autowired
-	private GoodsSourcePipeline goodsSourcePipeline;
-
-	@Autowired
-	private GoodsBrandService goodsBrandService;
-
-	private String brandId = "b615952e-e344-4212-96cf-2edf69b54ac6";
+	private Map<String, Object> configMap;
 
 	/**
 	 * 页号列表
 	 */
 	private List<Integer> pageNos = new ArrayList<Integer>();
+
+	public GoodsSourceProcessor(Map<String, Object> configMap) {
+		this.configMap = configMap;
+	}
 
 	/**
 	 * 判断是否重复访问相同页号
@@ -85,6 +76,11 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 
 	@Override
 	public void process(Page page) {
+		String temp = (String) configMap.get(page.getRequest().getUrl());
+		if (StringUtils.isNotBlank(temp)) {
+			brandId = temp;
+		}
+
 		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合
 		Selectable goodsList = page.getHtml().xpath("//*[@id='plist']/ul/li");
@@ -130,23 +126,5 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 	public Site getSite() {
 		return Site.me().setRetryTimes(3).setSleepTime(3000);
 	}
-
-//	@Override
-//	public void execute() {
-//		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
-//
-//		for (GoodsBrand goodsBrand : goodsBrands) {
-//			LOGGER.info(goodsBrand.getGoodsListUrl());
-//		}
-//		PhantomJsDownloader downloader = new PhantomJsDownloader(
-//				GoodsSourceProcessor.class.getClassLoader().getResource("driver/phantomjs.exe").getPath(),
-//				new LoadMoreScript());
-//		GoodsSourceProcessor goodsSourceProcessor = (GoodsSourceProcessor) SpringContextHelper
-//				.getBean("goodsSourceProcessor");
-//		// 获取爬虫配置对象
-//		Spider.create(goodsSourceProcessor)
-//				.addUrl("http://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&sort=sort%5Frank%5Fasc&trans=1&JL=3_品牌_Apple")
-//				.setDownloader(downloader).addPipeline(goodsSourcePipeline).thread(1).run();
-//	}
 
 }

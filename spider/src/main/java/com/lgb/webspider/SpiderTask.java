@@ -9,5 +9,8 @@ package com.lgb.webspider;
  */
 public interface SpiderTask {
 	
+	/**
+	 * 执行
+	 */
 	void execute();
 }

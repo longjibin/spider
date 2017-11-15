@@ -32,7 +32,7 @@ public class LoadAllBrandPipeline implements Pipeline {
 			goodsBrandService.save((GoodsBrand)entry.getValue(), goodsBrandService.count(query)==0?true:false);
 			counter++;
 		}
-		LOGGER.info("总共更新"+counter+"条数据");
+		LOGGER.info("LoadAllBrandPipeline-总共更新"+counter+"条数据");
 	}
 
 }
