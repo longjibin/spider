@@ -7,10 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.webspider.script.Script;
 
 import us.codecraft.webmagic.Page;
@@ -26,13 +24,10 @@ import us.codecraft.webmagic.selector.PlainText;
  *
  * @date 2017年11月14日
  */
-@Component
-@Scope("prototype")
 public class PhantomJsDownloader implements Downloader {
 
 	private Logger logger = Logger.getLogger(getClass());
 
-	@Autowired
 	private WebDriver webDriver;
 
 	private Script script;
@@ -49,13 +44,13 @@ public class PhantomJsDownloader implements Downloader {
 	@Override
 	public Page download(Request request, Task task) {
 		Page page = new Page();
-
+		webDriver=(WebDriver) SpringContextHelper.getBean("webDriver");
 		logger.info("downloading page " + request.getUrl());
 		webDriver.get(request.getUrl());
 
 		// 执行脚本
 		if (script != null) {
-			script.script(webDriver, page);
+			script.script(webDriver);
 		}
 
 		WebDriver.Options manage = webDriver.manage();

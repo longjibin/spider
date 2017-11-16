@@ -6,8 +6,6 @@ import org.openqa.selenium.WebElement;
 
 import com.lgb.webspider.script.Script;
 
-import us.codecraft.webmagic.Page;
-
 /**
  * 加载所有品牌的脚本
  * @author Administrator
@@ -17,7 +15,7 @@ import us.codecraft.webmagic.Page;
 public class LoadAllBrandScript implements Script {
 
 	@Override
-	public void script(WebDriver webDriver, Page page) {
+	public void script(WebDriver webDriver) {
 		// 找到加载所有的按钮
 		WebElement loadAll = webDriver.findElement(By.xpath("//*[@id='J_selector']/div[2]/div/div[3]/a[1]"));
 		loadAll.click();

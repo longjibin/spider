@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 
 import com.lgb.common.utils.SpringContextHelper;
+import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
 import com.lgb.goods.service.GoodsSourceService;
 
@@ -22,6 +23,12 @@ public class GoodsSourcePipeline implements Pipeline {
 
 	private static final Logger LOGGER = Logger.getLogger(GoodsSourcePipeline.class);
 	
+	private GoodsBrand goodsBrand;
+	
+	public GoodsSourcePipeline(GoodsBrand goodsBrand) {
+		this.goodsBrand=goodsBrand;
+	}
+
 	@Override
 	public void process(ResultItems resultItems, Task task) {
 		Integer counter=0;
@@ -33,7 +40,7 @@ public class GoodsSourcePipeline implements Pipeline {
 					goodsSourceService.count(query) == 0 ? true : false);
 			counter++;
 		}
-		LOGGER.info("GoodsSourcePipeline-总共更新"+counter+"条数据");
+		LOGGER.info(goodsBrand.getSource()+"-"+"GoodsSource-"+goodsBrand.getBrand()+":更新"+counter+"条数据");
 	}
 
 }

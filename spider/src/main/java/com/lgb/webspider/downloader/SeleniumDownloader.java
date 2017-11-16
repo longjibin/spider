@@ -58,7 +58,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
 		// 执行脚本
 		if(script!=null){
-			script.script(webDriver, page);
+			script.script(webDriver);
 		}
 		
 		WebDriver.Options manage = webDriver.manage();

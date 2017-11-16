@@ -2,13 +2,12 @@ package com.lgb.webspider.ecp.jd.goodssource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.common.utils.UrlResolver;
+import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
 
 import us.codecraft.webmagic.Page;
@@ -23,20 +22,20 @@ import us.codecraft.webmagic.selector.Selectable;
  *
  * @date 2017年11月2日
  */
-@Component
 public class GoodsSourceProcessor extends AbstractProcessor {
 
-	private String brandId;
-
-	private Map<String, Object> configMap;
-
+	/**
+	 * 商品品牌信息
+	 */
+	private GoodsBrand goodsBrand;
+	
 	/**
 	 * 页号列表
 	 */
 	private List<Integer> pageNos = new ArrayList<Integer>();
 
-	public GoodsSourceProcessor(Map<String, Object> configMap) {
-		this.configMap = configMap;
+	public GoodsSourceProcessor(GoodsBrand goodsBrand) {
+		this.goodsBrand = goodsBrand;
 	}
 
 	/**
@@ -76,11 +75,6 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 
 	@Override
 	public void process(Page page) {
-		String temp = (String) configMap.get(page.getRequest().getUrl());
-		if (StringUtils.isNotBlank(temp)) {
-			brandId = temp;
-		}
-
 		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合
 		Selectable goodsList = page.getHtml().xpath("//*[@id='plist']/ul/li");
@@ -91,7 +85,7 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 			 * 解析封面商品并保存到集合
 			 */
 			goodsSource = new GoodsSource();
-			goodsSource.setBrandId(brandId);
+			goodsSource.setBrandId(goodsBrand.getId());
 			goodsSource.setSku(goods.xpath("li/div/@data-sku").toString());
 			goodsSource.setUrl("http://item.jd.com/" + goodsSource.getSku() + ".html");
 			resultItems.put(goodsSource.getSku(), goodsSource);
@@ -104,7 +98,7 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 				String sku = item.xpath("li/@ids").toString();
 				if (StringUtils.isNotBlank(sku)) {
 					goodsSource = new GoodsSource();
-					goodsSource.setBrandId(brandId);
+					goodsSource.setBrandId(goodsBrand.getId());
 					goodsSource.setSku(sku);
 					goodsSource.setUrl("http://item.jd.com/" + sku + ".html");
 					resultItems.put(goodsSource.getSku(), goodsSource);

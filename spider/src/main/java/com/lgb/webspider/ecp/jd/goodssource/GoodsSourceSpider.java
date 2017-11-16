@@ -1,8 +1,6 @@
 package com.lgb.webspider.ecp.jd.goodssource;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,9 +17,6 @@ import us.codecraft.webmagic.Spider;
 public class GoodsSourceSpider implements SpiderTask {
 
 	@Autowired
-	private PhantomJsDownloader phantomJsDownloader;
-
-	@Autowired
 	private GoodsBrandService goodsBrandService;
 
 	@Override
@@ -30,19 +25,14 @@ public class GoodsSourceSpider implements SpiderTask {
 		 * 查询京东手机分类下的所有品牌
 		 */
 		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
-		Map<String, Object> configMap = new LinkedHashMap<String, Object>();
 		for (GoodsBrand goodsBrand : goodsBrands) {
-			configMap.put(goodsBrand.getGoodsListUrl(), goodsBrand.getId());
+			// 获取爬虫配置对象
+			PhantomJsDownloader phantomJsDownloader=new PhantomJsDownloader();
+			phantomJsDownloader.setScript(new LoadMoreScript());
+			Spider.create(new GoodsSourceProcessor(goodsBrand)).addUrl(goodsBrand.getGoodsListUrl())
+					.setDownloader(phantomJsDownloader).addPipeline(new GoodsSourcePipeline(goodsBrand)).thread(2).run();
 		}
 
-		// 测试数据
-		String[] urls = new String[] {
-				"http://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&sort=sort%5Frank%5Fasc&trans=1&JL=3_品牌_Apple" };
-
-		phantomJsDownloader.setScript(new LoadMoreScript());
-		// 获取爬虫配置对象
-		Spider.create(new GoodsSourceProcessor(configMap)).addUrl(urls).setDownloader(phantomJsDownloader)
-				.addPipeline(new GoodsSourcePipeline()).run();
 	}
 
 }
