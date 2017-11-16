@@ -1,0 +1,1 @@
+mvn install:install-file -DgroupId=com.lgb -DartifactId=script -Dversion=1.0 -Dfile=script.jar -Dpackaging=jar -DgeneratePom=true
