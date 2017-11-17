@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.lgb.common.utils.WebDriverPool;
-import com.lgb.webspider.script.Script;
+import com.lgb.webspider.Script;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -58,7 +58,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
 		// 执行脚本
 		if(script!=null){
-			script.script(webDriver);
+			script.script(webDriver, page);
 		}
 		
 		WebDriver.Options manage = webDriver.manage();

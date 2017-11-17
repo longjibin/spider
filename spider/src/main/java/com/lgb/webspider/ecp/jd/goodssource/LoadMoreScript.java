@@ -5,7 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import com.lgb.webspider.script.Script;
+import com.lgb.webspider.Script;
+
+import us.codecraft.webmagic.Page;
 
 /**
  * JD:加载更多脚本
@@ -15,8 +17,7 @@ import com.lgb.webspider.script.Script;
  */
 public class LoadMoreScript implements Script {
 
-	@Override
-	public void script(WebDriver webDriver) {
+	public void script(WebDriver webDriver, Page page) {
 		// 找到滑动到的元素
 		WebElement loadMore = webDriver.findElement(By.xpath("//*[@id='J_bottomPage']"));
 		// 声明一个动作

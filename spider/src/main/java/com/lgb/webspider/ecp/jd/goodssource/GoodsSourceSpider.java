@@ -1,6 +1,8 @@
 package com.lgb.webspider.ecp.jd.goodssource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,13 +27,13 @@ public class GoodsSourceSpider implements SpiderTask {
 		 * 查询京东手机分类下的所有品牌
 		 */
 		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
+		Map<String, GoodsBrand> configMap=new HashMap<String, GoodsBrand>();
 		for (GoodsBrand goodsBrand : goodsBrands) {
-			// 获取爬虫配置对象
-			PhantomJsDownloader phantomJsDownloader=new PhantomJsDownloader();
-			phantomJsDownloader.setScript(new LoadMoreScript());
-			Spider.create(new GoodsSourceProcessor(goodsBrand)).addUrl(goodsBrand.getGoodsListUrl())
-					.setDownloader(phantomJsDownloader).addPipeline(new GoodsSourcePipeline(goodsBrand)).thread(2).run();
+			configMap.put(goodsBrand.getGoodsListUrl(), goodsBrand);
 		}
+		
+		Spider.create(new GoodsSourceProcessor(configMap)).addUrl(configMap.keySet().toArray(new String[configMap.size()]))
+				.setDownloader(new PhantomJsDownloader(new LoadMoreScript())).thread(2).run();
 
 	}
 

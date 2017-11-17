@@ -3,7 +3,6 @@ package com.lgb.webspider.ecp.jd.goodsdetail;
 import org.springframework.stereotype.Component;
 
 import com.lgb.webspider.SpiderTask;
-import com.lgb.webspider.downloader.PhantomJsDownloader;
 
 @Component
 public class GoodsDetailSpider implements SpiderTask {
@@ -16,7 +15,7 @@ public class GoodsDetailSpider implements SpiderTask {
 		// 获取爬虫配置对象
 		us.codecraft.webmagic.Spider.create(new GoodsDetailProcessor()).addUrl("http://item.jd.com/15503252649.html")
 				.addPipeline(new GoodsDetailPipeline())
-				.setDownloader(new PhantomJsDownloader())
+//				.setDownloader(new PhantomJsDownloader())
 				.thread(1)
 				.run();
 	}

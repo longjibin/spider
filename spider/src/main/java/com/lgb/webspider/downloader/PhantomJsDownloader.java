@@ -8,8 +8,9 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.lgb.common.utils.ConfigUtil;
 import com.lgb.common.utils.SpringContextHelper;
-import com.lgb.webspider.script.Script;
+import com.lgb.webspider.Script;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -32,25 +33,21 @@ public class PhantomJsDownloader implements Downloader {
 
 	private Script script;
 
-	public PhantomJsDownloader() {
-		System.getProperties().setProperty("phantomjs.binary.path", "D:/phantomjs/phantomjs.exe");
-
-	}
-
-	public void setScript(Script script) {
+	public PhantomJsDownloader(Script script) {
 		this.script = script;
+		System.getProperties().setProperty("phantomjs.binary.path", ConfigUtil.getString("driver.path"));
 	}
 
 	@Override
 	public Page download(Request request, Task task) {
 		Page page = new Page();
-		webDriver=(WebDriver) SpringContextHelper.getBean("webDriver");
+		webDriver = (WebDriver) SpringContextHelper.getBean("webDriver");
 		logger.info("downloading page " + request.getUrl());
 		webDriver.get(request.getUrl());
 
 		// 执行脚本
 		if (script != null) {
-			script.script(webDriver);
+			script.script(webDriver, page);
 		}
 
 		WebDriver.Options manage = webDriver.manage();

@@ -2,6 +2,7 @@ package com.lgb.webspider.ecp.jd.goodssource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,17 +26,22 @@ import us.codecraft.webmagic.selector.Selectable;
 public class GoodsSourceProcessor extends AbstractProcessor {
 
 	/**
-	 * 商品品牌信息
+	 * 
 	 */
 	private GoodsBrand goodsBrand;
+	
+	/**
+	 * 配置信息
+	 */
+	private Map<String, GoodsBrand> configMap;
 	
 	/**
 	 * 页号列表
 	 */
 	private List<Integer> pageNos = new ArrayList<Integer>();
 
-	public GoodsSourceProcessor(GoodsBrand goodsBrand) {
-		this.goodsBrand = goodsBrand;
+	public GoodsSourceProcessor(Map<String, GoodsBrand> configMap) {
+		this.configMap = configMap;
 	}
 
 	/**
@@ -75,6 +81,11 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 
 	@Override
 	public void process(Page page) {
+		GoodsBrand result=configMap.get(page.getRequest().getUrl());
+		if(result!=null){
+			goodsBrand=result;
+		}
+		
 		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合
 		Selectable goodsList = page.getHtml().xpath("//*[@id='plist']/ul/li");
