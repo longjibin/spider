@@ -74,8 +74,6 @@ public class WebDriverPool {
 						webDriver = new ChromeDriver();
 						break;
 					case DRIVER_PHANTOMJS:
-						// DesiredCapabilities capabilities = new
-						// DesiredCapabilities();
 						webDriver = new PhantomJSDriver();
 						break;
 					default:

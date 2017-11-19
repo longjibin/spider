@@ -2,6 +2,8 @@ package com.lgb.webspider.ecp.jd.loadallbrand;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.lgb.common.Constant;
 import com.lgb.common.utils.UrlResolver;
 import com.lgb.goods.entity.GoodsBrand;
@@ -21,11 +23,10 @@ import us.codecraft.webmagic.selector.Selectable;
  */
 public class LoadAllBrandProcessor implements PageProcessor {
 
-	/**
-	 * 配置
-	 */
+	private String categoryId;
+
 	private Map<String, String> configMap;
-	
+
 	public LoadAllBrandProcessor(Map<String, String> configMap) {
 		this.configMap = configMap;
 	}
@@ -37,9 +38,13 @@ public class LoadAllBrandProcessor implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-		String categoryId=configMap.get(page.getRequest().getUrl());
-		
+		String result = configMap.get(page.getRequest().getUrl());
+		if (StringUtils.isNotBlank(result)) {
+			categoryId = result;
+		}
+
 		Selectable lis = page.getHtml().xpath("//ul[@id='brandsArea']/li");
+
 		ResultItems resultItems = page.getResultItems();
 
 		GoodsBrand goodsBrand = null;
@@ -61,6 +66,5 @@ public class LoadAllBrandProcessor implements PageProcessor {
 
 			resultItems.put(goodsBrand.getSbId(), goodsBrand);
 		}
-		
 	}
 }

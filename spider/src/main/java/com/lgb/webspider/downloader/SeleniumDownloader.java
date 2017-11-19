@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.stereotype.Component;
 
 import com.lgb.common.utils.WebDriverPool;
 import com.lgb.webspider.Script;
@@ -27,6 +28,7 @@ import us.codecraft.webmagic.selector.PlainText;
  *
  * @date 2017年11月2日
  */
+@Component
 public class SeleniumDownloader implements Downloader, Closeable {
 
 	private volatile WebDriverPool webDriverPool;
@@ -37,8 +39,15 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
 	private Script script;
 
-	public SeleniumDownloader(String chromeDriverPath, Script script) {
-		System.getProperties().setProperty("webdriver.chrome.driver", chromeDriverPath);
+	private String driverName;
+	
+	public SeleniumDownloader(String systemProperty, String chromeDriverPath, String driverName, Script script) {
+		System.getProperties().setProperty(systemProperty, chromeDriverPath);
+		// System.getProperties().setProperty("phantomjs.binary.path",
+		// chromeDriverPath);
+		// System.getProperties().setProperty("webdriver.chrome.driver",
+		// chromeDriverPath);
+		this.driverName = driverName;
 		this.script = script;
 	}
 
@@ -57,10 +66,10 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		webDriver.get(request.getUrl());
 
 		// 执行脚本
-		if(script!=null){
+		if (script != null) {
 			script.script(webDriver, page);
 		}
-		
+
 		WebDriver.Options manage = webDriver.manage();
 		Site site = task.getSite();
 		if (site.getCookies() != null) {
@@ -71,7 +80,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 		}
 		WebElement webElement = webDriver.findElement(By.xpath("/html"));
 		String content = webElement.getAttribute("outerHTML");
-		
+
 		page.setRawText(content);
 		page.setUrl(new PlainText(request.getUrl()));
 		page.setRequest(request);
@@ -82,7 +91,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 	private void checkInit() {
 		if (webDriverPool == null) {
 			synchronized (this) {
-				webDriverPool = new WebDriverPool(WebDriverPool.DRIVER_CHROME, poolSize);
+				webDriverPool = new WebDriverPool(driverName, poolSize);
 			}
 		}
 	}

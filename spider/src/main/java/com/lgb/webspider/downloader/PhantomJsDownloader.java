@@ -1,5 +1,7 @@
 package com.lgb.webspider.downloader;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -25,7 +27,7 @@ import us.codecraft.webmagic.selector.PlainText;
  *
  * @date 2017年11月14日
  */
-public class PhantomJsDownloader implements Downloader {
+public class PhantomJsDownloader implements Downloader, Closeable {
 
 	private Logger logger = Logger.getLogger(getClass());
 
@@ -70,6 +72,12 @@ public class PhantomJsDownloader implements Downloader {
 	@Override
 	public void setThread(int thread) {
 
+	}
+
+	@Override
+	public void close() throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
