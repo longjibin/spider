@@ -41,6 +41,9 @@
 			<if test="categoryId != null and categoryId != ''">
 				and category_id=#{categoryId}
 			</if>
+			<if test="sbId != null and sbId != ''">
+				and sb_id=#{sbId}
+			</if>
 		</where>
 	</select>
 	

@@ -2,13 +2,13 @@ package com.lgb.webspider.ecp.jd.loadallbrand;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.lgb.common.utils.ConfigUtil;
 import com.lgb.common.utils.FileUtils;
-import com.lgb.common.utils.WebDriverPool;
 import com.lgb.webspider.SpiderTask;
+import com.lgb.webspider.downloader.PageLoader;
 import com.lgb.webspider.downloader.SeleniumDownloader;
 
 import us.codecraft.webmagic.Spider;
@@ -22,6 +22,9 @@ import us.codecraft.webmagic.Spider;
 @Component
 public class LoadAllBrandSpider implements SpiderTask {
 
+	@Autowired
+	private SeleniumDownloader seleniumDownloader;
+
 	@Override
 	public void execute() {
 		// 获取配置
@@ -29,17 +32,12 @@ public class LoadAllBrandSpider implements SpiderTask {
 		@SuppressWarnings("unchecked")
 		Map<String, String> configMap = JSON.parseObject(jsonContent, Map.class);
 
-		/**
-		 * 定义可执行的爬虫最大数量
-		 */
-		for (int i = 0; i < 2; i++) {
-			Spider.create(new LoadAllBrandProcessor(configMap))
-			.addUrl(configMap.keySet().toArray(new String[configMap.size()]))
-			.setDownloader(new SeleniumDownloader("phantomjs.binary.path", ConfigUtil.getString("driver.path"),
-					WebDriverPool.DRIVER_PHANTOMJS, new LoadAllScript()))
-			.addPipeline(new LoadAllBrandPipeline()).runAsync();
-		}
-		
+		seleniumDownloader.addConfig(new LoadAllScript(), PageLoader.DRIVER_CHROME);
+		Spider.create(new LoadAllBrandProcessor(configMap))
+				.addUrl(configMap.keySet().toArray(new String[configMap.size()])).setDownloader(seleniumDownloader)
+//				.addPipeline(new LoadAllBrandPipeline())
+				.thread(10).run();
+
 	}
 
 }

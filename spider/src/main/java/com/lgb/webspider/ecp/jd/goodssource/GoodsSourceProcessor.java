@@ -1,15 +1,19 @@
 package com.lgb.webspider.ecp.jd.goodssource;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.common.utils.UrlResolver;
 import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
+import com.lgb.goods.service.GoodsBrandService;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
@@ -23,26 +27,16 @@ import us.codecraft.webmagic.selector.Selectable;
  *
  * @date 2017年11月2日
  */
+@Component
 public class GoodsSourceProcessor extends AbstractProcessor {
 
-	/**
-	 * 
-	 */
-	private GoodsBrand goodsBrand;
-	
-	/**
-	 * 配置信息
-	 */
-	private Map<String, GoodsBrand> configMap;
+	@Autowired
+	private GoodsBrandService goodsBrandService;
 	
 	/**
 	 * 页号列表
 	 */
 	private List<Integer> pageNos = new ArrayList<Integer>();
-
-	public GoodsSourceProcessor(Map<String, GoodsBrand> configMap) {
-		this.configMap = configMap;
-	}
 
 	/**
 	 * 判断是否重复访问相同页号
@@ -81,10 +75,16 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 
 	@Override
 	public void process(Page page) {
-		GoodsBrand result=configMap.get(page.getRequest().getUrl());
-		if(result!=null){
-			goodsBrand=result;
+		String requestUrl=page.getRequest().getUrl();
+		try {
+			requestUrl=URLDecoder.decode(requestUrl, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		UrlResolver.analysis(requestUrl);
+		String sbId = UrlResolver.getValue("ev");
+		sbId=sbId.substring(sbId.indexOf("_")+1);
+		GoodsBrand goodsBrand=goodsBrandService.findBySbId(sbId);
 		
 		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合

@@ -1,40 +1,58 @@
 package com.lgb.webspider.ecp.jd.goodssource;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
+import com.lgb.common.utils.ConfigUtil;
 import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.service.GoodsBrandService;
 import com.lgb.webspider.SpiderTask;
-import com.lgb.webspider.downloader.PhantomJsDownloader;
+import com.lgb.webspider.downloader.PageLoader;
+import com.lgb.webspider.downloader.SeleniumDownloader;
 
 import us.codecraft.webmagic.Spider;
 
 @Component
 public class GoodsSourceSpider implements SpiderTask {
+	
+	private static final Logger LOGGER=Logger.getLogger(GoodsSourceSpider.class);
 
 	@Autowired
 	private GoodsBrandService goodsBrandService;
+	
+	@Autowired
+	private GoodsSourceProcessor goodsSourceProcessor;
+	
+	@Autowired
+	private SeleniumDownloader seleniumDownloader;
+	
+	@Autowired
+	private GoodsSourcePipeline goodsSourcePipeline;
 
 	@Override
 	public void execute() {
+		long start=System.currentTimeMillis();
 		/**
 		 * 查询京东手机分类下的所有品牌
 		 */
 		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
-		Map<String, GoodsBrand> configMap=new HashMap<String, GoodsBrand>();
+		List<String> urls=new ArrayList<String>();
 		for (GoodsBrand goodsBrand : goodsBrands) {
-			configMap.put(goodsBrand.getGoodsListUrl(), goodsBrand);
+			urls.add(goodsBrand.getGoodsListUrl());
 		}
 		
-		Spider.create(new GoodsSourceProcessor(configMap)).addUrl(configMap.keySet().toArray(new String[configMap.size()]))
-				.setDownloader(new PhantomJsDownloader(new LoadMoreScript())).thread(2).run();
-
+		seleniumDownloader.addConfig(new LoadMoreScript(), PageLoader.DRIVER_PHANTOMJS);
+		Spider.create(goodsSourceProcessor)
+				.addUrl(urls.toArray(new String[urls.size()])).setDownloader(seleniumDownloader)
+				.addPipeline(goodsSourcePipeline)
+				.thread(ConfigUtil.getInteger("thread.pool")).run();
+		long end=System.currentTimeMillis();
+		LOGGER.info("GoodsSourceSpider本次耗时:"+(end-start)+"ms");
 	}
 
 }

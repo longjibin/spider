@@ -20,4 +20,11 @@ public interface GoodsBrandService extends BaseService<GoodsBrand> {
 	 * @return
 	 */
 	List<GoodsBrand> selectBySourceAndCategoryId(String source, String categoryId);
+
+	/**
+	 * 查询指定电商平台品牌信息
+	 * @param sbId
+	 * @return
+	 */
+	GoodsBrand findBySbId(String sbId);
 }

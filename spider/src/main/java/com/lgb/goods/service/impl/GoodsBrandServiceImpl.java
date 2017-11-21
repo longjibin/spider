@@ -29,5 +29,13 @@ public class GoodsBrandServiceImpl extends BaseServiceImpl<GoodsBrand, GoodsBran
 		query.setCategoryId(categoryId);
 		return goodsBrandDAO.selectByModel(query);
 	}
+
+	@Override
+	public GoodsBrand findBySbId(String sbId) {
+		GoodsBrand query=new GoodsBrand();
+		query.setSbId(sbId);
+		List<GoodsBrand> brands=goodsBrandDAO.selectByModel(query);
+		return brands.isEmpty()==true?null:brands.get(0);
+	}
 	
 }
