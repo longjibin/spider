@@ -41,6 +41,13 @@ public class UrlResolver {
 	 */
 	private static final String REPLACE = "*";
 
+	public static String getHost(String url) {
+		if (url.contains(START)) {
+			return url.substring(0, url.indexOf(START));
+		}
+		return url;
+	}
+
 	public static void analysis(String url) {
 		url = url.substring(url.indexOf(START) + 1);
 		/**
@@ -84,6 +91,10 @@ public class UrlResolver {
 
 	public static String getValue(String key) {
 		return keyValueMap.get(key);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(UrlResolver.getHost("http://list.jd.com/list.html?cat=9987,653,655"));
 	}
 
 }

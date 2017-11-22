@@ -1,12 +1,13 @@
 package com.lgb.webspider.ecp.jd.loadallbrand;
 
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
 import com.lgb.common.utils.UrlResolver;
 import com.lgb.goods.entity.GoodsBrand;
+import com.lgb.goods.entity.GoodsCb;
+import com.lgb.goods.service.GoodsCbService;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
@@ -21,16 +22,12 @@ import us.codecraft.webmagic.selector.Selectable;
  *
  * @date 2017年11月3日
  */
+@Component
 public class LoadAllBrandProcessor implements PageProcessor {
 
-	private String categoryId;
-
-	private Map<String, String> configMap;
-
-	public LoadAllBrandProcessor(Map<String, String> configMap) {
-		this.configMap = configMap;
-	}
-
+	@Autowired
+	private GoodsCbService goodsCbService;
+	
 	@Override
 	public Site getSite() {
 		return Site.me().setRetryTimes(3).setSleepTime(3000);
@@ -38,10 +35,7 @@ public class LoadAllBrandProcessor implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-		String result = configMap.get(page.getRequest().getUrl());
-		if (StringUtils.isNotBlank(result)) {
-			categoryId = result;
-		}
+		GoodsCb goodsCb=goodsCbService.findBySourceAndUrl(Constant.PLATFORM_JD, page.getRequest().getUrl());
 
 		Selectable lis = page.getHtml().xpath("//ul[@id='brandsArea']/li");
 
@@ -62,7 +56,7 @@ public class LoadAllBrandProcessor implements PageProcessor {
 			// 设置商品列表url
 			goodsBrand.setGoodsListUrl(li.xpath("li/a/@href").toString());
 			// 设置关联的分类
-			goodsBrand.setCategoryId(categoryId);
+			goodsBrand.setCategoryId(goodsCb.getCategoryId());
 
 			resultItems.put(goodsBrand.getSbId(), goodsBrand);
 		}

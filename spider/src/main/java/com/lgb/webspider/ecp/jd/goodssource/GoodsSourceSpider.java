@@ -46,7 +46,7 @@ public class GoodsSourceSpider implements SpiderTask {
 			urls.add(goodsBrand.getGoodsListUrl());
 		}
 		
-		seleniumDownloader.addConfig(new LoadMoreScript(), PageLoader.DRIVER_PHANTOMJS);
+		seleniumDownloader.addConfig(new LoadMoreScript(), PageLoader.DRIVER_CHROME);
 		Spider.create(goodsSourceProcessor)
 				.addUrl(urls.toArray(new String[urls.size()])).setDownloader(seleniumDownloader)
 				.addPipeline(goodsSourcePipeline)

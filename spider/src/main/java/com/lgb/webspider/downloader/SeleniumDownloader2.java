@@ -66,9 +66,9 @@ public class SeleniumDownloader2 implements Downloader, Closeable {
 		webDriver.get(request.getUrl());
 
 		// 执行脚本
-		if (script != null) {
-			script.script(webDriver, page);
-		}
+//		if (script != null) {
+//			script.script(webDriver, page);
+//		}
 
 		WebDriver.Options manage = webDriver.manage();
 		Site site = task.getSite();

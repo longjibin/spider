@@ -57,17 +57,20 @@ public class SeleniumDownloader implements Downloader {
 
 	@Override
 	public Page download(Request request, Task task) {
-		// 加载页面
 		Page page=null;
 		// 创建页面加载器
 		PageLoader pageLoader = webDriverManager.buildPageLoader(request, task, script, driverName);
+		// 添加页面加载器
+		webDriverManager.addToPool(pageLoader);
 		try {
-			// 添加加载器
-			webDriverManager.addToPool(pageLoader);
-			page = pageLoader.loadPage();
+			//加载页面
+			pageLoader.loadPage();
+			//解析页面
+			pageLoader.analysisHtml();
+			//执行脚本
+			page=pageLoader.doScript();
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-//			e.printStackTrace();
+			LOGGER.error("加载页面出错", e);
 		} finally {
 			// 清理当前进程
 			webDriverManager.destroy(pageLoader);

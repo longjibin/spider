@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lgb.goods.dao.GoodsCbDAO">
+    <resultMap type="GoodsCb" id="entityResult">
+    	<result property="categoryId" column="category_id"/>
+    	<result property="url" column="url"/>
+    	<result property="source" column="source"/>
+    </resultMap>
+    
+	<select id="selectByModel" resultMap="entityResult">
+		select 
+			* 
+		from 
+			goods_cb
+		<where>
+			<if test="categoryId != null and categoryId != ''">
+				and category_id=#{categoryId}
+			</if>
+			<if test="url != null and url != ''">
+				and url=#{url}
+			</if>
+			<if test="source != null and source != ''">
+				and source=#{source}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

@@ -1,10 +1,13 @@
 package com.lgb.common.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +70,12 @@ public class WebDriverManager {
 		WebDriver webDriver = null;
 		switch (driverName) {
 		case PageLoader.DRIVER_CHROME:
-			webDriver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.setBinary("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
+			Map<String, Object> prefs = new HashMap<String, Object>();
+	        prefs.put("profile.managed_default_content_settings.images", 2);
+	        options.setExperimentalOption("prefs", prefs);
+			webDriver = new ChromeDriver(options);
 			break;
 		case PageLoader.DRIVER_PHANTOMJS:
 			webDriver = new PhantomJSDriver();

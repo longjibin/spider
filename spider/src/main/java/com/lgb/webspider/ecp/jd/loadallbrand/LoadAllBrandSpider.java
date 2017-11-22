@@ -1,12 +1,15 @@
 package com.lgb.webspider.ecp.jd.loadallbrand;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
-import com.lgb.common.utils.FileUtils;
+import com.google.common.collect.Lists;
+import com.lgb.common.Constant;
+import com.lgb.common.utils.ConfigUtil;
+import com.lgb.goods.entity.GoodsCb;
+import com.lgb.goods.service.GoodsCbService;
 import com.lgb.webspider.SpiderTask;
 import com.lgb.webspider.downloader.PageLoader;
 import com.lgb.webspider.downloader.SeleniumDownloader;
@@ -23,20 +26,28 @@ import us.codecraft.webmagic.Spider;
 public class LoadAllBrandSpider implements SpiderTask {
 
 	@Autowired
+	private LoadAllBrandProcessor loadAllBrandProcessor;
+
+	@Autowired
 	private SeleniumDownloader seleniumDownloader;
+
+	@Autowired
+	private LoadAllBrandPipeline loadAllBrandPipeline;
+
+	@Autowired
+	private GoodsCbService goodsCbService;
 
 	@Override
 	public void execute() {
-		// 获取配置
-		String jsonContent = FileUtils.readFileToString("spider/config/jd/brands.json", "utf-8");
-		@SuppressWarnings("unchecked")
-		Map<String, String> configMap = JSON.parseObject(jsonContent, Map.class);
+		List<GoodsCb> goodsCbs = goodsCbService.findBySource(Constant.PLATFORM_JD);
+		List<String> urls = Lists.newArrayList();
+		for (GoodsCb goodsCb : goodsCbs) {
+			urls.add(goodsCb.getUrl());
+		}
 
 		seleniumDownloader.addConfig(new LoadAllScript(), PageLoader.DRIVER_CHROME);
-		Spider.create(new LoadAllBrandProcessor(configMap))
-				.addUrl(configMap.keySet().toArray(new String[configMap.size()])).setDownloader(seleniumDownloader)
-//				.addPipeline(new LoadAllBrandPipeline())
-				.thread(10).run();
+		Spider.create(loadAllBrandProcessor).addUrl(urls.toArray(new String[urls.size()]))
+				.setDownloader(seleniumDownloader).addPipeline(loadAllBrandPipeline).thread(ConfigUtil.getInteger("thread.pool")).run();
 
 	}
 

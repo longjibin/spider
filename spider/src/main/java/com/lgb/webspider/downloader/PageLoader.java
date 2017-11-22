@@ -40,7 +40,7 @@ public class PageLoader implements Serializable {
 	 * 请求对象
 	 */
 	private Request request;
-	
+
 	/**
 	 * task
 	 */
@@ -56,6 +56,11 @@ public class PageLoader implements Serializable {
 	 */
 	private Script script;
 
+	/**
+	 * 页面
+	 */
+	private Page page;
+
 	public PageLoader(Request request, Task task, WebDriver webDriver, Script script) {
 		super();
 		this.request = request;
@@ -64,16 +69,14 @@ public class PageLoader implements Serializable {
 		this.script = script;
 	}
 
-	public Page loadPage() throws Exception {
-		Page page = new Page();
-
+	/**
+	 * 加载页面
+	 * 
+	 * @throws Exception
+	 */
+	public void loadPage() throws Exception {
 		LOGGER.info("downloading page " + request.getUrl());
 		webDriver.get(request.getUrl());
-
-		// 执行脚本
-		if (script != null) {
-			script.script(webDriver, page);
-		}
 
 		WebDriver.Options manage = webDriver.manage();
 		Site site = task.getSite();
@@ -83,13 +86,32 @@ public class PageLoader implements Serializable {
 				manage.addCookie(cookie);
 			}
 		}
+	}
+
+	/**
+	 * 执行脚本
+	 */
+	public Page doScript() {
+		// 执行脚本
+		if (script != null) {
+			page = script.script(this);
+		}
+		return page;
+	}
+
+	/**
+	 * 解析页面
+	 * 
+	 * @return
+	 */
+	public void analysisHtml() {
+		page = new Page();
 		WebElement webElement = webDriver.findElement(By.xpath("/html"));
 		String content = webElement.getAttribute("outerHTML");
 
 		page.setRawText(content);
 		page.setUrl(new PlainText(request.getUrl()));
 		page.setRequest(request);
-		return page;
 	}
 
 	public Task getTask() {
@@ -98,6 +120,10 @@ public class PageLoader implements Serializable {
 
 	public WebDriver getWebDriver() {
 		return webDriver;
+	}
+
+	public Page getPage() {
+		return page;
 	}
 
 }

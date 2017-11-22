@@ -1,5 +1,8 @@
 package com.lgb.goods.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lgb.common.service.impl.BaseServiceImpl;
@@ -15,5 +18,15 @@ import com.lgb.goods.service.GoodsSourceService;
  */
 @Service
 public class GoodsSourceServiceImpl extends BaseServiceImpl<GoodsSource, GoodsSourceDAO> implements GoodsSourceService {
+
+	@Autowired
+	private GoodsSourceDAO goodsSourceDAO;
+	
+	@Override
+	public List<String> findUrlsBySource(String source) {
+		GoodsSource query=new GoodsSource();
+		query.setSource(source);
+		return goodsSourceDAO.selectUrlsByModel(query);
+	}
 
 }

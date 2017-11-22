@@ -4,6 +4,7 @@ import com.lgb.common.entity.BaseEntity;
 
 /**
  * 商品详情
+ * 
  * @author Administrator
  *
  */
@@ -32,13 +33,18 @@ public class GoodsDetail extends BaseEntity {
 	/**
 	 * 评论数
 	 */
-	private String goodsCommit;
+	private String goodsCommint;
+
+	/**
+	 * 好评率
+	 */
+	private String goodCommint;
 
 	/**
 	 * 店铺名
 	 */
 	private String shopName;
-	
+
 	/**
 	 * 店铺评分
 	 */
@@ -52,7 +58,7 @@ public class GoodsDetail extends BaseEntity {
 	/**
 	 * 商品详情url
 	 */
-	private String goodsDetailUrl;
+	private String goodsUrl;
 
 	/**
 	 * 商品来源，京东，淘宝等
@@ -83,12 +89,20 @@ public class GoodsDetail extends BaseEntity {
 		this.goodsName = goodsName;
 	}
 
-	public String getGoodsCommit() {
-		return goodsCommit;
+	public String getGoodsCommint() {
+		return goodsCommint;
 	}
 
-	public void setGoodsCommit(String goodsCommit) {
-		this.goodsCommit = goodsCommit;
+	public void setGoodsCommint(String goodsCommint) {
+		this.goodsCommint = goodsCommint;
+	}
+
+	public String getGoodCommint() {
+		return goodCommint;
+	}
+
+	public void setGoodCommint(String goodCommint) {
+		this.goodCommint = goodCommint;
 	}
 
 	public String getShopName() {
@@ -107,12 +121,12 @@ public class GoodsDetail extends BaseEntity {
 		this.other = other;
 	}
 
-	public String getGoodsDetailUrl() {
-		return goodsDetailUrl;
+	public String getGoodsUrl() {
+		return goodsUrl;
 	}
 
-	public void setGoodsDetailUrl(String goodsDetailUrl) {
-		this.goodsDetailUrl = goodsDetailUrl;
+	public void setGoodsUrl(String goodsUrl) {
+		this.goodsUrl = goodsUrl;
 	}
 
 	public String getSource() {
@@ -133,9 +147,10 @@ public class GoodsDetail extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "GoodsDetail [sku=" + sku + ", price=" + price + ", goodsName=" + goodsName + ", goodsCommit="
-				+ goodsCommit + ", shopName=" + shopName + ", shopScore=" + shopScore + ", other=" + other
-				+ ", goodsDetailUrl=" + goodsDetailUrl + ", source=" + source + "]";
+		return "GoodsDetail [sku=" + sku + ", price=" + price + ", goodsName=" + goodsName + ", goodsCommint="
+				+ goodsCommint + ", goodCommint=" + goodCommint + ", shopName=" + shopName + ", shopScore=" + shopScore
+				+ ", other=" + other + ", goodsUrl=" + goodsUrl + ", source=" + source + ", id=" + id
+				+ ", createDateTime=" + createDateTime + ", updateDateTime=" + updateDateTime + "]";
 	}
 
 }

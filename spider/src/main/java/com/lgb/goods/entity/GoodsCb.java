@@ -3,13 +3,13 @@ package com.lgb.goods.entity;
 import com.lgb.common.entity.BaseEntity;
 
 /**
- * 商品源对象
+ * 电商分类url与本系统分类的关联类
  * 
  * @author Administrator
  *
- * @date 2017年11月1日
+ * @date 2017年11月22日
  */
-public class GoodsSource extends BaseEntity {
+public class GoodsCb extends BaseEntity {
 
 	/**
 	 * 
@@ -17,35 +17,30 @@ public class GoodsSource extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 品牌id
+	 * 分类id
 	 */
-	private String brandId;
+	private String categoryId;
 
 	/**
-	 * 商品sku（不可拆分的商品标记）
-	 */
-	private String sku;
-
-	/**
-	 * 商品详情url
+	 * 分类url
 	 */
 	private String url;
-	
+
 	/**
 	 * 电商标记
 	 */
 	private String source;
 
-	public GoodsSource() {
+	public GoodsCb() {
 		super();
 	}
 
-	public String getBrandId() {
-		return brandId;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setBrandId(String brandId) {
-		this.brandId = brandId;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getUrl() {
@@ -54,14 +49,6 @@ public class GoodsSource extends BaseEntity {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String getSku() {
-		return sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
 	}
 
 	public String getSource() {

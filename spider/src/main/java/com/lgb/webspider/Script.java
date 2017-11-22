@@ -1,6 +1,6 @@
 package com.lgb.webspider;
 
-import org.openqa.selenium.WebDriver;
+import com.lgb.webspider.downloader.PageLoader;
 
 import us.codecraft.webmagic.Page;
 
@@ -14,8 +14,8 @@ public interface Script {
 
 	/**
 	 * 在selenium下载下来的页面上执行脚本逻辑
-	 * @param webDriver
-	 * @param page
+	 * @param pageLoader
+	 * @return 
 	 */
-	void script(WebDriver webDriver, Page page);
+	Page script(PageLoader pageLoader);
 }
