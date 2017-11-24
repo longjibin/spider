@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
-import com.lgb.common.utils.UrlResolver;
 import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsCb;
 import com.lgb.goods.service.GoodsCbService;
@@ -44,8 +43,6 @@ public class LoadAllBrandProcessor implements PageProcessor {
 		GoodsBrand goodsBrand = null;
 		for (Selectable li : lis.nodes()) {
 			goodsBrand = new GoodsBrand();
-			String url = li.xpath("li/a/@href").toString();
-			UrlResolver.analysis(url);
 			// 设置电商品牌id brand-8557
 			String sbId = li.xpath("li/@id").toString();
 			goodsBrand.setSbId(sbId.substring(sbId.indexOf("-") + 1));
@@ -54,7 +51,7 @@ public class LoadAllBrandProcessor implements PageProcessor {
 			// 设置品牌名
 			goodsBrand.setBrand(li.xpath("li/a/text()").toString());
 			// 设置商品列表url
-			goodsBrand.setGoodsListUrl(li.xpath("li/a/@href").toString());
+			goodsBrand.setGoodsListUrl("http://list.jd.com"+li.xpath("li/a/@href").toString());
 			// 设置关联的分类
 			goodsBrand.setCategoryId(goodsCb.getCategoryId());
 

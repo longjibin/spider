@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lgb.common.Constant;
-import com.lgb.common.processor.AbstractProcessor;
 import com.lgb.goods.entity.GoodsDetail;
 import com.lgb.goods.service.GoodsDetailService;
 
 import us.codecraft.webmagic.Page;
+import us.codecraft.webmagic.Site;
+import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 
 /**
@@ -18,7 +19,7 @@ import us.codecraft.webmagic.selector.Html;
  * @date 2017年11月14日
  */
 @Component
-public class GoodsDetailProcessor extends AbstractProcessor {
+public class GoodsDetailProcessor implements PageProcessor {
 
 	@Autowired
 	private GoodsDetailService goodsDetailService;
@@ -41,6 +42,11 @@ public class GoodsDetailProcessor extends AbstractProcessor {
 		goodsDetail.setSource(Constant.PLATFORM_JD);
 		
 		goodsDetailService.save(goodsDetail, goodsDetailService.count(goodsDetail)==0?true:false);
+	}
+
+	@Override
+	public Site getSite() {
+		return Site.me().setRetryTimes(3).setSleepTime(3000);
 	}
 
 }

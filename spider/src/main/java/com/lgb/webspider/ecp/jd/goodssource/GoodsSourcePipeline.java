@@ -3,9 +3,8 @@ package com.lgb.webspider.ecp.jd.goodssource;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.goods.entity.GoodsSource;
 import com.lgb.goods.service.GoodsSourceService;
 
@@ -19,13 +18,11 @@ import us.codecraft.webmagic.pipeline.Pipeline;
  *
  * @date 2017年11月14日
  */
-@Component
 public class GoodsSourcePipeline implements Pipeline {
 
 	private static final Logger LOGGER = Logger.getLogger(GoodsSourcePipeline.class);
 	
-	@Autowired
-	private GoodsSourceService goodsSourceService;
+	private GoodsSourceService goodsSourceService=(GoodsSourceService) SpringContextHelper.getBean("goodsSourceServiceImpl");
 	
 	@Override
 	public void process(ResultItems resultItems, Task task) {

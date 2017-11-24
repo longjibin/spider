@@ -9,7 +9,7 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.lgb.webspider.Script;
+import com.lgb.webspider.Event;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -54,14 +54,14 @@ public class PageLoader implements Serializable {
 	/**
 	 * 动作脚本
 	 */
-	private Script script;
+	private Event script;
 
 	/**
 	 * 页面
 	 */
 	private Page page;
 
-	public PageLoader(Request request, Task task, WebDriver webDriver, Script script) {
+	public PageLoader(Request request, Task task, WebDriver webDriver, Event script) {
 		super();
 		this.request = request;
 		this.task = task;

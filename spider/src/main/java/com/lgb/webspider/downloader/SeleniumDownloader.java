@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.lgb.common.utils.ConfigUtil;
 import com.lgb.common.utils.WebDriverManager;
-import com.lgb.webspider.Script;
+import com.lgb.webspider.Event;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -35,7 +35,7 @@ public class SeleniumDownloader implements Downloader {
 	/**
 	 * 脚本
 	 */
-	private Script script;
+	private Event script;
 
 	/**
 	 * 驱动
@@ -49,10 +49,15 @@ public class SeleniumDownloader implements Downloader {
 		System.getProperties().setProperty("phantomjs.binary.path", ConfigUtil.getString("driver.phantomjs.path"));
 		System.getProperties().setProperty("webdriver.chrome.driver", ConfigUtil.getString("driver.chrome.path"));
 	}
-
-	public void addConfig(Script script, String driverName) {
+	
+	public SeleniumDownloader setScript(Event script) {
 		this.script = script;
+		return this;
+	}
+
+	public SeleniumDownloader setDriverName(String driverName) {
 		this.driverName = driverName;
+		return this;
 	}
 
 	@Override

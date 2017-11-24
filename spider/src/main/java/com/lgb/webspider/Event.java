@@ -1,6 +1,8 @@
 package com.lgb.webspider;
 
-import com.lgb.webspider.downloader.PageLoader;
+import java.util.Map;
+
+import org.openqa.selenium.WebDriver;
 
 import us.codecraft.webmagic.Page;
 
@@ -10,12 +12,13 @@ import us.codecraft.webmagic.Page;
  *
  * @date 2017年11月2日
  */
-public interface Script {
+public interface Event {
 
 	/**
 	 * 在selenium下载下来的页面上执行脚本逻辑
-	 * @param pageLoader
-	 * @return 
+	 * @param webDriver
+	 * @param page
+	 * @return
 	 */
-	Page script(PageLoader pageLoader);
+	Map<String, Object> action(WebDriver webDriver, Page page);
 }

@@ -8,18 +8,18 @@
 
 	<description>Spring Task Configuration</description>
 
-	<bean id="springContextHelper" class="com.lgb.common.utils.SpringContextHelper"></bean>
+	<!-- <bean id="springContextHelper" class="com.lgb.common.utils.SpringContextHelper"></bean> -->
 
 	<task:scheduler id="taskScheduler" pool-size="100" />
 
 	<task:scheduled-tasks scheduler="taskScheduler">
 		<!-- 京东爬虫 -->
 		<!-- 爬虫:爬取京东指定分类下所有品牌的产品列表url 每周更新一次品牌  每周星期天凌晨1点实行一次：0 0 1 ? * 7 -->
-		<!-- <task:scheduled ref="loadAllBrandSpider" method="execute" cron="20 0 * * * ?" /> -->
+		<!-- <task:scheduled ref="loadAllBrandSpider" method="execute" cron="0 9 * * * ?" /> -->
 		<!-- 爬虫:爬取京东指定分类下的所有商品链接 -->
 		<!-- <task:scheduled ref="goodsSourceSpider" method="execute" cron="35 23 * * * ?" /> -->
 		<!-- 爬虫:爬取京东指定商品的详情 -->
-		<task:scheduled ref="goodsDetailSpider" method="execute" cron="40 43 * * * ?" />
+		<!-- <task:scheduled ref="goodsDetailSpider" method="execute" cron="40 43 * * * ?" /> -->
 		
 		<!-- 淘宝爬虫 -->
 	</task:scheduled-tasks>

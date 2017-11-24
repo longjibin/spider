@@ -3,6 +3,8 @@ package com.lgb.common.utils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -10,6 +12,8 @@ import org.springframework.context.ApplicationContextAware;
  *
  * @date 2017年11月14日
  */
+@Component
+@Lazy
 public class SpringContextHelper implements ApplicationContextAware{
 
 	private static ApplicationContext context;

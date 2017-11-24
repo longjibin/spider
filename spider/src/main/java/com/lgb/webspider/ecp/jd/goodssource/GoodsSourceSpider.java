@@ -19,40 +19,39 @@ import us.codecraft.webmagic.Spider;
 
 @Component
 public class GoodsSourceSpider implements SpiderTask {
-	
-	private static final Logger LOGGER=Logger.getLogger(GoodsSourceSpider.class);
+
+	private static final Logger LOGGER = Logger.getLogger(GoodsSourceSpider.class);
 
 	@Autowired
 	private GoodsBrandService goodsBrandService;
-	
+
 	@Autowired
 	private GoodsSourceProcessor goodsSourceProcessor;
-	
+
 	@Autowired
 	private SeleniumDownloader seleniumDownloader;
-	
+
 	@Autowired
 	private GoodsSourcePipeline goodsSourcePipeline;
 
 	@Override
 	public void execute() {
-		long start=System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		/**
 		 * 查询京东手机分类下的所有品牌
 		 */
 		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
-		List<String> urls=new ArrayList<String>();
+		List<String> urls = new ArrayList<String>();
 		for (GoodsBrand goodsBrand : goodsBrands) {
 			urls.add(goodsBrand.getGoodsListUrl());
 		}
-		
-		seleniumDownloader.addConfig(new LoadMoreScript(), PageLoader.DRIVER_CHROME);
-		Spider.create(goodsSourceProcessor)
-				.addUrl(urls.toArray(new String[urls.size()])).setDownloader(seleniumDownloader)
-				.addPipeline(goodsSourcePipeline)
+
+		seleniumDownloader.addConfig(new LoadMoreEvent(), PageLoader.DRIVER_CHROME);
+		Spider.create(goodsSourceProcessor).addUrl(urls.toArray(new String[urls.size()]))
+				.setDownloader(seleniumDownloader).addPipeline(goodsSourcePipeline)
 				.thread(ConfigUtil.getInteger("thread.pool")).run();
-		long end=System.currentTimeMillis();
-		LOGGER.info("GoodsSourceSpider本次耗时:"+(end-start)+"ms");
+		long end = System.currentTimeMillis();
+		LOGGER.info("GoodsSourceSpider本次耗时:" + (end - start) + "ms");
 	}
 
 }

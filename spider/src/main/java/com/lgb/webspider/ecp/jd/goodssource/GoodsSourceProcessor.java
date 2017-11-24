@@ -2,22 +2,20 @@ package com.lgb.webspider.ecp.jd.goodssource;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import com.lgb.common.processor.AbstractProcessor;
+import com.lgb.common.Constant;
+import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.common.utils.UrlResolver;
-import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
 import com.lgb.goods.service.GoodsBrandService;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Site;
+import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 
 /**
@@ -27,78 +25,60 @@ import us.codecraft.webmagic.selector.Selectable;
  *
  * @date 2017年11月2日
  */
-@Component
-public class GoodsSourceProcessor extends AbstractProcessor {
+public class GoodsSourceProcessor implements PageProcessor {
 
-	@Autowired
-	private GoodsBrandService goodsBrandService;
+	private GoodsBrandService goodsBrandService=(GoodsBrandService) SpringContextHelper.getBean("goodsBrandServiceImpl");
 	
 	/**
-	 * 页号列表
-	 */
-	private List<Integer> pageNos = new ArrayList<Integer>();
-
-	/**
-	 * 判断是否重复访问相同页号
+	 * 判断url中的页号是否有效
 	 * 
 	 * @param url
-	 * @return true表示重复 false表示不重复
+	 * @return true表示有效 false表示无效
 	 */
-	private Boolean havePageNo(String url) {
+	private Boolean isValidPageNo(String url) {
 		/**
 		 * 解析url获取page参数值
 		 */
-		UrlResolver.analysis(url);
-		String pageNoStr = UrlResolver.getValue("page");
+		String pageNoStr = UrlResolver.analysis(url).get("page");
 		if (StringUtils.isBlank(pageNoStr)) {
 			// 默认第一页
 			pageNoStr = "1";
 		}
-		Integer pageNo = Integer.parseInt(pageNoStr);
-		Boolean isHave = false;
 		// 如果页号<=0,则排除
-		if (pageNo <= 0) {
-			isHave = true;
-		} else {
-			for (Integer page : pageNos) {
-				if (page.equals(pageNo)) {
-					isHave = true;
-					break;
-				}
-			}
+		if (Integer.parseInt(pageNoStr) <= 0) {
+			return false;
 		}
-		if (!isHave) {
-			pageNos.add(pageNo);
-		}
-		return isHave;
+		return true;
 	}
 
 	@Override
 	public void process(Page page) {
+		Html html=page.getHtml();
 		String requestUrl=page.getRequest().getUrl();
 		try {
 			requestUrl=URLDecoder.decode(requestUrl, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		UrlResolver.analysis(requestUrl);
-		String sbId = UrlResolver.getValue("ev");
+		String sbId = UrlResolver.analysis(requestUrl).get("ev");
 		sbId=sbId.substring(sbId.indexOf("_")+1);
-		GoodsBrand goodsBrand=goodsBrandService.findBySbId(sbId);
+		String brandId=goodsBrandService.findBySbId(sbId).getId();
 		
 		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合
-		Selectable goodsList = page.getHtml().xpath("//*[@id='plist']/ul/li");
+		Selectable goodsList = html.xpath("//*[@id='plist']/ul/li");
 
-		GoodsSource goodsSource = null;
+		String host="http://item.jd.com/";
+		GoodsSource goodsSource=null;
 		for (Selectable goods : goodsList.nodes()) {
 			/**
 			 * 解析封面商品并保存到集合
 			 */
 			goodsSource = new GoodsSource();
-			goodsSource.setBrandId(goodsBrand.getId());
+			goodsSource.setBrandId(brandId);
 			goodsSource.setSku(goods.xpath("li/div/@data-sku").toString());
-			goodsSource.setUrl("http://item.jd.com/" + goodsSource.getSku() + ".html");
+			goodsSource.setUrl(host + goodsSource.getSku() + ".html");
+			goodsSource.setSource(Constant.PLATFORM_JD);
 			resultItems.put(goodsSource.getSku(), goodsSource);
 
 			/**
@@ -109,18 +89,19 @@ public class GoodsSourceProcessor extends AbstractProcessor {
 				String sku = item.xpath("li/@ids").toString();
 				if (StringUtils.isNotBlank(sku)) {
 					goodsSource = new GoodsSource();
-					goodsSource.setBrandId(goodsBrand.getId());
+					goodsSource.setBrandId(brandId);
 					goodsSource.setSku(sku);
-					goodsSource.setUrl("http://item.jd.com/" + sku + ".html");
-					resultItems.put(goodsSource.getSku(), goodsSource);
+					goodsSource.setUrl(host + sku + ".html");
+					goodsSource.setSource(Constant.PLATFORM_JD);
+					resultItems.put(sku, goodsSource);
 				}
 			}
 		}
 
-		Selectable pageUrls = page.getHtml().xpath("//*[@id='J_bottomPage']/span[1]/a");
+		Selectable pageUrls = html.xpath("//*[@id='J_bottomPage']/span[1]/a");
 		for (Selectable pageUrl : pageUrls.nodes()) {
 			String url = pageUrl.xpath("a/@href").toString();
-			if (!url.contains("undefined") && !havePageNo(url)) {
+			if (!url.contains("undefined") && isValidPageNo(url)) {
 				page.addTargetRequest(url);
 			}
 		}

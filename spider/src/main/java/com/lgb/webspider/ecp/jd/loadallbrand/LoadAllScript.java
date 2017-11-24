@@ -3,7 +3,7 @@ package com.lgb.webspider.ecp.jd.loadallbrand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.lgb.webspider.Script;
+import com.lgb.webspider.Event;
 import com.lgb.webspider.downloader.PageLoader;
 
 import us.codecraft.webmagic.Page;
@@ -15,7 +15,7 @@ import us.codecraft.webmagic.Page;
  *
  * @date 2017年11月2日
  */
-public class LoadAllScript implements Script {
+public class LoadAllScript implements Event {
 
 	public Page script(PageLoader pageLoader) {
 		// 找到加载所有的按钮

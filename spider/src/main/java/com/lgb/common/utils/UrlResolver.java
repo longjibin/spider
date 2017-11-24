@@ -1,7 +1,8 @@
 package com.lgb.common.utils;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 /**
  * url解析工具类
@@ -14,7 +15,8 @@ public class UrlResolver {
 	/**
 	 * url中的key-value
 	 */
-	private static Map<String, String> keyValueMap = new HashMap<String, String>();
+	// private static Map<String, String> keyValueMap = new HashMap<String,
+	// String>();
 
 	/**
 	 * host与参数的分隔符
@@ -48,7 +50,8 @@ public class UrlResolver {
 		return url;
 	}
 
-	public static void analysis(String url) {
+	public static Map<String, String> analysis(String url) {
+		Map<String, String> keyValueMap = Maps.newHashMap();
 		url = url.substring(url.indexOf(START) + 1);
 		/**
 		 * 去除锚点干扰
@@ -86,15 +89,7 @@ public class UrlResolver {
 				url = "";
 			}
 		}
-
-	}
-
-	public static String getValue(String key) {
-		return keyValueMap.get(key);
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(UrlResolver.getHost("http://list.jd.com/list.html?cat=9987,653,655"));
+		return keyValueMap;
 	}
 
 }

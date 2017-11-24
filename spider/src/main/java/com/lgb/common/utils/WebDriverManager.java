@@ -1,17 +1,27 @@
 package com.lgb.common.utils;
 
+import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM;
+import static org.openqa.selenium.remote.CapabilityType.VERSION;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.stereotype.Component;
 
-import com.lgb.webspider.Script;
+import com.google.common.collect.Lists;
+import com.lgb.webspider.Event;
 import com.lgb.webspider.downloader.PageLoader;
 
 import us.codecraft.webmagic.Request;
@@ -51,7 +61,7 @@ public class WebDriverManager {
 	 * @param pageLoader
 	 *            页面加载器
 	 */
-	public PageLoader buildPageLoader(Request request, Task task, Script script, String driverName) {
+	public PageLoader buildPageLoader(Request request, Task task, Event script, String driverName) {
 		synchronized (pageLoaderPool) {
 			while (currentSize >= poolSize) {
 				try {
@@ -67,21 +77,50 @@ public class WebDriverManager {
 		/**
 		 * 创建指定的页面驱动
 		 */
+		DesiredCapabilities sCaps = new DesiredCapabilities();
+		sCaps.setJavascriptEnabled(true);
+		sCaps.setCapability("takesScreenshot", false);
+
 		WebDriver webDriver = null;
 		switch (driverName) {
 		case PageLoader.DRIVER_CHROME:
+			sCaps.setCapability(BROWSER_NAME, BrowserType.CHROME);
+			sCaps.setCapability(VERSION, "");
+			sCaps.setCapability(PLATFORM, Platform.ANY);
+
+			/**
+			 * 谷歌浏览器参数
+			 */
 			ChromeOptions options = new ChromeOptions();
-			options.setBinary("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe");
 			Map<String, Object> prefs = new HashMap<String, Object>();
-	        prefs.put("profile.managed_default_content_settings.images", 2);
-	        options.setExperimentalOption("prefs", prefs);
+			// 禁用图片
+			prefs.put("profile.managed_default_content_settings.images", 2);
+			options.setExperimentalOption("prefs", prefs);
+//			sCaps.setCapability("chromeOptions", options);
 			webDriver = new ChromeDriver(options);
 			break;
 		case PageLoader.DRIVER_PHANTOMJS:
-			webDriver = new PhantomJSDriver();
-			break;
-		default:
-			webDriver = new ChromeDriver();
+			sCaps.setCapability(BROWSER_NAME, BrowserType.PHANTOMJS);
+			sCaps.setCapability(VERSION, "");
+			sCaps.setCapability(PLATFORM, Platform.ANY);
+
+			/**
+			 * PHANTOMJS参数
+			 */
+			ArrayList<String> cliArgsCap = Lists.newArrayList();
+			cliArgsCap.add("--web-security=false");
+			cliArgsCap.add("--ssl-protocol=any");
+			cliArgsCap.add("--ignore-ssl-errors=true");
+			cliArgsCap.add("--load-images=no");
+			cliArgsCap.add("--disk-cache=no");
+			sCaps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cliArgsCap);
+
+			// Control LogLevel for GhostDriver, via CLI arguments
+			sCaps.setCapability(PhantomJSDriverService.PHANTOMJS_GHOSTDRIVER_CLI_ARGS,
+					new String[] {
+							"--logLevel=" + (StringUtils.isNotBlank(ConfigUtil.getString("phantomjs_driver_loglevel"))
+									? ConfigUtil.getString("phantomjs_driver_loglevel") : "INFO") });
+			webDriver = new PhantomJSDriver(sCaps);
 			break;
 		}
 		PageLoader pageLoader = new PageLoader(request, task, webDriver, script);
@@ -106,7 +145,7 @@ public class WebDriverManager {
 	 */
 	public void destroy(PageLoader pageLoader) {
 		synchronized (pageLoaderPool) {
-			while(currentSize<=0){
+			while (currentSize <= 0) {
 				try {
 					pageLoaderPool.wait();
 				} catch (InterruptedException e) {

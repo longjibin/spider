@@ -3,7 +3,7 @@ package com.lgb.webspider.ecp.jd.goodsdetail;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.lgb.webspider.Script;
+import com.lgb.webspider.Event;
 import com.lgb.webspider.downloader.PageLoader;
 
 import us.codecraft.webmagic.Page;
@@ -14,7 +14,7 @@ import us.codecraft.webmagic.Page;
  *
  * @date 2017年11月22日
  */
-public class GoodsCommintScript implements Script {
+public class GoodsCommintScript implements Event {
 
 	@Override
 	public Page script(PageLoader pageLoader) {
