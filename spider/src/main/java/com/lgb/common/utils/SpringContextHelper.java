@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2017年11月14日
  */
 @Component
-@Lazy
+@Lazy(false)
 public class SpringContextHelper implements ApplicationContextAware{
 
 	private static ApplicationContext context;

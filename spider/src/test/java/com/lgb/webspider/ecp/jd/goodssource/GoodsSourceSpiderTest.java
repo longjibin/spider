@@ -3,6 +3,7 @@ package com.lgb.webspider.ecp.jd.goodssource;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,24 +30,31 @@ public class GoodsSourceSpiderTest {
 	@Test
 	public void test() {
 		long start = System.currentTimeMillis();
-		// 最多3个爬虫同时执行
-		ExecutorService executorService = Executors.newFixedThreadPool(4);
 		/**
 		 * 查询京东手机分类下的所有品牌
 		 */
 		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
+
+		// 最多3个爬虫同时执行
+		ExecutorService executorService = Executors.newFixedThreadPool(4);
 		for (GoodsBrand goodsBrand : goodsBrands) {
 			SeleniumDownloader2 seleniumDownloader2 = new SeleniumDownloader2();
-			seleniumDownloader2.setEvent(new LoadMoreEvent()).setDriver(WebDriverPool.DRIVER_CHROME);
+			seleniumDownloader2.setEvent(new LoadMoreEvent()).setDriver(WebDriverPool.DRIVER_PHANTOMJS);
 			Spider spider = Spider.create(new GoodsSourceProcessor()).addUrl(goodsBrand.getGoodsListUrl())
 					.setDownloader(seleniumDownloader2).addPipeline(new GoodsSourcePipeline())
 					.thread(ConfigUtil.getInteger("thread.pool"));
-
 			executorService.execute(spider);
 		}
 		executorService.shutdown();
-		long end = System.currentTimeMillis();
-		System.out.println("GoodsSourceSpider本次耗时:" + (end - start) + "ms");
+		
+		try {// 等待直到所有任务完成
+			executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+			long end = System.currentTimeMillis();
+			System.out.println("GoodsSourceSpider本次耗时:" + (end - start) + "ms");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
