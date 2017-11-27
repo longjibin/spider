@@ -16,7 +16,7 @@ import com.lgb.common.utils.ConfigUtil;
 import com.lgb.common.utils.WebDriverPool;
 import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.service.GoodsBrandService;
-import com.lgb.webspider.downloader.SeleniumDownloader2;
+import com.lgb.webspider.downloader.SeleniumDownloader;
 
 import us.codecraft.webmagic.Spider;
 
@@ -36,10 +36,10 @@ public class GoodsSourceSpiderTest {
 		List<GoodsBrand> goodsBrands = goodsBrandService.selectBySourceAndCategoryId(Constant.PLATFORM_JD, "3");
 
 		// 最多3个爬虫同时执行
-		ExecutorService executorService = Executors.newFixedThreadPool(4);
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
 		for (GoodsBrand goodsBrand : goodsBrands) {
-			SeleniumDownloader2 seleniumDownloader2 = new SeleniumDownloader2();
-			seleniumDownloader2.setEvent(new LoadMoreEvent()).setDriver(WebDriverPool.DRIVER_PHANTOMJS);
+			SeleniumDownloader seleniumDownloader2 = new SeleniumDownloader();
+			seleniumDownloader2.setEvent(new LoadMoreEvent()).setDriver(WebDriverPool.DRIVER_CHROME);
 			Spider spider = Spider.create(new GoodsSourceProcessor()).addUrl(goodsBrand.getGoodsListUrl())
 					.setDownloader(seleniumDownloader2).addPipeline(new GoodsSourcePipeline())
 					.thread(ConfigUtil.getInteger("thread.pool"));

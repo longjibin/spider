@@ -15,4 +15,6 @@ public interface GoodsSourceService extends BaseService<GoodsSource> {
 
 	List<String> findUrlsBySource(String platformJd);
 
+	GoodsSource findBySkuAndSource(String sku, String platformJd);
+
 }

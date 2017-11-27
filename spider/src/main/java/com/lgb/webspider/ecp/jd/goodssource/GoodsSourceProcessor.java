@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.lgb.common.Constant;
 import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.common.utils.UrlResolver;
+import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsSource;
 import com.lgb.goods.service.GoodsBrandService;
 
@@ -27,8 +28,9 @@ import us.codecraft.webmagic.selector.Selectable;
  */
 public class GoodsSourceProcessor implements PageProcessor {
 
-	private GoodsBrandService goodsBrandService=(GoodsBrandService) SpringContextHelper.getBean("goodsBrandServiceImpl");
-	
+	private GoodsBrandService goodsBrandService = (GoodsBrandService) SpringContextHelper
+			.getBean("goodsBrandServiceImpl");
+
 	/**
 	 * 判断url中的页号是否有效
 	 * 
@@ -53,28 +55,31 @@ public class GoodsSourceProcessor implements PageProcessor {
 
 	@Override
 	public void process(Page page) {
-		Html html=page.getHtml();
-		String requestUrl=page.getRequest().getUrl();
+		Html html = page.getHtml();
+		String requestUrl = page.getRequest().getUrl();
 		try {
-			requestUrl=URLDecoder.decode(requestUrl, "utf-8");
+			requestUrl = URLDecoder.decode(requestUrl, "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		String sbId = UrlResolver.analysis(requestUrl).get("ev");
-		sbId=sbId.substring(sbId.indexOf("_")+1);
-		String brandId=goodsBrandService.findBySbId(sbId).getId();
-		
+		sbId = sbId.substring(sbId.indexOf("_") + 1);
+		GoodsBrand goodsBrand = goodsBrandService.findBySbId(sbId);
+		String brandId = goodsBrand.getId();
+		String categoryId = goodsBrand.getCategoryId();
+
 		ResultItems resultItems = page.getResultItems();
 		// 获取商品集合
 		Selectable goodsList = html.xpath("//*[@id='plist']/ul/li");
 
-		String host="http://item.jd.com/";
-		GoodsSource goodsSource=null;
+		String host = "http://item.jd.com/";
+		GoodsSource goodsSource = null;
 		for (Selectable goods : goodsList.nodes()) {
 			/**
 			 * 解析封面商品并保存到集合
 			 */
 			goodsSource = new GoodsSource();
+			goodsSource.setCategoryId(categoryId);
 			goodsSource.setBrandId(brandId);
 			goodsSource.setSku(goods.xpath("li/div/@data-sku").toString());
 			goodsSource.setUrl(host + goodsSource.getSku() + ".html");
@@ -89,6 +94,7 @@ public class GoodsSourceProcessor implements PageProcessor {
 				String sku = item.xpath("li/@ids").toString();
 				if (StringUtils.isNotBlank(sku)) {
 					goodsSource = new GoodsSource();
+					goodsSource.setCategoryId(categoryId);
 					goodsSource.setBrandId(brandId);
 					goodsSource.setSku(sku);
 					goodsSource.setUrl(host + sku + ".html");

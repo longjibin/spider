@@ -1,9 +1,7 @@
 package com.lgb.webspider.ecp.jd.loadallbrand;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.lgb.common.Constant;
+import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.goods.entity.GoodsBrand;
 import com.lgb.goods.entity.GoodsCb;
 import com.lgb.goods.service.GoodsCbService;
@@ -21,11 +19,9 @@ import us.codecraft.webmagic.selector.Selectable;
  *
  * @date 2017年11月3日
  */
-@Component
 public class LoadAllBrandProcessor implements PageProcessor {
 
-	@Autowired
-	private GoodsCbService goodsCbService;
+	private GoodsCbService goodsCbService=(GoodsCbService) SpringContextHelper.getBean("goodsCbServiceImpl");
 	
 	@Override
 	public Site getSite() {

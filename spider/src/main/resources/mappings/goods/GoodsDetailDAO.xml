@@ -6,6 +6,8 @@
     	<result property="createDateTime" column="create_date_time"/>
     	<result property="updateDateTime" column="update_date_time"/>
     	
+    	<result property="categoryId" column="category_id"/>
+    	<result property="brandId" column="brand_id"/>
     	<result property="sku" column="sku"/>
     	<result property="price" column="price"/>
     	<result property="goodsName" column="goods_name"/>
@@ -20,9 +22,9 @@
     
 	<insert id="insert">
 		INSERT INTO goods_detail(id, create_date_time,update_date_time,
-			sku, price, goods_name, goods_commint, good_commint, shop_name, shop_score, other, goods_url, source) 
+			category_id, brand_id, sku, price, goods_name, goods_commint, good_commint, shop_name, shop_score, other, goods_url, source) 
 		VALUES (#{id}, #{createDateTime}, #{updateDateTime},
-		#{sku}, #{price}, #{goodsName}, #{goodsCommint}, #{goodCommint}, #{shopName}, #{shopScore}, #{other}, #{goodsUrl}, #{source})
+		#{categoryId}, #{brandId}, #{sku}, #{price}, #{goodsName}, #{goodsCommint}, #{goodCommint}, #{shopName}, #{shopScore}, #{other}, #{goodsUrl}, #{source})
 	</insert>
 	
 	<select id="selectCount" resultType="java.lang.Integer">

@@ -21,12 +21,21 @@ public class GoodsSourceServiceImpl extends BaseServiceImpl<GoodsSource, GoodsSo
 
 	@Autowired
 	private GoodsSourceDAO goodsSourceDAO;
-	
+
 	@Override
 	public List<String> findUrlsBySource(String source) {
-		GoodsSource query=new GoodsSource();
+		GoodsSource query = new GoodsSource();
 		query.setSource(source);
 		return goodsSourceDAO.selectUrlsByModel(query);
+	}
+
+	@Override
+	public GoodsSource findBySkuAndSource(String sku, String source) {
+		GoodsSource query = new GoodsSource();
+		query.setSku(sku);
+		query.setSource(source);
+		List<GoodsSource> list = goodsSourceDAO.selectByModel(query);
+		return list.isEmpty() ? null : list.get(0);
 	}
 
 }

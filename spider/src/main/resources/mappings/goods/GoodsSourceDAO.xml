@@ -6,6 +6,7 @@
     	<result property="createDateTime" column="create_date_time"/>
     	<result property="updateDateTime" column="update_date_time"/>
     	
+    	<result property="categoryId" column="category_id"/>
     	<result property="brandId" column="brand_id"/>
     	<result property="sku" column="sku"/>
     	<result property="url" column="url"/>
@@ -14,13 +15,28 @@
     
 	<insert id="insert">
 		INSERT INTO goods_source(id, create_date_time,update_date_time,
-			brand_id, sku, url, source) 
+			category_id, brand_id, sku, url, source) 
 		VALUES (#{id}, #{createDateTime}, #{updateDateTime},
-		#{brandId}, #{sku}, #{url}, #{source})
+		#{categoryId}, #{brandId}, #{sku}, #{url}, #{source})
 	</insert>
 	
 	<select id="selectCount" resultType="java.lang.Integer">
 		select count(*) from goods_source 
+		<where>
+			<if test="sku != null and sku != ''">
+				and sku=#{sku}
+			</if>
+			<if test="source != null and source != ''">
+				and source=#{source}
+			</if>
+			<if test="categoryId != null and categoryId != ''">
+				and category_id=#{categoryId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectByModel" resultMap="entityResult">
+		select * from goods_source 
 		<where>
 			<if test="sku != null and sku != ''">
 				and sku=#{sku}
@@ -39,6 +55,9 @@
 		<where>
 			<if test="source != null and source != ''">
 				and source=#{source}
+			</if>
+			<if test="categoryId != null and categoryId != ''">
+				and category_id=#{categoryId}
 			</if>
 		</where>
 	</select>

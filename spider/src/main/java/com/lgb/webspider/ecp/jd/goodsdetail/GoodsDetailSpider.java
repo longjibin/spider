@@ -27,7 +27,7 @@ public class GoodsDetailSpider implements SpiderTask {
 		
 //		List<String> urls=goodsSourceService.findUrlsBySource(Constant.PLATFORM_JD);
 		
-		seleniumDownloader.addConfig(new GoodsCommintScript(), PageLoader.DRIVER_CHROME);
+		seleniumDownloader.addConfig(new GoodsCommintEvent(), PageLoader.DRIVER_CHROME);
 		// 获取爬虫配置对象
 		Spider.create(goodsDetailProcessor).addUrl("http://item.jd.com/11491676217.html")
 				.setDownloader(seleniumDownloader)

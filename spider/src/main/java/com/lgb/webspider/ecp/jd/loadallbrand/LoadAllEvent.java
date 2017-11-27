@@ -1,12 +1,13 @@
 package com.lgb.webspider.ecp.jd.loadallbrand;
 
+import java.util.Map;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.google.common.collect.Maps;
 import com.lgb.webspider.Event;
-import com.lgb.webspider.downloader.PageLoader;
-
-import us.codecraft.webmagic.Page;
 
 /**
  * JD:加载分类下所有品牌的脚本
@@ -15,12 +16,13 @@ import us.codecraft.webmagic.Page;
  *
  * @date 2017年11月2日
  */
-public class LoadAllScript implements Event {
+public class LoadAllEvent implements Event {
 
-	public Page script(PageLoader pageLoader) {
+	@Override
+	public Map<String, Object> action(WebDriver webDriver) {
+		Map<String, Object> mapData = Maps.newHashMap();
 		// 找到加载所有的按钮
-		WebElement loadAll = pageLoader.getWebDriver()
-				.findElement(By.xpath("//*[@id='J_selector']/div[2]/div/div[3]/a[1]"));
+		WebElement loadAll = webDriver.findElement(By.xpath("//*[@id='J_selector']/div[2]/div/div[3]/a[1]"));
 		loadAll.click();
 
 		// 睡眠1s
@@ -29,9 +31,7 @@ public class LoadAllScript implements Event {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		// 重新解析页面
-		pageLoader.analysisHtml();
-		return pageLoader.getPage();
+		return mapData;
 	}
 
 }

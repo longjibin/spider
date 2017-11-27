@@ -17,6 +17,11 @@ public class GoodsSource extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * 分类id
+	 */
+	private String categoryId;
+	
+	/**
 	 * 品牌id
 	 */
 	private String brandId;
@@ -38,6 +43,14 @@ public class GoodsSource extends BaseEntity {
 
 	public GoodsSource() {
 		super();
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getBrandId() {

@@ -16,6 +16,16 @@ public class GoodsDetail extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * 分类id
+	 */
+	private String categoryId;
+
+	/**
+	 * 品牌id
+	 */
+	private String brandId;
+
+	/**
 	 * 商品sku
 	 */
 	private String sku;
@@ -64,6 +74,26 @@ public class GoodsDetail extends BaseEntity {
 	 * 商品来源，京东，淘宝等
 	 */
 	private String source;
+
+	public GoodsDetail() {
+		super();
+	}
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
 
 	public String getSku() {
 		return sku;
@@ -143,14 +173,6 @@ public class GoodsDetail extends BaseEntity {
 
 	public void setShopScore(Double shopScore) {
 		this.shopScore = shopScore;
-	}
-
-	@Override
-	public String toString() {
-		return "GoodsDetail [sku=" + sku + ", price=" + price + ", goodsName=" + goodsName + ", goodsCommint="
-				+ goodsCommint + ", goodCommint=" + goodCommint + ", shopName=" + shopName + ", shopScore=" + shopScore
-				+ ", other=" + other + ", goodsUrl=" + goodsUrl + ", source=" + source + ", id=" + id
-				+ ", createDateTime=" + createDateTime + ", updateDateTime=" + updateDateTime + "]";
 	}
 
 }
