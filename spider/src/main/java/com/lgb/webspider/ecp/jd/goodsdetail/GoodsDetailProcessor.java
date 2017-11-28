@@ -40,7 +40,7 @@ public class GoodsDetailProcessor implements PageProcessor {
 	public void process(Page page) {
 		Html html=page.getHtml();
 		String url=page.getRequest().getUrl();
-		
+		Integer goodsType=page.getResultItems().get("goodsType");
 		String sku=url.substring(url.lastIndexOf("/")+1, url.indexOf(".html"));
 		GoodsSource goodsSource=goodsSourceService.findBySkuAndSource(sku, Constant.PLATFORM_JD);
 		
@@ -54,7 +54,8 @@ public class GoodsDetailProcessor implements PageProcessor {
 		
 		//尝试获取国内店的好评率
 		Selectable selectable=html.xpath("//*[@id='comment']/div[2]/div[1]/div[1]/div");
-		if(!selectable.nodes().isEmpty()){
+		
+		if(GoodsDetail.INLAND_SHOP.equals(goodsType)){
 			goodsDetail.setGoodCommint(selectable.xpath("div/text()").toString());
 			goodsDetail.setShopName(html.xpath("//*[@id='crumb-wrap']/div/div[2]/div[2]/div[1]/div/a/text()").toString());
 			goodsDetail.setShopScore(Double.parseDouble(html.xpath("//*[@id='crumb-wrap']/div/div[2]/div[2]/div[2]/div/div/em/span/a/text()").toString().trim()));
