@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,39 +24,35 @@ public class GoodsCommintEvent implements Event {
 
 	@Override
 	public Map<String, Object> action(WebDriver webDriver) {
-		boolean success = false;
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 
 		try {
-			JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			js.executeScript("arguments[0].click();", webDriver.findElement(By.xpath("//li[@data-anchor='#comment']")));
+			WebElement comment = webDriver.findElement(By.xpath("//li[@data-anchor='#comment']"));
+			comment.click();
+
 			// 睡眠1s
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		} catch (NoSuchElementException e) {
-			LOGGER.info(webDriver.getCurrentUrl() + ":未找到商品评价元素");
+			LOGGER.error(webDriver.getCurrentUrl(), e);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		try {
-			// 国内店
-			WebElement webElement = webDriver.findElement(By.xpath("//div[@class='percent-con']/s"));
-			String goodCommint = webElement.getText();
-			dataMap.put("goodCommint", goodCommint);
-			success = true;
-		} catch (NoSuchElementException e) {
-			LOGGER.info(webDriver.getCurrentUrl() + ":国内店未找到");
-		}
-		if (!success) {
-			try {
-				// 全球购
-				WebElement webElement = webDriver.findElement(By.xpath("//div[@class='i-comment']/div[@class='rate']/strong"));
-				String goodCommint = webElement.getText();
-				dataMap.put("goodCommint", goodCommint);
-			} catch (NoSuchElementException e) {
-				LOGGER.info(webDriver.getCurrentUrl() + ":全球购未找到");
-			}
-
-		}
+//		try {
+//			// 国内店
+//			WebElement webElement = webDriver.findElement(By.xpath("//*[@id='comment']/div[2]/div[1]/div[1]/div"));
+//			String goodCommint = webElement.getText();
+//			dataMap.put("goodCommint", goodCommint);
+//		} catch (NoSuchElementException e) {
+//			try {
+//				// 全球购
+//				WebElement element = webDriver
+//						.findElement(By.xpath("//div[@id='i-comment']/div[@class='rate']/strong"));
+//				String goodCommint = element.getText();
+//				dataMap.put("goodCommint", goodCommint);
+//			} catch (NoSuchElementException exception) {
+//				LOGGER.error(webDriver.getCurrentUrl(), exception);
+//			}
+//		}
 
 		return dataMap;
 	}

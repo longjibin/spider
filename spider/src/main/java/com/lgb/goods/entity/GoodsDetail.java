@@ -15,6 +15,10 @@ public class GoodsDetail extends BaseEntity {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static final Integer INLAND_SHOP = 1;
+
+	public static final Integer GLOBAL_SHOP = 2;
+
 	/**
 	 * 分类id
 	 */
@@ -74,6 +78,11 @@ public class GoodsDetail extends BaseEntity {
 	 * 商品来源，京东，淘宝等
 	 */
 	private String source;
+
+	/**
+	 * 商品类型 1表示国内 2表示全球购
+	 */
+	private Integer goodsType;
 
 	public GoodsDetail() {
 		super();
@@ -173,6 +182,14 @@ public class GoodsDetail extends BaseEntity {
 
 	public void setShopScore(Double shopScore) {
 		this.shopScore = shopScore;
+	}
+
+	public Integer getGoodsType() {
+		return goodsType;
+	}
+
+	public void setGoodsType(Integer goodsType) {
+		this.goodsType = goodsType;
 	}
 
 }

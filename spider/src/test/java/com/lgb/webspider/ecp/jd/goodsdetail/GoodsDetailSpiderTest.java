@@ -28,8 +28,12 @@ public class GoodsDetailSpiderTest {
 	@Test
 	public void test() {
 		long start = System.currentTimeMillis();
-		int spiderCount=5;
+		int spiderCount=4;
 		List<String> urls = goodsSourceService.findUrlsBySource(Constant.PLATFORM_JD);
+//		List<String> urls = Lists.newArrayList();
+//		urls.add("http://item.jd.com/10614352223.html");
+//		urls.add("http://item.jd.hk/19577758259.html");
+		
 		List<List<String>> list=new ArrayList<List<String>>();
 		/**
 		 * 初始化集合

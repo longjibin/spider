@@ -18,13 +18,14 @@
     	<result property="other" column="other"/>
     	<result property="goodsUrl" column="goods_url"/>
     	<result property="source" column="source"/>
+    	<result property="goodsType" column="goods_type"/>
     </resultMap>
     
 	<insert id="insert">
 		INSERT INTO goods_detail(id, create_date_time,update_date_time,
-			category_id, brand_id, sku, price, goods_name, goods_commint, good_commint, shop_name, shop_score, other, goods_url, source) 
+			category_id, brand_id, sku, price, goods_name, goods_commint, good_commint, shop_name, shop_score, other, goods_url, source, goods_type) 
 		VALUES (#{id}, #{createDateTime}, #{updateDateTime},
-		#{categoryId}, #{brandId}, #{sku}, #{price}, #{goodsName}, #{goodsCommint}, #{goodCommint}, #{shopName}, #{shopScore}, #{other}, #{goodsUrl}, #{source})
+		#{categoryId}, #{brandId}, #{sku}, #{price}, #{goodsName}, #{goodsCommint}, #{goodCommint}, #{shopName}, #{shopScore}, #{other}, #{goodsUrl}, #{source}, #{goodsType})
 	</insert>
 	
 	<select id="selectCount" resultType="java.lang.Integer">
