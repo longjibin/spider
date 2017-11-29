@@ -28,7 +28,7 @@ public class GoodsDetailSpiderTest {
 	@Test
 	public void test() {
 		long start = System.currentTimeMillis();
-		int spiderCount=2;
+		int spiderCount=5;
 		List<String> urls = goodsSourceService.findUrlsBySource(Constant.PLATFORM_JD);
 //		List<String> urls = Lists.newArrayList();
 //		urls.add("http://item.jd.com/10614352223.html");

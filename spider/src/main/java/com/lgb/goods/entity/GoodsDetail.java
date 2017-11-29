@@ -44,25 +44,25 @@ public class GoodsDetail extends BaseEntity {
 	 */
 	private String goodsName;
 
-	/**
-	 * 评论数
-	 */
-	private String goodsCommint;
+//	/**
+//	 * 评论数
+//	 */
+//	private String goodsCommint;
 
 	/**
 	 * 好评率
 	 */
 	private String goodCommint;
 
-	/**
-	 * 店铺名
-	 */
-	private String shopName;
-
-	/**
-	 * 店铺评分
-	 */
-	private Double shopScore;
+//	/**
+//	 * 店铺名
+//	 */
+//	private String shopName;
+//
+//	/**
+//	 * 店铺评分
+//	 */
+//	private Double shopScore;
 
 	/**
 	 * 其他信息
@@ -79,10 +79,10 @@ public class GoodsDetail extends BaseEntity {
 	 */
 	private String source;
 
-	/**
-	 * 商品类型 1表示国内 2表示全球购
-	 */
-	private Integer goodsType;
+//	/**
+//	 * 商品类型 1表示国内 2表示全球购
+//	 */
+//	private Integer goodsType;
 
 	public GoodsDetail() {
 		super();
@@ -128,13 +128,13 @@ public class GoodsDetail extends BaseEntity {
 		this.goodsName = goodsName;
 	}
 
-	public String getGoodsCommint() {
-		return goodsCommint;
-	}
-
-	public void setGoodsCommint(String goodsCommint) {
-		this.goodsCommint = goodsCommint;
-	}
+//	public String getGoodsCommint() {
+//		return goodsCommint;
+//	}
+//
+//	public void setGoodsCommint(String goodsCommint) {
+//		this.goodsCommint = goodsCommint;
+//	}
 
 	public String getGoodCommint() {
 		return goodCommint;
@@ -144,13 +144,13 @@ public class GoodsDetail extends BaseEntity {
 		this.goodCommint = goodCommint;
 	}
 
-	public String getShopName() {
-		return shopName;
-	}
-
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
-	}
+//	public String getShopName() {
+//		return shopName;
+//	}
+//
+//	public void setShopName(String shopName) {
+//		this.shopName = shopName;
+//	}
 
 	public String getOther() {
 		return other;
@@ -176,20 +176,25 @@ public class GoodsDetail extends BaseEntity {
 		this.source = source;
 	}
 
-	public Double getShopScore() {
-		return shopScore;
-	}
+//	public Double getShopScore() {
+//		return shopScore;
+//	}
+//
+//	public void setShopScore(Double shopScore) {
+//		this.shopScore = shopScore;
+//	}
+//
+//	public Integer getGoodsType() {
+//		return goodsType;
+//	}
+//
+//	public void setGoodsType(Integer goodsType) {
+//		this.goodsType = goodsType;
+//	}
 
-	public void setShopScore(Double shopScore) {
-		this.shopScore = shopScore;
-	}
-
-	public Integer getGoodsType() {
-		return goodsType;
-	}
-
-	public void setGoodsType(Integer goodsType) {
-		this.goodsType = goodsType;
-	}
+//	@Override
+//	public String toString() {
+//		return "GoodsDetail [shopName=" + shopName + "]";
+//	}
 
 }

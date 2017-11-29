@@ -79,4 +79,16 @@
 			</if>
 		</where>
 	</update>
+	
+	<delete id="deleteByModel">
+		delete from goods_source
+		<where>
+			<if test="sku != null and sku != ''">
+				and sku=#{sku}
+			</if>
+			<if test="url != null and url != ''">
+				and url=#{url}
+			</if>
+		</where>
+	</delete>
 </mapper>

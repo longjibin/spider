@@ -86,6 +86,4 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     <!-- MyBatis end -->
     
-    <!-- webdriver -->
-    <bean id="webDriver" class="org.openqa.selenium.phantomjs.PhantomJSDriver" destroy-method="quit"></bean>
 </beans>

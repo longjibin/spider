@@ -2,6 +2,8 @@ package com.lgb.webspider.ecp.jd.goodsdetail;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.lgb.common.Constant;
 import com.lgb.common.utils.SpringContextHelper;
 import com.lgb.goods.entity.GoodsDetail;
@@ -13,7 +15,6 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
-import us.codecraft.webmagic.selector.Selectable;
 
 /**
  * 
@@ -22,6 +23,8 @@ import us.codecraft.webmagic.selector.Selectable;
  * @date 2017年11月14日
  */
 public class GoodsDetailProcessor implements PageProcessor {
+	
+	private static final Logger LOGGER=Logger.getLogger(GoodsDetailProcessor.class);
 
 	private GoodsSourceService goodsSourceService=(GoodsSourceService) SpringContextHelper.getBean("goodsSourceServiceImpl");
 	
@@ -40,38 +43,39 @@ public class GoodsDetailProcessor implements PageProcessor {
 	public void process(Page page) {
 		Html html=page.getHtml();
 		String url=page.getRequest().getUrl();
-		Integer goodsType=page.getResultItems().get("goodsType");
+		String goodCommint=page.getResultItems().get("goodCommint");
 		String sku=url.substring(url.lastIndexOf("/")+1, url.indexOf(".html"));
-		GoodsSource goodsSource=goodsSourceService.findBySkuAndSource(sku, Constant.PLATFORM_JD);
 		
-		GoodsDetail goodsDetail=new GoodsDetail();
-		goodsDetail.setCategoryId(goodsSource.getCategoryId());
-		goodsDetail.setBrandId(goodsSource.getBrandId());
-		goodsDetail.setSku(sku);
-		goodsDetail.setPrice(Double.parseDouble(html.xpath("//span[@class='price J-p-"+sku+"']/text()").toString()));
-		goodsDetail.setGoodsName(html.xpath("//div[@class='sku-name']/text()").toString().trim());
-		goodsDetail.setGoodsCommint(html.xpath("//li[@data-anchor='#comment']/s/text()").toString());
-		
-		//尝试获取国内店的好评率
-		Selectable selectable=html.xpath("//*[@id='comment']/div[2]/div[1]/div[1]/div");
-		
-		if(GoodsDetail.INLAND_SHOP.equals(goodsType)){
-			goodsDetail.setGoodCommint(selectable.xpath("div/text()").toString());
-			goodsDetail.setShopName(html.xpath("//*[@id='crumb-wrap']/div/div[2]/div[2]/div[1]/div/a/text()").toString());
-			goodsDetail.setShopScore(Double.parseDouble(html.xpath("//*[@id='crumb-wrap']/div/div[2]/div[2]/div[2]/div/div/em/span/a/text()").toString().trim()));
-			goodsDetail.setGoodsType(GoodsDetail.INLAND_SHOP);
+		if(!html.xpath("//span[@class='price J-p-"+sku+"']").nodes().isEmpty()){
+			//商品没有下柜
+			GoodsSource goodsSource=goodsSourceService.findBySkuAndSource(sku, Constant.PLATFORM_JD);
+			
+			GoodsDetail goodsDetail=new GoodsDetail();
+			goodsDetail.setCategoryId(goodsSource.getCategoryId());
+			goodsDetail.setBrandId(goodsSource.getBrandId());
+			goodsDetail.setSku(sku);
+			
+			goodsDetail.setPrice(Double.parseDouble(html.xpath("//span[@class='price J-p-"+sku+"']/text()").toString()));
+			goodsDetail.setGoodsName(html.xpath("//div[@class='sku-name']/text()").toString().trim());
+			
+			goodsDetail.setGoodCommint(goodCommint);
+			//尝试获取国内店的好评率
+//			if(!html.xpath("//*[@id='comment']/div[2]/div[1]/div[1]/div").nodes().isEmpty()){
+//				goodsDetail.setGoodCommint(html.xpath("//*[@id='comment']/div[2]/div[1]/div[1]/div/text()").toString());
+//			}else{
+//				goodsDetail.setGoodCommint(html.xpath("//*[@id='i-comment']/div[1]/strong/text()").toString());
+//			}
+			
+			goodsDetail.setOther(html.xpath("//*[@id='p-ad']/text()").toString().trim());
+			
+			goodsDetail.setGoodsUrl(url);
+			goodsDetail.setSource(Constant.PLATFORM_JD);
+			
+			goodsDetailService.save(goodsDetail, goodsDetailService.count(goodsDetail)==0?true:false);
 		}else{
-			goodsDetail.setGoodCommint(html.xpath("//*[@id='i-comment']/div[1]/strong/text()").toString());
-			goodsDetail.setShopName(html.xpath("//*[@id='nav-shop']/div/div/div/div[1]/div[1]/strong/span/a/text()").toString());
-			goodsDetail.setGoodsType(GoodsDetail.GLOBAL_SHOP);
+			//商品已经下柜
+			LOGGER.info(url+":商品已经下柜");
 		}
-		
-		goodsDetail.setOther(html.xpath("//*[@id='p-ad']/text()").toString().trim());
-		
-		goodsDetail.setGoodsUrl(url);
-		goodsDetail.setSource(Constant.PLATFORM_JD);
-		
-		goodsDetailService.save(goodsDetail, goodsDetailService.count(goodsDetail)==0?true:false);
 		
 		if(isFirst){
 			page.addTargetRequests(urls);

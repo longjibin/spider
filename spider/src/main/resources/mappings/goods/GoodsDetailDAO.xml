@@ -11,21 +11,17 @@
     	<result property="sku" column="sku"/>
     	<result property="price" column="price"/>
     	<result property="goodsName" column="goods_name"/>
-    	<result property="goodsCommint" column="goods_commint"/>
     	<result property="goodCommint" column="good_commint"/>
-    	<result property="shopName" column="shop_name"/>
-    	<result property="shopScore" column="shop_score"/>
     	<result property="other" column="other"/>
     	<result property="goodsUrl" column="goods_url"/>
     	<result property="source" column="source"/>
-    	<result property="goodsType" column="goods_type"/>
     </resultMap>
     
 	<insert id="insert">
 		INSERT INTO goods_detail(id, create_date_time,update_date_time,
-			category_id, brand_id, sku, price, goods_name, goods_commint, good_commint, shop_name, shop_score, other, goods_url, source, goods_type) 
+			category_id, brand_id, sku, price, goods_name, good_commint, other, goods_url, source) 
 		VALUES (#{id}, #{createDateTime}, #{updateDateTime},
-		#{categoryId}, #{brandId}, #{sku}, #{price}, #{goodsName}, #{goodsCommint}, #{goodCommint}, #{shopName}, #{shopScore}, #{other}, #{goodsUrl}, #{source}, #{goodsType})
+		#{categoryId}, #{brandId}, #{sku}, #{price}, #{goodsName}, #{goodCommint}, #{other}, #{goodsUrl}, #{source})
 	</insert>
 	
 	<select id="selectCount" resultType="java.lang.Integer">
@@ -46,9 +42,7 @@
 		set 
 			price=#{price},
 			goods_name=#{goodsName},
-			goods_commint=#{goodsCommint},
 			good_commint=#{goodCommint},
-			shop_score=#{shopScore},
 			other=#{other},
 			
 			update_date_time=#{updateDateTime}

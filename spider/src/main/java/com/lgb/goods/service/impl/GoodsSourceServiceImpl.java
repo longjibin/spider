@@ -38,4 +38,11 @@ public class GoodsSourceServiceImpl extends BaseServiceImpl<GoodsSource, GoodsSo
 		return list.isEmpty() ? null : list.get(0);
 	}
 
+	@Override
+	public void removeByUrl(String currentUrl) {
+		GoodsSource query=new GoodsSource();
+		query.setUrl(currentUrl);
+		goodsSourceDAO.deleteByModel(query);
+	}
+
 }

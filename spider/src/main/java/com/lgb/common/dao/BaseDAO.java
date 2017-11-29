@@ -48,4 +48,16 @@ public interface BaseDAO<T> {
 	 * @return
 	 */
 	List<T> selectAll();
+	
+	/**
+	 * 删除指定id的数据
+	 * @param id
+	 */
+	void delete(String id);
+	
+	/**
+	 * 根据条件删除数据
+	 * @param t
+	 */
+	void deleteByModel(T t);
 }
